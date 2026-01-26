@@ -1,3 +1,4 @@
+
 export interface Project {
   id: number;
   title: string;
@@ -23,10 +24,11 @@ export interface ChatMessage {
   isError?: boolean;
 }
 
+// Fixed: Added missing CHAT and CONTACT sections to resolve compilation errors
 export enum SectionId {
   HERO = 'hero',
   WORK = 'work',
   ABOUT = 'about',
-  CONTACT = 'contact',
   CHAT = 'chat',
+  CONTACT = 'contact',
 }

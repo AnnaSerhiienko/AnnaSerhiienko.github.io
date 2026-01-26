@@ -1,8 +1,10 @@
+
 import React from 'react';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
 import WorkGallery from './components/WorkGallery';
 import About from './components/About';
+import ChatWidget from './components/ChatWidget';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 
@@ -22,6 +24,8 @@ function App() {
           <Hero />
           <WorkGallery />
           <About />
+          {/* Fixed: Render missing sections that were causing type errors and were missing from the UI */}
+          <ChatWidget />
           <Contact />
         </main>
         <Footer />

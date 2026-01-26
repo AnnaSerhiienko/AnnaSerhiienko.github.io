@@ -3,7 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Anna Serhiienko | Graphic Designer</title>
+    <title>Anna Serhiienko | Graphic & UI/UX Designer Portfolio</title>
+    <meta name="description" content="Portfolio of Anna Serhiienko, a Graphic Designer specializing in Brand Identity, UI/UX, Illustration, and Game Design with 5+ years of experience." />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://annaserhiienko.design/" />
+    <meta property="og:title" content="Anna Serhiienko | Graphic Designer Portfolio" />
+    <meta property="og:description" content="Crafting cohesive visual languages across Brand, UI/UX, and Game Design." />
+    <meta property="og:image" content="https://picsum.photos/seed/anna-og/1200/630" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content="Anna Serhiienko | Graphic Designer" />
+    <meta property="twitter:description" content="Visual storyteller and designer specializing in digital experiences." />
+    <meta property="twitter:image" content="https://picsum.photos/seed/anna-og/1200/630" />
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,20 +32,30 @@
               serif: ['Playfair Display', 'serif'],
             },
             colors: {
-              'accent-dark': '#ffffff', /* Changed to white */
-              'accent-light': '#f3f4f6',
-              'brand-purple': '#4f46e5', /* Indigo-600 */
-              'brand-blue': '#2563eb',
-              'brand-pink': '#db2777',
+              'accent-dark': '#0f172a',
+              'accent-light': '#f8fafc',
+              'brand-purple': '#6366f1',
+              'brand-blue': '#3b82f6',
+              'brand-pink': '#ec4899',
             },
             animation: {
               'float': 'float 6s ease-in-out infinite',
               'float-delayed': 'float 6s ease-in-out 3s infinite',
+              'pulse-soft': 'pulse-soft 3s ease-in-out infinite',
+              'reveal': 'reveal 0.8s cubic-bezier(0, 0, 0.2, 1) forwards',
             },
             keyframes: {
               float: {
                 '0%, 100%': { transform: 'translateY(0)' },
                 '50%': { transform: 'translateY(-20px)' },
+              },
+              'pulse-soft': {
+                '0%, 100%': { transform: 'scale(1)', boxShadow: '0 0 0 0 rgba(99, 102, 241, 0)' },
+                '50%': { transform: 'scale(1.02)', boxShadow: '0 0 20px 0 rgba(99, 102, 241, 0.15)' },
+              },
+              reveal: {
+                '0%': { opacity: 0, transform: 'translateY(30px)' },
+                '100%': { opacity: 1, transform: 'translateY(0)' },
               }
             }
           }
@@ -43,26 +68,43 @@
         color: #0f172a;
         overflow-x: hidden;
       }
-      /* Custom scrollbar */
+      ::selection {
+        background: #6366f1;
+        color: white;
+      }
       ::-webkit-scrollbar {
-        width: 8px;
+        width: 6px;
       }
       ::-webkit-scrollbar-track {
-        background: #ffffff;
+        background: #f8fafc;
       }
       ::-webkit-scrollbar-thumb {
         background: #cbd5e1;
-        border-radius: 4px;
+        border-radius: 10px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8;
+        background: #6366f1;
       }
-      .fade-in {
-        animation: fadeIn 1s ease-in-out;
+      .design-grid {
+        background-image: linear-gradient(#e2e8f0 1px, transparent 1px), linear-gradient(90deg, #e2e8f0 1px, transparent 1px);
+        background-size: 40px 40px;
+        opacity: 0.1;
       }
-      @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
+      .glass {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+      }
+      .progress-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #6366f1, #ec4899);
+        z-index: 100;
+        width: 0%;
+        transition: width 0.1s ease;
       }
     </style>
   <script type="importmap">
@@ -78,6 +120,15 @@
 </script>
 </head>
   <body>
+    <div class="progress-bar" id="scroll-progress"></div>
     <div id="root"></div>
+    <script>
+      window.onscroll = function() {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById("scroll-progress").style.width = scrolled + "%";
+      };
+    </script>
   </body>
 </html>

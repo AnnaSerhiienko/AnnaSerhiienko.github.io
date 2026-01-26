@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { SectionId, ChatMessage } from '../types';
 import { sendMessageToGemini } from '../services/geminiService';
@@ -8,7 +9,8 @@ const ChatWidget: React.FC = () => {
     {
       id: '1',
       role: 'model',
-      text: "Hello! I'm Alex's AI Assistant. Ask me anything about Alex's design philosophy, work experience, or availability.",
+      // Fixed: Changed name from Alex to Anna to match portfolio owner
+      text: "Hello! I'm Anna's AI Assistant. Ask me anything about Anna's design philosophy, work experience, or availability.",
       timestamp: new Date()
     }
   ]);
@@ -52,7 +54,8 @@ const ChatWidget: React.FC = () => {
       const errorMsg: ChatMessage = {
         id: (Date.now() + 1).toString(),
         role: 'model',
-        text: "I'm having trouble connecting to my creative brain right now. Please try again later or email Alex directly.",
+        // Fixed: Changed name from Alex to Anna
+        text: "I'm having trouble connecting to my creative brain right now. Please try again later or email Anna directly.",
         timestamp: new Date(),
         isError: true
       };
@@ -63,7 +66,8 @@ const ChatWidget: React.FC = () => {
   };
 
   return (
-    <section id={SectionId.CHAT} className="py-24 bg-gradient-to-b from-accent-dark to-black px-6">
+    // SectionId.CHAT is now correctly defined in types.ts
+    <section id={SectionId.CHAT} className="py-24 bg-gradient-to-b from-slate-900 to-black px-6">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center p-3 bg-brand-purple/10 rounded-full mb-4">
@@ -123,7 +127,8 @@ const ChatWidget: React.FC = () => {
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                placeholder="Ex: What is Alex's experience with React?"
+                // Fixed: Changed name from Alex to Anna
+                placeholder="Ex: What is Anna's experience with Figma?"
                 className="w-full bg-[#0a0a0a] text-white rounded-full py-4 pl-6 pr-14 focus:outline-none focus:ring-2 focus:ring-brand-purple/50 border border-white/10 transition-all placeholder:text-gray-600"
                 disabled={isLoading}
               />

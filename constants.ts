@@ -136,10 +136,8 @@ export const PROJECTS: Project[] = [
 ];
 
 export const SOCIALS: SocialLink[] = [
-  { name: 'Twitter', url: '#', icon: 'Twitter' },
-  { name: 'LinkedIn', url: '#', icon: 'Linkedin' },
-  { name: 'Dribbble', url: '#', icon: 'Dribbble' },
-  { name: 'Email', url: 'mailto:hello@annaserhiienko.design', icon: 'Mail' },
+  { name: 'LinkedIn', url: 'https://www.linkedin.com/in/anna-serhiienko-1459a6187/', icon: 'Linkedin' },
+  { name: 'Dribbble', url: 'https://dribbble.com/ArtistAnn', icon: 'Dribbble' },
 ];
 
 export const SYSTEM_INSTRUCTION = `You are an AI portfolio assistant for ${DESIGNER_NAME}, a ${DESIGNER_ROLE}.

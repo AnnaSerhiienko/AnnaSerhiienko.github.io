@@ -22,10 +22,13 @@ const Navigation: React.FC = () => {
     }
   };
 
+  const openEmail = () => {
+    window.location.href = 'mailto:hi.anna.design@gmail.com';
+  };
+
   const navLinks = [
     { label: 'Work', id: SectionId.WORK },
     { label: 'About', id: SectionId.ABOUT },
-    { label: 'Contact', id: SectionId.CONTACT },
   ];
 
   return (
@@ -39,7 +42,7 @@ const Navigation: React.FC = () => {
       >
         <div className="flex justify-between items-center">
           <div 
-            className={`text-xl font-bold tracking-tight cursor-pointer transition-colors ${isScrolled ? 'text-slate-900' : 'text-slate-900'}`}
+            className="text-xl font-bold tracking-tight cursor-pointer text-slate-900"
             onClick={() => scrollToSection(SectionId.HERO)}
           >
             <span className="font-serif italic">Anna</span> Serhiienko
@@ -57,8 +60,8 @@ const Navigation: React.FC = () => {
               </button>
             ))}
             <button 
-              onClick={() => scrollToSection(SectionId.CONTACT)}
-              className="bg-slate-900 text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-brand-purple transition-all shadow-lg shadow-brand-purple/20"
+              onClick={openEmail}
+              className="bg-slate-900 text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-brand-purple transition-all shadow-lg shadow-brand-purple/20 animate-pulse-soft"
             >
               Get Started
             </button>
@@ -86,6 +89,12 @@ const Navigation: React.FC = () => {
               {link.label}
             </button>
           ))}
+          <button 
+            onClick={openEmail}
+            className="text-left text-2xl font-bold text-brand-purple"
+          >
+            Get Started
+          </button>
         </div>
       )}
     </>
