@@ -2,25 +2,41 @@
 
 A high-end designer portfolio featuring Brand Identity, UI/UX, Illustration, and Game Design.
 
-## 🌐 Deploying to Your Own Hosting
+## ⚠️ Important: Local Development
+If you try to open `index.html` directly in your browser (e.g., `file:///.../index.html`), it **will not load** and you will see **CORS errors** in the console. This is because modern browsers block ES modules over the `file://` protocol for security.
+
+### How to view locally:
+You must use a local web server. Here are the easiest ways:
+
+1.  **VS Code (Recommended)**: Install the **"Live Server"** extension. Open `index.html`, then click the "Go Live" button in the bottom right corner of VS Code.
+2.  **Python**: If you have Python installed, open your terminal in this folder and run:
+    - `python -m http.server 8000` (then go to `http://localhost:8000`)
+3.  **Node.js**: If you have Node installed, run:
+    - `npx serve .` (then go to `http://localhost:3000`)
+
+---
+
+## 🌐 Deploying to Your Own Hosting / Domain
 
 This project uses a **Zero-Build ES6 architecture**. There is no `npm install` or `npm build` required.
 
-### Step-by-Step Upload (FTP/SFTP)
-1. **Prepare Files**: Download or copy all files in this repository.
-2. **Connect**: Use an FTP client (like FileZilla) or your hosting provider's File Manager.
-3. **Upload**: Drag and drop all files (including `index.html`, `App.tsx`, `components/`, etc.) into your `public_html` or `www` directory.
-4. **API Key**: Since you are using traditional hosting, ensure the environment where the browser runs has access to `process.env.API_KEY`. 
-   - *Note*: On traditional shared hosting, you may need to use a `.env` file simulation or set headers if your host supports it. If you are using a platform like Vercel/Netlify with your custom domain, simply use their dashboard.
+### Deployment via GitHub Pages (Free)
+Since your folder is named `AnnaSerhiienko.github.io`, you can host this for free on GitHub:
+1. Push all files to a repository named `AnnaSerhiienko.github.io`.
+2. Go to **Settings > Pages**.
+3. Under **Build and deployment**, ensure "Deploy from a branch" is selected.
+4. Select the `main` branch and `/root` folder, then click **Save**.
+5. Your site will be live at `https://annaserhiienko.github.io` within minutes.
 
-### Why this works:
-The site uses **Import Maps** to load React and other dependencies directly from a high-speed CDN. Your browser handles the heavy lifting, ensuring the fastest possible load times without a heavy backend.
+### Deployment via FTP/SFTP
+1. **Connect**: Use an FTP client (like FileZilla).
+2. **Upload**: Drag all files into your `public_html` or `www` directory.
+3. **Domain**: Point your domain to that folder.
 
-## 🛠 Features
-- **Project Detail Modals**: Immersive views for every portfolio piece.
-- **AI Assistant**: Gemini-powered chat for potential clients.
-- **Responsive Design**: Pixel-perfect on mobile, tablet, and desktop.
-- **Zero Build**: Instant updates - just change a file and refresh.
+### API Key (For AI Assistant)
+To enable the Gemini AI Chat:
+- On GitHub Pages: Go to Settings > Secrets and variables > Actions > Variables and add `API_KEY`.
+- On Traditional Hosting: The `process.env.API_KEY` is usually injected by the environment. If your hosting doesn't support this, you may need a small backend proxy or to hardcode the key in `services/geminiService.ts` (though this is not recommended for public repositories).
 
 ---
 
