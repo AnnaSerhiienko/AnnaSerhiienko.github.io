@@ -113,8 +113,8 @@
   <body>
     <div class="progress-bar" id="scroll-progress"></div>
     <div id="root"></div>
-    <!-- Vite-compatible module entry; build will bundle imports for GitHub Pages -->
-    <script type="module" src="/index.js"></script>
+    <!-- Vite-compatible module entry; use relative path to avoid absolute-root resolution issues on Pages -->
+    <script type="module" src="./index.js"></script>
     <script>
       window.onscroll = function() {
         const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
