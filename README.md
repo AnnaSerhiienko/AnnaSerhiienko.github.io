@@ -2,34 +2,26 @@
 
 A high-end designer portfolio featuring Brand Identity, UI/UX, Illustration, and Game Design.
 
-## 🚀 How to Host
+## 🌐 Deploying to Your Own Hosting
 
-This project uses a modern "Zero-Build" architecture. It relies on standard browser features (ES6 Modules and Import Maps) which means it can be hosted on any static file server without needing a complex `npm build` step.
+This project uses a **Zero-Build ES6 architecture**. There is no `npm install` or `npm build` required.
 
-### Option 1: Vercel (Recommended)
-1. Install [Vercel CLI](https://vercel.com/download) or connect your GitHub repository to Vercel.
-2. Ensure `index.html` is in the root directory.
-3. Vercel will automatically detect and host it. No build command is required.
+### Step-by-Step Upload (FTP/SFTP)
+1. **Prepare Files**: Download or copy all files in this repository.
+2. **Connect**: Use an FTP client (like FileZilla) or your hosting provider's File Manager.
+3. **Upload**: Drag and drop all files (including `index.html`, `App.tsx`, `components/`, etc.) into your `public_html` or `www` directory.
+4. **API Key**: Since you are using traditional hosting, ensure the environment where the browser runs has access to `process.env.API_KEY`. 
+   - *Note*: On traditional shared hosting, you may need to use a `.env` file simulation or set headers if your host supports it. If you are using a platform like Vercel/Netlify with your custom domain, simply use their dashboard.
 
-### Option 2: Netlify
-1. Drag and drop the project folder into the Netlify "Drop" zone.
-2. Alternatively, connect your GitHub repo and set the "Build Command" to empty and "Publish Directory" to `.`.
+### Why this works:
+The site uses **Import Maps** to load React and other dependencies directly from a high-speed CDN. Your browser handles the heavy lifting, ensuring the fastest possible load times without a heavy backend.
 
-### Option 3: GitHub Pages
-1. Push your code to a GitHub repository.
-2. Go to **Settings > Pages**.
-3. Select the branch (usually `main`) and the folder (`/root`).
-4. GitHub will give you a `github.io` link.
-
-## 🛠 Tech Stack
-- **React 19**: Powered by a build-less CDN import map.
-- **Tailwind CSS**: Utility-first styling with custom animations.
-- **Google Gemini API**: Integrated AI assistant for visitor inquiries.
-- **Lucide React**: Clean and consistent iconography.
-
-## 🔑 Environment Variables
-- `process.env.API_KEY`: Required for the Gemini AI Chat Widget. Most hosting providers allow you to set this in their dashboard under "Environment Variables".
+## 🛠 Features
+- **Project Detail Modals**: Immersive views for every portfolio piece.
+- **AI Assistant**: Gemini-powered chat for potential clients.
+- **Responsive Design**: Pixel-perfect on mobile, tablet, and desktop.
+- **Zero Build**: Instant updates - just change a file and refresh.
 
 ---
 
-*Designed & Developed for Anna Serhiienko.*
+*Designed for Anna Serhiienko.*

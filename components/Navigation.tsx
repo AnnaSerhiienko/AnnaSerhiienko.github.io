@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SectionId } from '../types';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, FileText } from 'lucide-react';
 
 const Navigation: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -26,50 +26,66 @@ const Navigation: React.FC = () => {
     window.location.href = 'mailto:hi.anna.design@gmail.com';
   };
 
+  const downloadCV = () => {
+    // Placeholder for actual CV link
+    alert("CV Download would trigger here (anna_serhiienko_resume.pdf)");
+  };
+
   const navLinks = [
     { label: 'Work', id: SectionId.WORK },
     { label: 'About', id: SectionId.ABOUT },
+    { label: 'AI Assistant', id: SectionId.CHAT },
   ];
 
   return (
     <>
       <nav
-        className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 w-[95%] max-w-4xl rounded-full ${
+        className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 w-[95%] max-w-5xl rounded-2xl md:rounded-full ${
           isScrolled 
-            ? 'bg-white/80 backdrop-blur-md shadow-lg shadow-black/5 py-3 px-6' 
-            : 'bg-transparent py-6 px-6'
+            ? 'bg-white/70 backdrop-blur-xl shadow-2xl shadow-slate-200/50 py-3 px-8 border border-white/20' 
+            : 'bg-transparent py-6 px-8'
         }`}
       >
         <div className="flex justify-between items-center">
           <div 
-            className="text-xl font-bold tracking-tight cursor-pointer text-slate-900"
+            className="text-xl font-bold tracking-tighter cursor-pointer text-slate-900 flex items-center gap-1 group"
             onClick={() => scrollToSection(SectionId.HERO)}
           >
-            <span className="font-serif italic">Anna</span> Serhiienko
+            <span className="font-serif italic text-brand-purple group-hover:rotate-12 transition-transform">A.</span>
+            <span className="hidden sm:inline">Serhiienko</span>
           </div>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-10">
             {navLinks.map((link) => (
               <button
                 key={link.id}
                 onClick={() => scrollToSection(link.id)}
-                className="text-sm font-medium text-slate-600 hover:text-brand-purple transition-colors"
+                className="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-brand-purple transition-colors"
               >
                 {link.label}
               </button>
             ))}
-            <button 
-              onClick={openEmail}
-              className="bg-slate-900 text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-brand-purple transition-all shadow-lg shadow-brand-purple/20 animate-pulse-soft"
-            >
-              Get Started
-            </button>
+            <div className="flex items-center gap-4">
+              <button 
+                onClick={downloadCV}
+                className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-colors"
+              >
+                <FileText size={16} />
+                CV
+              </button>
+              <button 
+                onClick={openEmail}
+                className="bg-slate-900 text-white px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-brand-purple hover:scale-105 active:scale-95 transition-all shadow-xl shadow-slate-900/10"
+              >
+                Hire Me
+              </button>
+            </div>
           </div>
 
           {/* Mobile Menu Toggle */}
           <button 
-            className="md:hidden text-slate-900"
+            className="md:hidden text-slate-900 p-2"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -78,25 +94,34 @@ const Navigation: React.FC = () => {
       </nav>
 
       {/* Mobile Menu Overlay */}
-      {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-white p-6 pt-24 flex flex-col space-y-6 md:hidden animate-fadeIn">
-          {navLinks.map((link) => (
-            <button
-              key={link.id}
-              onClick={() => scrollToSection(link.id)}
-              className="text-left text-2xl font-bold text-slate-900"
-            >
-              {link.label}
-            </button>
-          ))}
+      <div className={`fixed inset-0 z-40 bg-white/95 backdrop-blur-2xl p-8 flex flex-col justify-center space-y-8 md:hidden transition-all duration-500 ${
+        isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+      }`}>
+        {navLinks.map((link) => (
+          <button
+            key={link.id}
+            onClick={() => scrollToSection(link.id)}
+            className="text-left text-4xl font-serif font-bold text-slate-900 hover:text-brand-purple transition-colors"
+          >
+            {link.label}
+          </button>
+        ))}
+        <div className="pt-8 border-t border-slate-100 flex flex-col gap-4">
+          <button 
+            onClick={downloadCV}
+            className="text-left text-xl font-bold text-slate-400 flex items-center gap-3"
+          >
+            <FileText size={24} />
+            Download Resume
+          </button>
           <button 
             onClick={openEmail}
-            className="text-left text-2xl font-bold text-brand-purple"
+            className="w-full bg-slate-900 text-white py-5 rounded-2xl text-lg font-bold"
           >
-            Get Started
+            Get In Touch
           </button>
         </div>
-      )}
+      </div>
     </>
   );
 };

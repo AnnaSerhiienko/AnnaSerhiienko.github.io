@@ -1,52 +1,79 @@
 import React from 'react';
 import { SectionId } from '../types';
 import { DESIGNER_BIO, SKILLS } from '../constants';
-import { Check } from 'lucide-react';
+import { Check, Star } from 'lucide-react';
 
 const About: React.FC = () => {
   return (
-    <section id={SectionId.ABOUT} className="py-24 px-6 relative">
-      <div className="max-w-7xl mx-auto bg-white rounded-[3rem] p-8 md:p-16 shadow-2xl shadow-slate-200/50 border border-slate-100 relative overflow-hidden">
-        {/* Decorative Blob inside card */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-100/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10">
-          {/* Image Side */}
+    <section id={SectionId.ABOUT} className="py-24 px-6 relative overflow-hidden bg-white">
+      {/* Decorative text background */}
+      <div className="absolute top-20 right-[-5%] text-[20vw] font-serif italic text-slate-50 opacity-50 pointer-events-none select-none">
+        Creative
+      </div>
+
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+          
+          {/* Visual Content */}
           <div className="relative">
-            <div className="relative rounded-3xl overflow-hidden aspect-[3/4] shadow-2xl shadow-slate-200">
+            <div className="relative rounded-[3rem] overflow-hidden aspect-[4/5] shadow-2xl shadow-slate-200 border-8 border-white group">
               <img 
-                src="https://picsum.photos/seed/designer/800/1000" 
-                alt="Portrait of Anna Serhiienko" 
-                className="w-full h-full object-cover"
+                src="https://picsum.photos/seed/anna-portrait/1000/1250" 
+                alt="Portrait of Anna" 
+                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-purple/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
+
             {/* Floating Experience Card */}
-            <div className="absolute -bottom-6 -right-6 bg-white p-6 rounded-2xl shadow-xl shadow-slate-200 border border-slate-50">
-              <span className="block text-4xl font-bold text-brand-purple mb-1">5+</span>
-              <span className="text-sm font-semibold text-slate-600 uppercase tracking-wide">Years Experience</span>
+            <div className="absolute -bottom-10 -right-4 md:-right-10 bg-white p-8 rounded-[2rem] shadow-2xl shadow-slate-900/5 border border-slate-100 animate-float max-w-[200px]">
+              <div className="flex items-center gap-2 mb-2">
+                <Star className="text-brand-purple fill-brand-purple" size={16} />
+                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Experience</span>
+              </div>
+              <p className="text-4xl font-serif font-bold text-slate-900 mb-1">5+ <span className="text-xl">Years</span></p>
+              <p className="text-xs text-slate-500 font-medium leading-relaxed">Crafting high-end visual solutions for global clients.</p>
             </div>
           </div>
 
-          {/* Text Side */}
-          <div>
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-8">About Me</h2>
-            <p className="text-lg text-slate-600 leading-relaxed mb-8">
+          {/* Text Content */}
+          <div className="flex flex-col">
+            <span className="text-xs font-bold uppercase tracking-[0.3em] text-brand-purple mb-6">Discovery</span>
+            <h2 className="text-5xl md:text-7xl font-bold text-slate-900 mb-10 font-serif leading-tight">
+              Designing <span className="italic">Emotion</span> <br /> Through Craft.
+            </h2>
+            
+            <p className="text-xl text-slate-500 leading-relaxed mb-12 font-light">
               {DESIGNER_BIO}
             </p>
             
-            <div className="mb-10">
-              <h3 className="text-sm font-bold text-slate-900 mb-6 uppercase tracking-widest">
-                Core Competencies
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-4">
-                {SKILLS.map((skill, index) => (
-                  <div key={index} className="flex items-center space-x-3">
-                    <div className="w-6 h-6 rounded-full bg-brand-purple/10 flex items-center justify-center flex-shrink-0">
-                      <Check size={14} className="text-brand-purple" />
+            <div className="space-y-12">
+              <div>
+                <h3 className="text-xs font-bold text-slate-900 mb-6 uppercase tracking-[0.2em] flex items-center gap-2">
+                  <div className="w-8 h-px bg-slate-900"></div>
+                  Proficiencies
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
+                  {SKILLS.map((skill, index) => (
+                    <div key={index} className="flex items-center space-x-3 group">
+                      <div className="w-5 h-5 rounded-full bg-slate-100 group-hover:bg-brand-purple flex items-center justify-center transition-colors">
+                        <Check size={12} className="text-slate-400 group-hover:text-white" />
+                      </div>
+                      <span className="text-slate-600 font-medium group-hover:text-slate-900 transition-colors">{skill}</span>
                     </div>
-                    <span className="text-slate-700 font-medium">{skill}</span>
-                  </div>
-                ))}
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-8 border-t border-slate-100 flex items-center gap-12">
+                <div>
+                  <p className="text-2xl font-bold text-slate-900">120+</p>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Projects Done</p>
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-slate-900">98%</p>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Happy Clients</p>
+                </div>
               </div>
             </div>
           </div>
