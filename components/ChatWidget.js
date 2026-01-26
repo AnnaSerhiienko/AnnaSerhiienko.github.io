@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { SectionId } from '../types.js';
-import { sendMessageToGemini } from '../services/geminiService.js';
 import { Send, Bot, User, Sparkles, Loader2 } from 'lucide-react';
 
 const ChatWidget = () => {
@@ -39,27 +38,17 @@ const ChatWidget = () => {
     setInputValue('');
     setIsLoading(true);
 
-    try {
-      const responseText = await sendMessageToGemini(userMsg.text);
-      const aiMsg = {
-        id: (Date.now() + 1).toString(),
-        role: 'model',
-        text: responseText,
-        timestamp: new Date()
-      };
+    // Provide a local canned response since external Gemini functionality was removed
+    const aiMsg = {
+      id: (Date.now() + 1).toString(),
+      role: 'model',
+      text: "Thanks for your question — for the full interactive assistant, please contact Anna directly at hello@annaserhiienko.design.",
+      timestamp: new Date()
+    };
+    setTimeout(() => {
       setMessages(prev => [...prev, aiMsg]);
-    } catch (error) {
-      const errorMsg = {
-        id: (Date.now() + 1).toString(),
-        role: 'model',
-        text: "I'm having trouble connecting to my creative brain right now. Please try again later or email Anna directly.",
-        timestamp: new Date(),
-        isError: true
-      };
-      setMessages(prev => [...prev, errorMsg]);
-    } finally {
       setIsLoading(false);
-    }
+    }, 800);
   };
 
   return (
@@ -71,7 +60,7 @@ const ChatWidget = () => {
           </div>
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-white mb-4">Ask My AI Assistant</h2>
           <p className="text-gray-400">
-            Powered by Gemini. Get instant answers about my portfolio and skills.
+            Ask about my portfolio, availability, and design process.
           </p>
         </div>
 
