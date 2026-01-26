@@ -3,7 +3,6 @@ import Navigation from './components/Navigation.tsx';
 import Hero from './components/Hero.tsx';
 import WorkGallery from './components/WorkGallery.tsx';
 import About from './components/About.tsx';
-import ChatWidget from './components/ChatWidget.tsx';
 import Contact from './components/Contact.tsx';
 import Footer from './components/Footer.tsx';
 
@@ -23,7 +22,6 @@ function App() {
           <Hero />
           <WorkGallery />
           <About />
-          <ChatWidget />
           <Contact />
         </main>
         <Footer />
