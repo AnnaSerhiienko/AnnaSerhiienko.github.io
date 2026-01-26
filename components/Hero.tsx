@@ -1,5 +1,5 @@
 import React from 'react';
-import { SectionId } from '../types';
+import { SectionId } from '../types.ts';
 import { ArrowRight, Figma, PenTool, Image as ImageIcon, Gamepad2 } from 'lucide-react';
 
 const Hero: React.FC = () => {
@@ -12,16 +12,11 @@ const Hero: React.FC = () => {
       id={SectionId.HERO} 
       className="relative min-h-[95vh] flex flex-col justify-center items-center text-center px-6 overflow-hidden pt-20"
     >
-      {/* Designer Grid Overlay */}
       <div className="absolute inset-0 design-grid pointer-events-none" />
-      
-      {/* Background blobs */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-purple/10 rounded-full blur-[120px] animate-pulse" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-brand-pink/10 rounded-full blur-[120px] animate-pulse" />
 
       <div className="z-10 max-w-6xl mx-auto animate-reveal relative">
-        
-        {/* Animated Floating Badges */}
         <div className="hidden lg:block absolute -left-20 top-0 glass p-5 rounded-3xl shadow-2xl shadow-brand-purple/10 animate-float">
           <Figma className="text-[#F24E1E] w-10 h-10 mb-2" />
           <div className="h-1.5 w-12 bg-slate-200 rounded-full overflow-hidden">

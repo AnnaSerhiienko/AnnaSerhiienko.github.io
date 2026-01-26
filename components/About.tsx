@@ -1,20 +1,17 @@
 import React from 'react';
-import { SectionId } from '../types';
-import { DESIGNER_BIO, SKILLS } from '../constants';
+import { SectionId } from '../types.ts';
+import { DESIGNER_BIO, SKILLS } from '../constants.ts';
 import { Check, Star } from 'lucide-react';
 
 const About: React.FC = () => {
   return (
     <section id={SectionId.ABOUT} className="py-24 px-6 relative overflow-hidden bg-white">
-      {/* Decorative text background */}
       <div className="absolute top-20 right-[-5%] text-[20vw] font-serif italic text-slate-50 opacity-50 pointer-events-none select-none">
         Creative
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-          
-          {/* Visual Content */}
           <div className="relative">
             <div className="relative rounded-[3rem] overflow-hidden aspect-[4/5] shadow-2xl shadow-slate-200 border-8 border-white group">
               <img 
@@ -25,7 +22,6 @@ const About: React.FC = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-brand-purple/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
 
-            {/* Floating Experience Card */}
             <div className="absolute -bottom-10 -right-4 md:-right-10 bg-white p-8 rounded-[2rem] shadow-2xl shadow-slate-900/5 border border-slate-100 animate-float max-w-[200px]">
               <div className="flex items-center gap-2 mb-2">
                 <Star className="text-brand-purple fill-brand-purple" size={16} />
@@ -36,7 +32,6 @@ const About: React.FC = () => {
             </div>
           </div>
 
-          {/* Text Content */}
           <div className="flex flex-col">
             <span className="text-xs font-bold uppercase tracking-[0.3em] text-brand-purple mb-6">Discovery</span>
             <h2 className="text-5xl md:text-7xl font-bold text-slate-900 mb-10 font-serif leading-tight">

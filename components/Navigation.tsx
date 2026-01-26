@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SectionId } from '../types';
+import { SectionId } from '../types.ts';
 import { Menu, X, FileText } from 'lucide-react';
 
 const Navigation: React.FC = () => {
@@ -27,7 +27,6 @@ const Navigation: React.FC = () => {
   };
 
   const downloadCV = () => {
-    // Placeholder for actual CV link
     alert("CV Download would trigger here (anna_serhiienko_resume.pdf)");
   };
 
@@ -55,7 +54,6 @@ const Navigation: React.FC = () => {
             <span className="hidden sm:inline">Serhiienko</span>
           </div>
 
-          {/* Desktop Nav */}
           <div className="hidden md:flex items-center space-x-10">
             {navLinks.map((link) => (
               <button
@@ -83,7 +81,6 @@ const Navigation: React.FC = () => {
             </div>
           </div>
 
-          {/* Mobile Menu Toggle */}
           <button 
             className="md:hidden text-slate-900 p-2"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -93,7 +90,6 @@ const Navigation: React.FC = () => {
         </div>
       </nav>
 
-      {/* Mobile Menu Overlay */}
       <div className={`fixed inset-0 z-40 bg-white/95 backdrop-blur-2xl p-8 flex flex-col justify-center space-y-8 md:hidden transition-all duration-500 ${
         isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
       }`}>

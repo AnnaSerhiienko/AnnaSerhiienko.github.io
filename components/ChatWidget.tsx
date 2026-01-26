@@ -1,7 +1,6 @@
-
 import React, { useState, useRef, useEffect } from 'react';
-import { SectionId, ChatMessage } from '../types';
-import { sendMessageToGemini } from '../services/geminiService';
+import { SectionId, ChatMessage } from '../types.ts';
+import { sendMessageToGemini } from '../services/geminiService.ts';
 import { Send, Bot, User, Sparkles, Loader2 } from 'lucide-react';
 
 const ChatWidget: React.FC = () => {
@@ -9,7 +8,6 @@ const ChatWidget: React.FC = () => {
     {
       id: '1',
       role: 'model',
-      // Fixed: Changed name from Alex to Anna to match portfolio owner
       text: "Hello! I'm Anna's AI Assistant. Ask me anything about Anna's design philosophy, work experience, or availability.",
       timestamp: new Date()
     }
@@ -54,7 +52,6 @@ const ChatWidget: React.FC = () => {
       const errorMsg: ChatMessage = {
         id: (Date.now() + 1).toString(),
         role: 'model',
-        // Fixed: Changed name from Alex to Anna
         text: "I'm having trouble connecting to my creative brain right now. Please try again later or email Anna directly.",
         timestamp: new Date(),
         isError: true
@@ -66,7 +63,6 @@ const ChatWidget: React.FC = () => {
   };
 
   return (
-    // SectionId.CHAT is now correctly defined in types.ts
     <section id={SectionId.CHAT} className="py-24 bg-gradient-to-b from-slate-900 to-black px-6">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
@@ -80,7 +76,6 @@ const ChatWidget: React.FC = () => {
         </div>
 
         <div className="bg-[#1a1a1a] rounded-2xl border border-white/5 overflow-hidden shadow-2xl">
-          {/* Chat Window */}
           <div className="h-[400px] md:h-[500px] overflow-y-auto p-6 space-y-6">
             {messages.map((msg) => (
               <div 
@@ -120,14 +115,12 @@ const ChatWidget: React.FC = () => {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input Area */}
           <div className="p-4 bg-[#151515] border-t border-white/5">
             <form onSubmit={handleSend} className="relative flex items-center">
               <input
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                // Fixed: Changed name from Alex to Anna
                 placeholder="Ex: What is Anna's experience with Figma?"
                 className="w-full bg-[#0a0a0a] text-white rounded-full py-4 pl-6 pr-14 focus:outline-none focus:ring-2 focus:ring-brand-purple/50 border border-white/10 transition-all placeholder:text-gray-600"
                 disabled={isLoading}

@@ -1,16 +1,12 @@
-
 import { GoogleGenAI, Chat, GenerateContentResponse } from "@google/genai";
-import { SYSTEM_INSTRUCTION } from '../constants';
+import { SYSTEM_INSTRUCTION } from '../constants.ts';
 
-// Initialize the Gemini AI client
-// Note: process.env.API_KEY is assumed to be available in the environment.
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 let chatSession: Chat | null = null;
 
 export const getChatSession = (): Chat => {
   if (!chatSession) {
-    // Updated to gemini-3-flash-preview which is the recommended model for basic text tasks
     chatSession = ai.chats.create({
       model: 'gemini-3-flash-preview',
       config: {

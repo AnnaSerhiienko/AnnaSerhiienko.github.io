@@ -1,12 +1,11 @@
-
 import React from 'react';
-import Navigation from './components/Navigation';
-import Hero from './components/Hero';
-import WorkGallery from './components/WorkGallery';
-import About from './components/About';
-import ChatWidget from './components/ChatWidget';
-import Contact from './components/Contact';
-import Footer from './components/Footer';
+import Navigation from './components/Navigation.tsx';
+import Hero from './components/Hero.tsx';
+import WorkGallery from './components/WorkGallery.tsx';
+import About from './components/About.tsx';
+import ChatWidget from './components/ChatWidget.tsx';
+import Contact from './components/Contact.tsx';
+import Footer from './components/Footer.tsx';
 
 function App() {
   return (
@@ -24,7 +23,6 @@ function App() {
           <Hero />
           <WorkGallery />
           <About />
-          {/* Fixed: Render missing sections that were causing type errors and were missing from the UI */}
           <ChatWidget />
           <Contact />
         </main>

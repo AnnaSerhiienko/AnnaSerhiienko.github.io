@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SectionId } from '../types';
+import { SectionId } from '../types.ts';
 import { Send, CheckCircle, Loader2 } from 'lucide-react';
 
 const Contact: React.FC = () => {
@@ -20,13 +20,10 @@ const Contact: React.FC = () => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate network request
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSuccess(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
-      
-      // Reset success message after 5 seconds
       setTimeout(() => setIsSuccess(false), 5000);
     }, 1500);
   };

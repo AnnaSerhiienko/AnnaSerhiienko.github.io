@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { SectionId, Project } from '../types';
-import { PROJECTS, WORK_CATEGORIES } from '../constants';
+import { SectionId, Project } from '../types.ts';
+import { PROJECTS, WORK_CATEGORIES } from '../constants.ts';
 import { ArrowUpRight, PlayCircle, Filter, X, ExternalLink, Tag } from 'lucide-react';
 
 const WorkGallery: React.FC = () => {
@@ -85,7 +85,6 @@ const WorkGallery: React.FC = () => {
         )}
       </div>
 
-      {/* Project Detail Modal */}
       {selectedProject && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-10 animate-fadeIn">
           <div 
@@ -137,6 +136,8 @@ const WorkGallery: React.FC = () => {
               <div className="mt-auto pt-8 border-t border-slate-100">
                 <a 
                   href={selectedProject.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold hover:bg-brand-purple transition-all shadow-xl shadow-slate-900/10"
                 >
                   View Case Study
