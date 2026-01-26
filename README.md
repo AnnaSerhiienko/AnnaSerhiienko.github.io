@@ -2,9 +2,6 @@
 
 A high-end designer portfolio featuring Brand Identity, UI/UX, Illustration, and Game Design.
 
-## ⚠️ Important: Local Development
-If you try to open `index.html` directly in your browser (e.g., `file:///.../index.html`), it **will not load** and you will see **CORS errors** in the console. This is because modern browsers block ES modules over the `file://` protocol for security.
-
 ### How to view locally:
 You must use a local web server. Here are the easiest ways:
 
@@ -28,16 +25,42 @@ Since your folder is named `AnnaSerhiienko.github.io`, you can host this for fre
 4. Select the `main` branch and `/root` folder, then click **Save**.
 5. Your site will be live at `https://annaserhiienko.github.io` within minutes.
 
-### Deployment via FTP/SFTP
-1. **Connect**: Use an FTP client (like FileZilla).
-2. **Upload**: Drag all files into your `public_html` or `www` directory.
-3. **Domain**: Point your domain to that folder.
+## For Designers — Local Development (Vite)
 
-### API Key (For AI Assistant)
-To enable the Gemini AI Chat:
-- On GitHub Pages: Go to Settings > Secrets and variables > Actions > Variables and add `API_KEY`.
-- On Traditional Hosting: The `process.env.API_KEY` is usually injected by the environment. If your hosting doesn't support this, you may need a small backend proxy or to hardcode the key in `services/geminiService.ts` (though this is not recommended for public repositories).
+Use these steps to preview and edit the site locally. (The project uses Vite for local development and build.)
 
----
+- Requirements: Node.js (v16+), npm
 
-*Designed for Anna Serhiienko.*
+1) Install dependencies (first time):
+
+```
+npm install
+```
+
+2) Start the local dev server:
+
+```
+npm run dev
+```
+
+3) Open the site in your browser:
+
+http://localhost:3000/
+
+4) Make changes
+
+- Edit files under the `components/` folder, `App.tsx`, or other source files. The Vite dev server provides fast refresh — changes will appear automatically in the browser.
+
+5) Commit and push
+
+```
+git add .
+git commit -m "docs(design): update content"
+git push origin main
+```
+
+6) Production build & deploy
+
+- On push, the repository's GitHub Actions will run the build and deployment pipeline. The CI runs `npm run build` to produce the `dist` folder and then publishes the site (per the repo's existing deploy scripts).
+
+If you'd like, I can add screenshots or page-specific notes for particular components or pages.
