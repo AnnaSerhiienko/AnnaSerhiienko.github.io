@@ -9,17 +9,17 @@ const Hero: React.FC = () => {
       className="relative min-h-[70vh] flex flex-col justify-center items-center text-center px-6 pt-20 overflow-hidden"
     >
       {/* Floating decorative icon tiles */}
-      <div className="hidden lg:block absolute left-8 top-32 w-20 h-20 bg-white rounded-2xl flex items-center justify-center shadow-lg">
-        <Figma className="w-8 h-8 text-purple-600" />
+      <div className="hidden lg:block absolute left-20 top-56 w-16 h-16 bg-white rounded-xl flex items-center justify-center shadow-lg">
+        <Figma className="w-7 h-7 text-purple-600" />
       </div>
-      <div className="hidden lg:block absolute left-16 bottom-40 w-20 h-20 bg-white rounded-2xl flex items-center justify-center shadow-lg">
-        <ImageIcon className="w-8 h-8 text-pink-500" />
+      <div className="hidden lg:block absolute left-24 bottom-32 w-16 h-16 bg-white rounded-xl flex items-center justify-center shadow-lg">
+        <ImageIcon className="w-7 h-7 text-pink-500" />
       </div>
-      <div className="hidden lg:block absolute right-16 top-40 w-20 h-20 bg-white rounded-2xl flex items-center justify-center shadow-lg">
-        <PenTool className="w-8 h-8 text-blue-500" />
+      <div className="hidden lg:block absolute right-24 top-56 w-16 h-16 bg-white rounded-xl flex items-center justify-center shadow-lg">
+        <PenTool className="w-7 h-7 text-blue-500" />
       </div>
-      <div className="hidden lg:block absolute right-8 bottom-32 w-20 h-20 bg-white rounded-2xl flex items-center justify-center shadow-lg">
-        <Gamepad2 className="w-8 h-8 text-teal-500" />
+      <div className="hidden lg:block absolute right-20 bottom-32 w-16 h-16 bg-white rounded-xl flex items-center justify-center shadow-lg">
+        <Gamepad2 className="w-7 h-7 text-teal-500" />
       </div>
 
       <div className="z-10 max-w-6xl mx-auto animate-reveal relative">
