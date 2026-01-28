@@ -33,7 +33,6 @@ const Navigation: React.FC = () => {
   const navLinks = [
     { label: 'Work', id: SectionId.WORK },
     { label: 'About', id: SectionId.ABOUT },
-    { label: 'AI Assistant', id: SectionId.CHAT },
   ];
 
   return (

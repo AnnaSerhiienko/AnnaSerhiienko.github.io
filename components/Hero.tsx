@@ -1,6 +1,6 @@
 import React from 'react';
 import { SectionId } from '../types.ts';
-import { ArrowRight, Figma, PenTool, Image as ImageIcon, Gamepad2 } from 'lucide-react';
+import { ArrowRight, Figma, PenTool, Image as ImageIcon } from 'lucide-react';
 
 const Hero: React.FC = () => {
   const openEmail = () => {
@@ -17,31 +17,40 @@ const Hero: React.FC = () => {
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-brand-pink/10 rounded-full blur-[120px] animate-pulse" />
 
       <div className="z-10 max-w-6xl mx-auto animate-reveal relative">
-        <div className="hidden lg:block absolute -left-20 top-0 glass p-5 rounded-3xl shadow-2xl shadow-brand-purple/10 animate-float">
-          <Figma className="text-[#F24E1E] w-10 h-10 mb-2" />
-          <div className="h-1.5 w-12 bg-slate-200 rounded-full overflow-hidden">
-            <div className="h-full bg-brand-purple w-4/5"></div>
+        <div className="hidden lg:flex absolute -left-16 top-6 gap-4">
+          <div className="glass p-4 rounded-3xl shadow-2xl shadow-brand-purple/10 flex flex-col items-center justify-center">
+            <Figma className="text-[#F24E1E] w-8 h-8" />
+          </div>
+          <div className="glass p-4 rounded-3xl shadow-2xl shadow-brand-pink/10 flex flex-col items-center justify-center">
+            <ImageIcon className="text-pink-400 w-8 h-8" />
+          </div>
+          <div className="glass p-4 rounded-3xl shadow-2xl shadow-brand-blue/10 flex flex-col items-center justify-center">
+            <PenTool className="text-brand-blue w-8 h-8" />
           </div>
         </div>
-        
-        <div className="hidden lg:block absolute -right-20 bottom-1/3 glass p-5 rounded-3xl shadow-2xl shadow-brand-pink/10 animate-float-delayed">
-          <Gamepad2 className="text-brand-pink w-10 h-10 mb-2" />
-          <span className="text-[10px] font-bold text-slate-400 tracking-tighter uppercase">Game Design</span>
-        </div>
 
-        <div className="inline-flex items-center gap-2 px-5 py-2 glass border border-slate-200 rounded-full mb-10 shadow-sm">
+        <div className="inline-flex items-center gap-2 px-5 py-2 glass border border-slate-200 rounded-full mb-6 shadow-sm">
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span className="text-slate-800 text-xs font-bold uppercase tracking-widest">Available for Freelance</span>
+          <span className="text-slate-800 text-xs font-bold uppercase tracking-widest">Available for new projects</span>
         </div>
 
-        <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold text-slate-900 mb-10 leading-[0.9] tracking-tighter">
-          Visual <br />
-          <span className="font-serif italic text-brand-purple">Storyteller</span>
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-6 leading-tight tracking-tighter">
+          Where ideas turn into
+          <br />
+          <span className="font-serif italic text-brand-purple">visual reality.</span>
         </h1>
-        
-        <p className="text-slate-500 text-xl md:text-2xl max-w-3xl mx-auto mb-16 leading-relaxed font-light">
-          Anna Serhiienko is a multidisciplinary designer based in <span className="text-slate-900 font-medium">Ukraine</span>, crafting brand systems, intuitive interfaces, and immersive game art.
-        </p>
+
+        <div className="flex items-center justify-center gap-4 mb-10">
+          <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center shadow-md">
+            <Figma className="w-8 h-8 text-[#F24E1E]" />
+          </div>
+          <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center shadow-md">
+            <ImageIcon className="w-8 h-8 text-pink-400" />
+          </div>
+          <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center shadow-md">
+            <PenTool className="w-8 h-8 text-brand-purple" />
+          </div>
+        </div>
         
         <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
           <button 
