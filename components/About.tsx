@@ -15,8 +15,8 @@ const About: React.FC = () => {
           <div className="relative">
             <div className="relative rounded-[3rem] overflow-hidden aspect-[4/5] shadow-2xl shadow-slate-200 border-8 border-white group">
               <img 
-                src="https://picsum.photos/seed/anna-portrait/1000/1250" 
-                alt="Portrait of Anna" 
+                src="/work/me.png" 
+                alt="Anna Serhiienko" 
                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-purple/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
