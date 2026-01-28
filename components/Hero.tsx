@@ -1,12 +1,26 @@
 import React from 'react';
 import { SectionId } from '../types.ts';
+import { Figma, Image as ImageIcon, PenTool, Gamepad2 } from 'lucide-react';
 
 const Hero: React.FC = () => {
   return (
     <section
       id={SectionId.HERO}
-      className="relative min-h-[70vh] flex flex-col justify-center items-center text-center px-6 pt-20"
+      className="relative min-h-[70vh] flex flex-col justify-center items-center text-center px-6 pt-20 overflow-hidden"
     >
+      {/* Floating decorative icon tiles */}
+      <div className="hidden lg:block absolute left-12 top-1/3 w-24 h-24 bg-white rounded-3xl flex items-center justify-center shadow-xl">
+        <Figma className="w-10 h-10 text-purple-600" />
+      </div>
+      <div className="hidden lg:block absolute left-32 bottom-1/3 w-24 h-24 bg-white rounded-3xl flex items-center justify-center shadow-xl">
+        <ImageIcon className="w-10 h-10 text-pink-500" />
+      </div>
+      <div className="hidden lg:block absolute right-32 top-1/4 w-24 h-24 bg-white rounded-3xl flex items-center justify-center shadow-xl">
+        <PenTool className="w-10 h-10 text-blue-500" />
+      </div>
+      <div className="hidden lg:block absolute right-12 bottom-1/4 w-24 h-24 bg-white rounded-3xl flex items-center justify-center shadow-xl">
+        <Gamepad2 className="w-10 h-10 text-teal-500" />
+      </div>
 
       <div className="z-10 max-w-6xl mx-auto animate-reveal relative">
         <div className="inline-flex items-center gap-2 px-5 py-2 glass border border-slate-200 rounded-full mb-6 shadow-sm">
