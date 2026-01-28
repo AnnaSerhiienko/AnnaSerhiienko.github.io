@@ -9,17 +9,17 @@ const Hero: React.FC = () => {
       className="relative min-h-[70vh] flex flex-col justify-center items-center text-center px-6 pt-20 overflow-hidden"
     >
       {/* Floating decorative icon tiles */}
-      <div className="hidden lg:block absolute left-12 top-1/3 w-24 h-24 bg-white rounded-3xl flex items-center justify-center shadow-xl">
-        <Figma className="w-10 h-10 text-purple-600" />
+      <div className="hidden lg:block absolute left-8 top-32 w-20 h-20 bg-white rounded-2xl flex items-center justify-center shadow-lg">
+        <Figma className="w-8 h-8 text-purple-600" />
       </div>
-      <div className="hidden lg:block absolute left-32 bottom-1/3 w-24 h-24 bg-white rounded-3xl flex items-center justify-center shadow-xl">
-        <ImageIcon className="w-10 h-10 text-pink-500" />
+      <div className="hidden lg:block absolute left-16 bottom-40 w-20 h-20 bg-white rounded-2xl flex items-center justify-center shadow-lg">
+        <ImageIcon className="w-8 h-8 text-pink-500" />
       </div>
-      <div className="hidden lg:block absolute right-32 top-1/4 w-24 h-24 bg-white rounded-3xl flex items-center justify-center shadow-xl">
-        <PenTool className="w-10 h-10 text-blue-500" />
+      <div className="hidden lg:block absolute right-16 top-40 w-20 h-20 bg-white rounded-2xl flex items-center justify-center shadow-lg">
+        <PenTool className="w-8 h-8 text-blue-500" />
       </div>
-      <div className="hidden lg:block absolute right-12 bottom-1/4 w-24 h-24 bg-white rounded-3xl flex items-center justify-center shadow-xl">
-        <Gamepad2 className="w-10 h-10 text-teal-500" />
+      <div className="hidden lg:block absolute right-8 bottom-32 w-20 h-20 bg-white rounded-2xl flex items-center justify-center shadow-lg">
+        <Gamepad2 className="w-8 h-8 text-teal-500" />
       </div>
 
       <div className="z-10 max-w-6xl mx-auto animate-reveal relative">
@@ -28,10 +28,10 @@ const Hero: React.FC = () => {
           <span className="text-slate-800 text-xs font-bold uppercase tracking-widest">Available for new projects</span>
         </div>
 
-        <h1 className="text-6xl md:text-7xl lg:text-8xl font-black text-slate-900 mb-2 leading-tight tracking-tighter">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-2 leading-tight tracking-tight">
           Where ideas turn into
           <br />
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 font-black">visual reality.</span>
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 font-bold">visual reality.</span>
         </h1>
       </div>
 
