@@ -3,7 +3,7 @@ import Navigation from './components/Navigation.tsx';
 import Hero from './components/Hero.tsx';
 import WorkGallery from './components/WorkGallery.tsx';
 import About from './components/About.tsx';
-import Contact from './components/Contact.tsx';
+// Contact section removed
 import Footer from './components/Footer.tsx';
 
 function App() {
@@ -22,7 +22,6 @@ function App() {
           <Hero />
           <WorkGallery />
           <About />
-          <Contact />
         </main>
         <Footer />
       </div>
