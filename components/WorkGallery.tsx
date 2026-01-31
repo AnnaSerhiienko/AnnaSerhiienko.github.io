@@ -2,8 +2,10 @@ import React, { useState, useMemo } from 'react';
 import { SectionId, Project } from '../types.ts';
 import { PROJECTS, WORK_CATEGORIES } from '../constants.ts';
 import { ArrowUpRight, PlayCircle, Filter, X, ExternalLink, Tag } from 'lucide-react';
+import { useLanguage, getCategoryTranslation } from '../i18n.tsx';
 
 const WorkGallery: React.FC = () => {
+  const { t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
@@ -19,9 +21,9 @@ const WorkGallery: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
           <div className="max-w-xl">
-            <h2 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6 font-serif">Works</h2>
+            <h2 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6 font-serif">{t.work.title}</h2>
             <p className="text-slate-500 text-lg md:text-xl">
-              Selected projects from 5+ years of craft in branding, digital, and game experiences.
+              {t.work.subtitle}
             </p>
           </div>
 
@@ -36,7 +38,7 @@ const WorkGallery: React.FC = () => {
                     : 'bg-white text-slate-400 border border-slate-100 hover:border-brand-purple hover:text-brand-purple'
                 }`}
               >
-                {cat}
+                {cat === 'All' ? t.work.all : getCategoryTranslation(cat, t)}
               </button>
             ))}
           </div>
@@ -66,7 +68,7 @@ const WorkGallery: React.FC = () => {
                 )}
                 
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-10">
-                  <span className="text-white/60 text-xs font-bold uppercase tracking-[0.2em] mb-2">{project.category}</span>
+                  <span className="text-white/60 text-xs font-bold uppercase tracking-[0.2em] mb-2">{getCategoryTranslation(project.category, t)}</span>
                   <h3 className="text-white text-3xl font-serif font-bold mb-4">{project.title}</h3>
                   <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-slate-900 scale-0 group-hover:scale-100 transition-transform duration-500 delay-100">
                     <ArrowUpRight size={24} />
@@ -80,7 +82,7 @@ const WorkGallery: React.FC = () => {
         {filteredProjects.length === 0 && (
           <div className="text-center py-32 bg-white rounded-[3rem] border-2 border-dashed border-slate-100">
             <Filter className="mx-auto text-slate-200 mb-4" size={48} />
-            <p className="text-slate-400 font-medium font-serif italic text-xl">Quietly awaiting new masterpieces...</p>
+            <p className="text-slate-400 font-medium font-serif italic text-xl">{t.work.emptyState}</p>
           </div>
         )}
       </div>
@@ -111,7 +113,7 @@ const WorkGallery: React.FC = () => {
             <div className="w-full md:w-2/5 p-8 md:p-12 overflow-y-auto bg-white flex flex-col">
               <div className="flex items-center gap-2 mb-6">
                 <Tag size={14} className="text-brand-purple" />
-                <span className="text-xs font-bold uppercase tracking-widest text-brand-purple">{selectedProject.category}</span>
+                <span className="text-xs font-bold uppercase tracking-widest text-brand-purple">{getCategoryTranslation(selectedProject.category, t)}</span>
               </div>
               
               <h3 className="text-4xl font-serif font-bold text-slate-900 mb-6">{selectedProject.title}</h3>
@@ -122,7 +124,7 @@ const WorkGallery: React.FC = () => {
 
               <div className="space-y-8 mb-10">
                 <div>
-                  <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-4">Core Tech Stack</h4>
+                  <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-4">{t.work.technologies}</h4>
                   <div className="flex flex-wrap gap-2">
                     {selectedProject.technologies.map((tech, idx) => (
                       <span key={idx} className="px-4 py-2 bg-slate-50 rounded-xl text-xs font-bold text-slate-600 border border-slate-100">
@@ -140,7 +142,7 @@ const WorkGallery: React.FC = () => {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold hover:bg-brand-purple transition-all shadow-xl shadow-slate-900/10"
                 >
-                  View Case Study
+                  {t.work.viewProject}
                   <ExternalLink size={18} />
                 </a>
               </div>

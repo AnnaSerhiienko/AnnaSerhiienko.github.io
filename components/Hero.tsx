@@ -1,8 +1,11 @@
 import React from 'react';
 import { SectionId } from '../types';
 import { ArrowDown, Figma, PenTool, Image as ImageIcon, Gamepad2, MousePointer2 } from 'lucide-react';
+import { useLanguage } from '../i18n.tsx';
 
 const Hero: React.FC = () => {
+  const { t } = useLanguage();
+  
   return (
     <section 
       id={SectionId.HERO} 
@@ -25,13 +28,13 @@ const Hero: React.FC = () => {
 
         <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/50 backdrop-blur-sm border border-slate-200 rounded-full mb-8 shadow-sm">
           <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-          <span className="text-slate-600 text-sm font-medium">Available for new projects</span>
+          <span className="text-slate-600 text-sm font-medium">{t.hero.available}</span>
         </div>
 
         <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-slate-900 mb-8 leading-tight tracking-tight">
-          Where ideas turn into <br />
+          {t.hero.heading1} <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600">
-             visual reality.
+             {t.hero.heading2}
           </span>
         </h1>
         
@@ -45,14 +48,8 @@ const Hero: React.FC = () => {
             onClick={() => document.getElementById(SectionId.WORK)?.scrollIntoView({ behavior: 'smooth' })}
             className="px-8 py-4 bg-slate-900 text-white rounded-full font-medium hover:bg-brand-purple transition-all shadow-lg shadow-slate-900/20 hover:shadow-brand-purple/30 flex items-center gap-2 group"
           >
-            View My Work
+            {t.hero.viewWork}
             <ArrowDown size={18} className="group-hover:translate-y-1 transition-transform" />
-          </button>
-          <button 
-             onClick={() => document.getElementById(SectionId.CONTACT)?.scrollIntoView({ behavior: 'smooth' })}
-            className="px-8 py-4 bg-white text-slate-900 border border-slate-200 rounded-full font-medium hover:bg-slate-50 transition-all shadow-sm hover:shadow-md"
-          >
-            Contact Me
           </button>
         </div>
       </div>

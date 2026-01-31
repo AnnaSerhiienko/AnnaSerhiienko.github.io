@@ -45,6 +45,16 @@ export const PROJECTS: Project[] = [
     link: "#",
     technologies: ["Packaging", "Print Design", "Photoshop"]
   },
+  {
+    id: 15,
+    title: "App Icons & Splash Screens",
+    category: "Brand design",
+    mediaUrl: "./assets/brand/app-icons-splash-screens/full-composition.png",
+    mediaType: "image",
+    description: "A collection of vibrant app icons and splash screens designed for mobile applications, featuring playful characters and bold visual identities.",
+    link: "./app-icons-splash-screens/",
+    technologies: ["Illustrator", "Icon Design", "Mobile Branding"]
+  },
 
   // UI/UX Design
   {
@@ -56,6 +66,16 @@ export const PROJECTS: Project[] = [
     description: "A reimagined mobile banking experience focusing on transparency and calm, reducing anxiety around financial management.",
     link: "#",
     technologies: ["Figma", "Prototyping", "User Research"]
+  },
+  {
+    id: 16,
+    title: "Smart House App",
+    category: "UI/UX design",
+    mediaUrl: "./assets/uiux/smart-house-app.mp4",
+    mediaType: "video",
+    description: "An intuitive smart home control application featuring a sleek dark interface with smooth animations. Users can effortlessly manage lighting, temperature, and connected devices with elegant micro-interactions and real-time status updates.",
+    link: "https://dribbble.com/shots/11804880-Smart-house-App",
+    technologies: ["Figma", "UI Animation", "IoT Design"]
   },
   {
     id: 6,

@@ -1,8 +1,11 @@
 import React from 'react';
 import { SOCIALS, DESIGNER_NAME } from '../constants.ts';
 import { Twitter, Linkedin, Dribbble, Mail } from 'lucide-react';
+import { useLanguage } from '../i18n.tsx';
 
 const Footer: React.FC = () => {
+  const { t } = useLanguage();
+  
   const getIcon = (iconName: string) => {
     switch (iconName) {
       case 'Twitter': return <Twitter size={20} />;
@@ -19,7 +22,7 @@ const Footer: React.FC = () => {
         
         <div className="text-center md:text-left">
           <h3 className="text-2xl font-bold mb-2 tracking-tight">Anna Serhiienko</h3>
-          <p className="text-slate-500 text-sm">© {new Date().getFullYear()} {DESIGNER_NAME}. All rights reserved.</p>
+          <p className="text-slate-500 text-sm">© {new Date().getFullYear()} {DESIGNER_NAME}. {t.footer.rights}</p>
         </div>
 
         <div className="flex gap-4">
@@ -38,8 +41,8 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="text-center md:text-right">
-          <p className="text-slate-500 text-sm mb-2">Portfolio 2024</p>
-          <a href="#" className="text-sm text-slate-400 hover:text-brand-purple font-medium">Privacy Policy</a>
+          <p className="text-slate-500 text-sm mb-2">{t.footer.portfolio} 2024</p>
+          <a href="#" className="text-sm text-slate-400 hover:text-brand-purple font-medium">{t.footer.privacy}</a>
         </div>
       </div>
     </footer>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>App Icons & Splash Screens — Anna Serhiienko</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .font-serif { font-family: 'DM Serif Display', serif; }
+    .animate-float { animation: float 6s ease-in-out infinite; }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+    .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); }
+    .icon-card { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+    .icon-card:hover { transform: translateY(-12px) scale(1.02); }
+    .splash-card { transition: all 0.35s ease; opacity: 0.2; transform: scale(0.9) translateY(10px); pointer-events: none; filter: blur(0.35px); }
+    .splash-card.visible { opacity: 0.72; transform: scale(0.97) translateY(5px); pointer-events: auto; filter: blur(0px); }
+    .splash-card.center { opacity: 1; transform: scale(1.18) translateY(0px); box-shadow: 0 34px 78px rgba(0,0,0,0.6); }
+    .splash-track { display: flex; gap: 1.25rem; transition: transform 0.4s ease; will-change: transform; padding: 0 2rem; }
+    .splash-slide { flex: 0 0 calc(100% / 5); }
+    .splash-veil { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(15,23,42,0.85) 0%, rgba(15,23,42,0) 10%, rgba(15,23,42,0) 90%, rgba(15,23,42,0.85) 100%); }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 via-purple-50/30 to-pink-50/30 min-h-screen">
+  
+  <!-- Header -->
+  <header class="fixed top-0 left-0 right-0 z-50 glass border-b border-white/20">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="../index.html#work" class="flex items-center gap-3 text-slate-900 hover:text-purple-600 transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        <span class="font-medium">Back to Portfolio</span>
+      </a>
+      <span class="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">Brand Design</span>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="pt-32 pb-16 px-6">
+    <div class="max-w-7xl mx-auto text-center">
+      <span class="inline-block text-xs font-bold uppercase tracking-[0.3em] text-purple-600 mb-6">Mobile Branding</span>
+      <h1 class="text-5xl md:text-7xl font-bold text-slate-900 mb-6 font-serif">
+        App Icons & <span class="italic">Splash Screens</span>
+      </h1>
+      <p class="text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed">
+        A collection of vibrant app icons and splash screens designed for mobile applications,
+        featuring playful characters and bold visual identities.
+      </p>
+    </div>
+  </section>
+
+  <!-- App Icons Grid -->
+  <section class="py-16 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex items-center gap-4 mb-12">
+        <div class="w-12 h-px bg-slate-900"></div>
+        <h2 class="text-xs font-bold uppercase tracking-[0.2em] text-slate-900">App Icons</h2>
+      </div>
+      
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8">
+        
+        <!-- Elemental Quest Icon (alt) -->
+        <div class="icon-card group">
+          <div class="aspect-square rounded-[2rem] overflow-hidden bg-white shadow-xl shadow-slate-900/5 border border-slate-100 p-4 group-hover:shadow-2xl group-hover:shadow-amber-500/10">
+            <img src="../assets/brand/app-icons-splash-screens/icons/elemental-quest-alt.png" alt="Elemental Quest Icon" class="w-full h-full object-contain rounded-2xl">
+          </div>
+          <p class="text-center mt-4 text-sm font-medium text-slate-600">Elemental Quest — Alt Icon</p>
+        </div>
+
+        <!-- Monstrous Evorise Icon -->
+        <div class="icon-card group">
+          <div class="aspect-square rounded-[2rem] overflow-hidden bg-white shadow-xl shadow-slate-900/5 border border-slate-100 p-4 group-hover:shadow-2xl group-hover:shadow-rose-500/10">
+            <img src="../assets/brand/app-icons-splash-screens/icons/monstrous-evorise-icon.png" alt="Monstrous Evorise Icon" class="w-full h-full object-contain rounded-2xl">
+          </div>
+          <p class="text-center mt-4 text-sm font-medium text-slate-600">Monstrous Evorise</p>
+        </div>
+
+        <!-- Cat Wars -->
+        <div class="icon-card group">
+          <div class="aspect-square rounded-[2rem] overflow-hidden bg-white shadow-xl shadow-slate-900/5 border border-slate-100 p-4 group-hover:shadow-2xl group-hover:shadow-purple-500/10">
+            <img src="../assets/brand/app-icons-splash-screens/icons/cat-wars.png" alt="Cat Wars App Icon" class="w-full h-full object-contain rounded-2xl">
+          </div>
+          <p class="text-center mt-4 text-sm font-medium text-slate-600">Cat Wars</p>
+        </div>
+
+        <!-- Fatty Fish -->
+        <div class="icon-card group">
+          <div class="aspect-square rounded-[2rem] overflow-hidden bg-white shadow-xl shadow-slate-900/5 border border-slate-100 p-4 group-hover:shadow-2xl group-hover:shadow-pink-500/10">
+            <img src="../assets/brand/app-icons-splash-screens/icons/fatty-fish.png" alt="Fatty Fish App Icon" class="w-full h-full object-contain rounded-2xl">
+          </div>
+          <p class="text-center mt-4 text-sm font-medium text-slate-600">Fatty Fish</p>
+        </div>
+
+        <!-- Feed Me -->
+        <div class="icon-card group">
+          <div class="aspect-square rounded-[2rem] overflow-hidden bg-white shadow-xl shadow-slate-900/5 border border-slate-100 p-4 group-hover:shadow-2xl group-hover:shadow-blue-500/10">
+            <img src="../assets/brand/app-icons-splash-screens/icons/feed-me.png" alt="Feed Me App Icon" class="w-full h-full object-contain rounded-2xl">
+          </div>
+          <p class="text-center mt-4 text-sm font-medium text-slate-600">Feed Me</p>
+        </div>
+
+        <!-- Elemental Quest -->
+        <div class="icon-card group">
+          <div class="aspect-square rounded-[2rem] overflow-hidden bg-white shadow-xl shadow-slate-900/5 border border-slate-100 p-4 group-hover:shadow-2xl group-hover:shadow-amber-500/10">
+            <img src="../assets/brand/app-icons-splash-screens/icons/elemental-quest.png" alt="Elemental Quest App Icon" class="w-full h-full object-contain rounded-2xl">
+          </div>
+          <p class="text-center mt-4 text-sm font-medium text-slate-600">Elemental Quest</p>
+        </div>
+
+        <!-- RevBack -->
+        <div class="icon-card group">
+          <div class="aspect-square rounded-[2rem] overflow-hidden bg-white shadow-xl shadow-slate-900/5 border border-slate-100 p-4 group-hover:shadow-2xl group-hover:shadow-green-500/10">
+            <img src="../assets/brand/app-icons-splash-screens/icons/revback.png" alt="RevBack App Icon" class="w-full h-full object-contain rounded-2xl">
+          </div>
+          <p class="text-center mt-4 text-sm font-medium text-slate-600">RevBack</p>
+        </div>
+
+        <!-- Selara -->
+        <div class="icon-card group">
+          <div class="aspect-square rounded-[2rem] overflow-hidden bg-white shadow-xl shadow-slate-900/5 border border-slate-100 p-4 group-hover:shadow-2xl group-hover:shadow-teal-500/10">
+            <img src="../assets/brand/app-icons-splash-screens/icons/selara.png" alt="Selara App Icon" class="w-full h-full object-contain rounded-2xl">
+          </div>
+          <p class="text-center mt-4 text-sm font-medium text-slate-600">Selara</p>
+        </div>
+
+        <!-- Sky Hero -->
+        <div class="icon-card group">
+          <div class="aspect-square rounded-[2rem] overflow-hidden bg-white shadow-xl shadow-slate-900/5 border border-slate-100 p-4 group-hover:shadow-2xl group-hover:shadow-cyan-500/10">
+            <img src="../assets/brand/app-icons-splash-screens/icons/sky-hero-icon.png" alt="Sky Hero App Icon" class="w-full h-full object-contain rounded-2xl">
+          </div>
+          <p class="text-center mt-4 text-sm font-medium text-slate-600">Sky Hero</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Splash Screens Section -->
+  <section class="py-16 px-6 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 mt-16 relative overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(124,58,237,0.08)_0%,_rgba(15,23,42,0.95)_60%)]"></div>
+    <div class="max-w-7xl mx-auto">
+      <div class="flex items-center gap-4 mb-10">
+        <div class="w-12 h-px bg-white"></div>
+        <h2 class="text-xs font-bold uppercase tracking-[0.2em] text-white">Splash Screens</h2>
+      </div>
+
+      <div class="relative">
+        <div class="relative px-6 py-6" style="overflow: visible;">
+          <div class="splash-track" data-splash-track>
+            
+            <div class="splash-slide">
+              <div class="splash-card" data-splash>
+                <div class="aspect-[9/16] rounded-[1.25rem] overflow-hidden bg-slate-900 shadow-2xl shadow-black/30">
+                  <img src="../assets/brand/app-icons-splash-screens/splash-screens/cat-wars.png" alt="Cat Wars Splash Screen" class="w-full h-full object-contain">
+                </div>
+                <p class="text-center mt-3 text-xs font-medium text-slate-300">Cat Wars</p>
+              </div>
+            </div>
+
+            <div class="splash-slide">
+              <div class="splash-card" data-splash>
+                <div class="aspect-[9/16] rounded-[1.25rem] overflow-hidden bg-slate-900 shadow-2xl shadow-black/30">
+                  <img src="../assets/brand/app-icons-splash-screens/splash-screens/elemental-craft.png" alt="Elemental Craft Splash Screen" class="w-full h-full object-contain">
+                </div>
+                <p class="text-center mt-3 text-xs font-medium text-slate-300">Elemental Craft</p>
+              </div>
+            </div>
+
+            <div class="splash-slide">
+              <div class="splash-card" data-splash>
+                <div class="aspect-[9/16] rounded-[1.25rem] overflow-hidden bg-slate-900 shadow-2xl shadow-black/30">
+                  <img src="../assets/brand/app-icons-splash-screens/splash-screens/elemental-quest.png" alt="Elemental Quest Splash Screen" class="w-full h-full object-contain">
+                </div>
+                <p class="text-center mt-3 text-xs font-medium text-slate-300">Elemental Quest</p>
+              </div>
+            </div>
+
+            <div class="splash-slide">
+              <div class="splash-card" data-splash>
+                <div class="aspect-[9/16] rounded-[1.25rem] overflow-hidden bg-slate-900 shadow-2xl shadow-black/30">
+                  <img src="../assets/brand/app-icons-splash-screens/splash-screens/fatty-fish.png" alt="Fatty Fish Splash Screen" class="w-full h-full object-contain">
+                </div>
+                <p class="text-center mt-3 text-xs font-medium text-slate-300">Fatty Fish</p>
+              </div>
+            </div>
+
+            <div class="splash-slide">
+              <div class="splash-card" data-splash>
+                <div class="aspect-[9/16] rounded-[1.25rem] overflow-hidden bg-slate-900 shadow-2xl shadow-black/30">
+                  <img src="../assets/brand/app-icons-splash-screens/splash-screens/feed-me.png" alt="Feed Me Splash Screen" class="w-full h-full object-contain">
+                </div>
+                <p class="text-center mt-3 text-xs font-medium text-slate-300">Feed Me</p>
+              </div>
+            </div>
+
+            <div class="splash-slide">
+              <div class="splash-card" data-splash>
+                <div class="aspect-[9/16] rounded-[1.25rem] overflow-hidden bg-slate-900 shadow-2xl shadow-black/30">
+                  <img src="../assets/brand/app-icons-splash-screens/splash-screens/monstrous-evorise.png" alt="Monstrous Evorise Splash Screen" class="w-full h-full object-contain">
+                </div>
+                <p class="text-center mt-3 text-xs font-medium text-slate-300">Monstrous Evorise</p>
+              </div>
+            </div>
+
+            <div class="splash-slide">
+              <div class="splash-card" data-splash>
+                <div class="aspect-[9/16] rounded-[1.25rem] overflow-hidden bg-slate-900 shadow-2xl shadow-black/30">
+                  <img src="../assets/brand/app-icons-splash-screens/splash-screens/revback.png" alt="RevBack Splash Screen" class="w-full h-full object-contain">
+                </div>
+                <p class="text-center mt-3 text-xs font-medium text-slate-300">RevBack</p>
+              </div>
+            </div>
+
+            <div class="splash-slide">
+              <div class="splash-card" data-splash>
+                <div class="aspect-[9/16] rounded-[1.25rem] overflow-hidden bg-slate-900 shadow-2xl shadow-black/30">
+                  <img src="../assets/brand/app-icons-splash-screens/splash-screens/selara.png" alt="Selara Splash Screen" class="w-full h-full object-contain">
+                </div>
+                <p class="text-center mt-3 text-xs font-medium text-slate-300">Selara</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="splash-veil"></div>
+        <button class="absolute -left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 border border-white/20 text-white backdrop-blur hover:bg-white/20 transition" data-splash-prev aria-label="Previous">‹</button>
+        <button class="absolute -right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 border border-white/20 text-white backdrop-blur hover:bg-white/20 transition" data-splash-next aria-label="Next">›</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Full Composition Showcase -->
+  <section class="py-24 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex items-center gap-4 mb-12">
+        <div class="w-12 h-px bg-slate-900"></div>
+        <h2 class="text-xs font-bold uppercase tracking-[0.2em] text-slate-900">Full Composition</h2>
+      </div>
+      
+      <div class="rounded-[3rem] overflow-hidden bg-gradient-to-br from-purple-100 via-pink-50 to-blue-100 p-8 md:p-16 shadow-2xl shadow-slate-900/5">
+        <img src="../assets/brand/app-icons-splash-screens/full-composition.png" alt="App Icons & Splash Screens Full Composition" class="w-full h-auto rounded-2xl shadow-xl">
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-12 px-6 border-t border-slate-100">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-slate-400 text-sm">© 2026 Anna Serhiienko. All rights reserved.</p>
+      <a href="../index.html#work" class="text-sm font-medium text-slate-900 hover:text-purple-600 transition-colors flex items-center gap-2">
+        View More Projects
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+        </svg>
+      </a>
+    </div>
+  </footer>
+
+</body>
+<script>
+  const splashTrack = document.querySelector('[data-splash-track]');
+  const rawSlides = Array.from(splashTrack.querySelectorAll('.splash-slide'));
+  const prevSplash = document.querySelector('[data-splash-prev]');
+  const nextSplash = document.querySelector('[data-splash-next]');
+
+  const visibleCount = 5;
+  const cloneBuffer = visibleCount; // ensures seamless loop
+  let splashIndex = cloneBuffer;
+  let slideOffset = 0;
+  let autoplay;
+
+  // Clone head/tail for infinite loop
+  const appendClones = () => {
+    const headClones = rawSlides.slice(0, cloneBuffer).map(node => node.cloneNode(true));
+    const tailClones = rawSlides.slice(-cloneBuffer).map(node => node.cloneNode(true));
+    tailClones.forEach(clone => splashTrack.insertBefore(clone, splashTrack.firstChild));
+    headClones.forEach(clone => splashTrack.appendChild(clone));
+  };
+
+  appendClones();
+
+  const splashSlides = Array.from(splashTrack.querySelectorAll('.splash-slide'));
+  const splashCards = Array.from(splashTrack.querySelectorAll('[data-splash]'));
+
+  const setTransition = (enable) => {
+    splashTrack.style.transition = enable ? 'transform 0.4s ease' : 'none';
+  };
+
+  const measure = () => {
+    if (!splashSlides.length) return;
+    const first = splashSlides[0];
+    const rect = first.getBoundingClientRect();
+    const gap = parseFloat(getComputedStyle(splashTrack).columnGap || getComputedStyle(splashTrack).gap || '0');
+    slideOffset = rect.width + gap;
+  };
+
+  const updateSplash = () => {
+    if (!slideOffset) measure();
+    splashTrack.style.transform = `translateX(-${splashIndex * slideOffset}px)`;
+
+    splashCards.forEach((card, i) => {
+      const pos = (i - splashIndex + splashCards.length) % splashCards.length;
+      const visible = pos < visibleCount && pos >= 0;
+      card.classList.toggle('visible', visible);
+      card.classList.toggle('center', visible && pos === 2);
+    });
+  };
+
+  const goPrev = () => {
+    splashIndex -= 1;
+    setTransition(true);
+    updateSplash();
+  };
+
+  const goNext = () => {
+    splashIndex += 1;
+    setTransition(true);
+    updateSplash();
+  };
+
+  const handleLoop = () => {
+    if (splashIndex >= rawSlides.length + cloneBuffer) {
+      setTransition(false);
+      splashIndex = cloneBuffer;
+      updateSplash();
+      requestAnimationFrame(() => setTransition(true));
+    }
+    if (splashIndex < cloneBuffer) {
+      setTransition(false);
+      splashIndex = rawSlides.length + cloneBuffer - 1;
+      updateSplash();
+      requestAnimationFrame(() => setTransition(true));
+    }
+  };
+
+  const restartAutoplay = () => {
+    clearInterval(autoplay);
+    autoplay = setInterval(goNext, 2600);
+  };
+
+  prevSplash.addEventListener('click', () => {
+    goPrev();
+    restartAutoplay();
+  });
+
+  nextSplash.addEventListener('click', () => {
+    goNext();
+    restartAutoplay();
+  });
+
+  splashTrack.addEventListener('click', () => {
+    goNext();
+    restartAutoplay();
+  });
+
+  splashTrack.addEventListener('transitionend', handleLoop);
+
+  window.addEventListener('resize', () => {
+    measure();
+    updateSplash();
+  });
+
+  setTransition(true);
+  measure();
+  updateSplash();
+  restartAutoplay();
+</script>
+</html>

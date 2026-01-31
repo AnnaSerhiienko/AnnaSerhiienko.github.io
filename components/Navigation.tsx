@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { SectionId } from '../types.ts';
 import { Menu, X, FileText } from 'lucide-react';
+import { useLanguage } from '../i18n.tsx';
 
 const Navigation: React.FC = () => {
+  const { t } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -31,8 +33,8 @@ const Navigation: React.FC = () => {
   };
 
   const navLinks = [
-    { label: 'Work', id: SectionId.WORK },
-    { label: 'About', id: SectionId.ABOUT },
+    { label: t.nav.work, id: SectionId.WORK },
+    { label: t.nav.about, id: SectionId.ABOUT },
   ];
 
   return (
@@ -69,13 +71,13 @@ const Navigation: React.FC = () => {
                 className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-colors"
               >
                 <FileText size={16} />
-                CV
+                {t.nav.cv}
               </button>
               <button 
                 onClick={openEmail}
                 className="bg-slate-900 text-white px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-brand-purple hover:scale-105 active:scale-95 transition-all shadow-xl shadow-slate-900/10"
               >
-                Hire Me
+                {t.nav.hireMe}
               </button>
             </div>
           </div>
@@ -107,13 +109,13 @@ const Navigation: React.FC = () => {
             className="text-left text-xl font-bold text-slate-400 flex items-center gap-3"
           >
             <FileText size={24} />
-            Download Resume
+            {t.nav.cv}
           </button>
           <button 
             onClick={openEmail}
             className="w-full bg-slate-900 text-white py-5 rounded-2xl text-lg font-bold"
           >
-            Get In Touch
+            {t.nav.hireMe}
           </button>
         </div>
       </div>

@@ -5,8 +5,40 @@ import WorkGallery from './components/WorkGallery.tsx';
 import About from './components/About.tsx';
 // Contact section removed
 import Footer from './components/Footer.tsx';
+import { LanguageProvider, useLanguage } from './i18n.tsx';
 
-function App() {
+const LanguageSwitcher: React.FC = () => {
+  const { lang, setLang } = useLanguage();
+  
+  return (
+    <div className="fixed right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-1 bg-white/80 backdrop-blur-md rounded-full p-1.5 shadow-lg border border-slate-100">
+      <button
+        onClick={() => setLang('en')}
+        className={`w-10 h-10 rounded-full text-xs font-bold uppercase tracking-wide transition-all ${
+          lang === 'en'
+            ? 'bg-slate-900 text-white shadow-md'
+            : 'text-slate-400 hover:text-slate-900 hover:bg-slate-100'
+        }`}
+        title="English"
+      >
+        EN
+      </button>
+      <button
+        onClick={() => setLang('uk')}
+        className={`w-10 h-10 rounded-full text-xs font-bold uppercase tracking-wide transition-all ${
+          lang === 'uk'
+            ? 'bg-slate-900 text-white shadow-md'
+            : 'text-slate-400 hover:text-slate-900 hover:bg-slate-100'
+        }`}
+        title="Українська"
+      >
+        UK
+      </button>
+    </div>
+  );
+};
+
+function AppContent() {
   return (
     <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-brand-purple selection:text-white relative">
       {/* Background Gradients */}
@@ -17,6 +49,7 @@ function App() {
       </div>
 
       <div className="relative z-10">
+        <LanguageSwitcher />
         <Navigation />
         <main>
           <Hero />
@@ -26,6 +59,14 @@ function App() {
         <Footer />
       </div>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <LanguageProvider>
+      <AppContent />
+    </LanguageProvider>
   );
 }
 
