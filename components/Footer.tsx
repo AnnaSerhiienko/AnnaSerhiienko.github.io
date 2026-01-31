@@ -72,19 +72,6 @@ const SocialLink = styled.a`
   }
 `;
 
-const PrivacyLink = styled.a`
-  display: inline-block;
-  margin-top: ${({ theme }) => theme.spacing[2]};
-  font-size: ${({ theme }) => theme.typography.sizes.sm};
-  color: ${({ theme }) => theme.colors.slate[400]};
-  font-weight: ${({ theme }) => theme.typography.weights.medium};
-  text-decoration: none;
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.brand.purple};
-  }
-`;
-
 const Footer: React.FC = () => {
   const { t } = useLanguage();
   
@@ -120,10 +107,6 @@ const Footer: React.FC = () => {
           ))}
         </SocialRow>
 
-        <FooterBlock $align="right">
-          <MetaText>{t.footer.portfolio} 2024</MetaText>
-          <PrivacyLink href="#">{t.footer.privacy}</PrivacyLink>
-        </FooterBlock>
       </FooterContent>
     </FooterShell>
   );

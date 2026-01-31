@@ -74,7 +74,6 @@ const PulseDot = styled.span`
   height: ${({ theme }) => theme.spacing[2]};
   border-radius: ${({ theme }) => theme.radii.full};
   background: #22c55e;
-  animation: ${float} 3s ease-in-out infinite;
 `;
 
 const AvailabilityText = styled.span`

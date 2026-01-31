@@ -100,6 +100,13 @@ export interface Translations {
     iconLabels: string[];
     splashLabels: string[];
   };
+  appStoreScreenshots: {
+    backToPortfolio: string;
+    headerTag: string;
+    eyebrow: string;
+    title: string;
+    lead: string;
+  };
   // Footer
   footer: {
     rights: string;
@@ -126,10 +133,10 @@ const translations: Record<Language, Translations> = {
     },
     hero: {
       available: 'Available for new projects',
-      heading1: 'Where ideas turn into',
-      heading2: 'visual reality.',
+      heading1: 'Welcome to my',
+      heading2: 'Portfolio',
       viewWork: 'View My Work',
-      lead: "I'm Anna Serhiienko, a Graphic Designer crafting digital experiences. Specializing in Brand Identity, UI/UX, and Game Design.",
+      lead: '',
     },
     work: {
       title: 'Works',
@@ -173,10 +180,20 @@ const translations: Record<Language, Translations> = {
         description: 'An intuitive smart home control application featuring a sleek dark interface with smooth animations. Users can effortlessly manage lighting, temperature, and connected devices with elegant micro-interactions and real-time status updates.',
         technologies: ['Figma', 'UI Animation', 'IoT Design'],
       },
+      17: {
+        title: 'App Store Screenshots',
+        description: 'A curated set of App Store-ready screenshot compositions showcasing multiple game worlds, UI moments, and promotional layouts.',
+        technologies: ['App Store', 'Marketing', 'Visual Design'],
+      },
       6: {
         title: 'Nebula Dashboard',
         description: 'Dark-mode analytics dashboard for a cloud infrastructure provider, visualizing complex data streams in real-time.',
         technologies: ['Figma', 'React', 'Motion Design'],
+      },
+      17: {
+        title: 'App Store Screenshots',
+        description: '',
+        technologies: ['App Store', 'Маркетинг', 'Візуальний дизайн'],
       },
       4: {
         title: 'Summer Campaign 2024',
@@ -220,7 +237,7 @@ const translations: Record<Language, Translations> = {
       watermark: 'Creative',
       emphasis: 'Emotion',
       portraitAlt: 'Anna Serhiienko portrait',
-      experienceText: 'Crafting high-end visual solutions for global clients.',
+       experienceText: '',
       skills: {
         graphicDesign: 'Graphic Design',
         uiuxDesign: 'UI/UX Design',
@@ -273,6 +290,13 @@ const translations: Record<Language, Translations> = {
         'Selara',
       ],
     },
+    appStoreScreenshots: {
+      backToPortfolio: 'Back to Portfolio',
+      headerTag: 'App Store Screenshots',
+      eyebrow: 'Marketing',
+      title: 'App Store Screenshots',
+      lead: '',
+    },
     footer: {
       rights: 'All rights reserved.',
       portfolio: 'Portfolio',
@@ -296,10 +320,10 @@ const translations: Record<Language, Translations> = {
     },
     hero: {
       available: 'Відкрита для нових проєктів',
-      heading1: 'Де ідеї перетворюються на',
-      heading2: 'візуальну реальність.',
+      heading1: 'Ласкаво просимо до мого',
+      heading2: 'портфоліо',
       viewWork: 'Переглянути роботи',
-      lead: 'Я Анна Сергієнко — графічна дизайнерка, що створює цифрові враження. Спеціалізуюся на айдентиці брендів, UI/UX та ігровому дизайні.',
+      lead: '',
     },
     work: {
       title: 'Роботи',
@@ -390,7 +414,7 @@ const translations: Record<Language, Translations> = {
       watermark: 'Творчість',
       emphasis: 'Емоцій',
       portraitAlt: 'Портрет Анни Сергієнко',
-      experienceText: 'Створюю преміальні візуальні рішення для клієнтів по всьому світу.',
+       experienceText: '',
       skills: {
         graphicDesign: 'Графічний дизайн',
         uiuxDesign: 'UI/UX дизайн',
@@ -442,6 +466,13 @@ const translations: Record<Language, Translations> = {
         'RevBack',
         'Selara',
       ],
+    },
+    appStoreScreenshots: {
+      backToPortfolio: 'Назад до портфоліо',
+      headerTag: 'Скріншоти App Store',
+      eyebrow: 'Маркетинг',
+      title: 'Скріншоти App Store',
+      lead: '',
     },
     footer: {
       rights: 'Усі права захищено.',

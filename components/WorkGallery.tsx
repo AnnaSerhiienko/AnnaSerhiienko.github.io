@@ -304,6 +304,67 @@ const ModalMediaVideo = styled.video`
   object-fit: cover;
 `;
 
+const ModalGalleryWrap = styled.div`
+  width: 100%;
+  height: 100%;
+  padding: ${({ theme }) => theme.spacing[6]};
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing[6]};
+  background: ${({ theme }) => theme.colors.white};
+  overflow-y: auto;
+`;
+
+const ModalGalleryGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing[4]};
+`;
+
+const ModalGalleryTitle = styled.h4`
+  margin: 0;
+  font-size: ${({ theme }) => theme.typography.sizes.sm};
+  font-weight: ${({ theme }) => theme.typography.weights.bold};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.slate[500]};
+`;
+
+const ModalGalleryRow = styled.div`
+  display: flex;
+  gap: ${({ theme }) => theme.spacing[4]};
+  overflow-x: auto;
+  padding-bottom: ${({ theme }) => theme.spacing[2]};
+
+  &::-webkit-scrollbar {
+    height: ${nonTokenValues.sizing.scrollbarWidth};
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.colors.slate[200]};
+    border-radius: ${({ theme }) => theme.radii.full};
+  }
+`;
+
+const ModalGalleryItem = styled.div`
+  flex: 0 0 auto;
+  width: 220px;
+  aspect-ratio: 9 / 16;
+  border-radius: ${({ theme }) => theme.radii['3xl']};
+  overflow: hidden;
+  background: ${({ theme }) => theme.colors.slate[50]};
+  box-shadow: ${({ theme }) => theme.shadows.sm};
+  border: ${nonTokenValues.sizing.hairline} solid ${({ theme }) => theme.colors.slate[100]};
+`;
+
+const ModalGalleryImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  background: ${({ theme }) => theme.colors.white};
+`;
+
 const ModalContent = styled.div`
   width: 100%;
   padding: ${({ theme }) => theme.spacing[8]};
@@ -406,6 +467,29 @@ const WorkGallery: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
+  const resolveMediaUrl = (url: string) => (url.includes(' ') ? encodeURI(url) : url);
+  const getGalleryGroups = (gallery: string[]) => {
+    const groups: { name: string; items: string[] }[] = [];
+    const index = new Map<string, number>();
+
+    gallery.forEach((url) => {
+      const fileName = decodeURIComponent(url.split('/').pop() ?? '');
+      const baseName = fileName.replace(/\.[^/.]+$/, '');
+      const withoutLeading = baseName.replace(/^\d+\s+/, '');
+      const groupName = withoutLeading.replace(/\s+\d+$/, '');
+      const key = groupName || 'Screenshots';
+
+      if (!index.has(key)) {
+        index.set(key, groups.length);
+        groups.push({ name: key, items: [url] });
+      } else {
+        groups[index.get(key)!].items.push(url);
+      }
+    });
+
+    return groups;
+  };
+
   useEffect(() => {
     if (!selectedProject) return;
 
@@ -458,9 +542,9 @@ const WorkGallery: React.FC = () => {
             >
               <MediaFrame>
                 {project.mediaType === 'video' ? (
-                  <MediaVideo src={project.mediaUrl} muted loop playsInline autoPlay />
+                  <MediaVideo src={resolveMediaUrl(project.mediaUrl)} muted loop playsInline autoPlay />
                 ) : (
-                  <MediaImage src={project.mediaUrl} alt={projectTitle} />
+                  <MediaImage src={resolveMediaUrl(project.mediaUrl)} alt={projectTitle} />
                 )}
 
                 <CardOverlay>
@@ -500,10 +584,29 @@ const WorkGallery: React.FC = () => {
             </CloseButton>
 
             <ModalMedia>
-              {selectedProject.mediaType === 'video' ? (
-                <ModalMediaVideo src={selectedProject.mediaUrl} autoPlay muted loop controls />
+              {selectedProject.gallery?.length ? (
+                <ModalGalleryWrap>
+                  {getGalleryGroups(selectedProject.gallery).map((group) => (
+                    <ModalGalleryGroup key={group.name}>
+                      <ModalGalleryTitle>{group.name}</ModalGalleryTitle>
+                      <ModalGalleryRow>
+                        {group.items.map((image, idx) => (
+                          <ModalGalleryItem key={`${group.name}-${idx}`}>
+                            <ModalGalleryImage
+                              src={resolveMediaUrl(image)}
+                              alt={`${projectTitle} ${group.name} ${idx + 1}`}
+                              loading="lazy"
+                            />
+                          </ModalGalleryItem>
+                        ))}
+                      </ModalGalleryRow>
+                    </ModalGalleryGroup>
+                  ))}
+                </ModalGalleryWrap>
+              ) : selectedProject.mediaType === 'video' ? (
+                <ModalMediaVideo src={resolveMediaUrl(selectedProject.mediaUrl)} autoPlay muted loop controls />
               ) : (
-                <ModalMediaImage src={selectedProject.mediaUrl} alt={projectTitle} />
+                <ModalMediaImage src={resolveMediaUrl(selectedProject.mediaUrl)} alt={projectTitle} />
               )}
             </ModalMedia>
 

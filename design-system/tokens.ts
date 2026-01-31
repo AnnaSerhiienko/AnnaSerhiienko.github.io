@@ -63,7 +63,7 @@ export const shadows = {
 export const typography = {
   fonts: {
     sans: "'Inter', sans-serif",
-    serif: "'Playfair Display', serif",
+    serif: "'Inter', sans-serif",
   },
   weights: {
     light: 300,

@@ -2,6 +2,70 @@ import { Project, SocialLink } from './types';
 const ASSET_BASE_URL = '/assets';
 const APP_ICONS_FULL_COMPOSITION = `${ASSET_BASE_URL}/images/brand/app-icons-splash-screens/full-composition.png`;
 const SMART_HOUSE_APP_VIDEO = `${ASSET_BASE_URL}/video/uiux/smart-house-app.mp4`;
+const APP_STORE_SCREENSHOTS = [
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/1 Cat Wars.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/2 Cat Wars.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/3 Cat Wars.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/4 Cat Wars.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/5 Cat Wars.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/6 Cat Wars.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/7 Cat Wars.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/8 Cat Wars.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/1 Elemental Craft.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/2 Elemental Craft.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/3 Elemental Craft.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/4 Elemental Craft.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/5 Elemental Craft.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/6 Elemental Craft.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/7 Elemental Craft.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/8 Elemental Craft.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Cloud Noise 1.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Cloud Noise 2.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Cloud Noise 3.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Cloud Noise 4.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Cloud Noise 5.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Cloud Noise 6.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Cloud Noise 7.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Cloud Noise 8.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Monstrous Evorise 1.png`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Monstrous Evorise 2.png`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Monstrous Evorise 3.png`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Monstrous Evorise 4.png`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Monstrous Evorise 5.png`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Monstrous Evorise 6.png`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Monstrous Evorise 7.png`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Monstrous Evorise 8.png`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Scriptor 1.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Scriptor 2.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Scriptor 3.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Scriptor 4.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Scriptor 5.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Scriptor 6.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Selara 1.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Selara 2.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Selara 3.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Selara 4.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Selara 5.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Selara 6.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Selara 7.jpg`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Sky Hero 1.png`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Sky Hero 2.png`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Sky Hero 3.png`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Sky Hero 4.png`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Sky Hero 5.png`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Sky Hero 6.png`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Sky Hero 7.png`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Sky Hero 8.png`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Star Cleaning 1.png`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Star Cleaning 2.png`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Star Cleaning 3.png`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Star Cleaning 4.png`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Star Cleaning 5.png`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Star Cleaning 6.png`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Star Cleaning 7.png`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Star Cleaning 8.png`,
+  `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Star Cleaning 9.png`,
+];
 
 export const DESIGNER_NAME = "Anna Serhiienko";
 export const DESIGNER_ROLE = "Graphic Designer";
@@ -10,9 +74,7 @@ export const DESIGNER_BIO = "My name is Anna Serhiienko. I have been working as 
 export const WORK_CATEGORIES = [
   "Brand design",
   "UI/UX design",
-  "Marketing and advertising",
-  "Illustration",
-  "Game design"
+  "Marketing and advertising"
 ];
 
 export const SKILLS = [
@@ -29,26 +91,6 @@ export const SKILLS = [
 export const PROJECTS: Project[] = [
   // Brand Design
   {
-    id: 1,
-    title: "Lumina Brand Identity",
-    category: "Brand design",
-    mediaUrl: "https://picsum.photos/seed/branding1/800/600",
-    mediaType: "image",
-    description: "Complete visual identity system for a tech startup, including logo design, typography guidelines, and brand assets.",
-    link: "#",
-    technologies: ["Illustrator", "Brand Strategy", "Indesign"]
-  },
-  {
-    id: 11,
-    title: "EcoLife Packaging",
-    category: "Brand design",
-    mediaUrl: "https://picsum.photos/seed/branding2/800/600",
-    mediaType: "image",
-    description: "Sustainable packaging design and identity for an organic skincare line.",
-    link: "#",
-    technologies: ["Packaging", "Print Design", "Photoshop"]
-  },
-  {
     id: 15,
     title: "App Icons & Splash Screens",
     category: "Brand design",
@@ -61,16 +103,6 @@ export const PROJECTS: Project[] = [
 
   // UI/UX Design
   {
-    id: 2,
-    title: "Ethereal Finance App",
-    category: "UI/UX design",
-    mediaUrl: "https://picsum.photos/seed/uiux1/800/600",
-    mediaType: "image",
-    description: "A reimagined mobile banking experience focusing on transparency and calm, reducing anxiety around financial management.",
-    link: "#",
-    technologies: ["Figma", "Prototyping", "User Research"]
-  },
-  {
     id: 16,
     title: "Smart House App",
     category: "UI/UX design",
@@ -81,80 +113,15 @@ export const PROJECTS: Project[] = [
     technologies: ["Figma", "UI Animation", "IoT Design"]
   },
   {
-    id: 6,
-    title: "Nebula Dashboard",
-    category: "UI/UX design",
-    mediaUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-    mediaType: "video",
-    description: "Dark-mode analytics dashboard for a cloud infrastructure provider, visualizing complex data streams in real-time.",
-    link: "#",
-    technologies: ["Figma", "React", "Motion Design"]
-  },
-
-  // Marketing and Advertising
-  {
-    id: 4,
-    title: "Summer Campaign 2024",
+    id: 17,
+    title: "App Store Screenshots",
     category: "Marketing and advertising",
-    mediaUrl: "https://picsum.photos/seed/marketing1/800/600",
+    mediaUrl: `${ASSET_BASE_URL}/images/brand/App Store Screenshots/Full_Composition_App Store Screenshots.png`,
     mediaType: "image",
-    description: "A series of high-conversion social media ads and web banners for a fashion retailer's seasonal launch.",
-    link: "#",
-    technologies: ["Photoshop", "After Effects", "Social Media"]
-  },
-  {
-    id: 12,
-    title: "Tech Summit Billboards",
-    category: "Marketing and advertising",
-    mediaUrl: "https://picsum.photos/seed/marketing2/800/600",
-    mediaType: "image",
-    description: "Large format print advertisements and digital displays for an international technology conference.",
-    link: "#",
-    technologies: ["Print", "Visual Layout", "Advertising"]
-  },
-
-  // Illustration
-  {
-    id: 5,
-    title: "Neon City Tales",
-    category: "Illustration",
-    mediaUrl: "https://picsum.photos/seed/illustration1/800/600",
-    mediaType: "image",
-    description: "A digital illustration series exploring cyberpunk aesthetics, used for editorial features and poster art.",
-    link: "#",
-    technologies: ["Procreate", "Digital Painting", "Color Theory"]
-  },
-  {
-    id: 13,
-    title: "Children's Book Art",
-    category: "Illustration",
-    mediaUrl: "https://picsum.photos/seed/illustration2/800/600",
-    mediaType: "image",
-    description: "Whimsical character designs and full-page spreads for a children's storybook about space exploration.",
-    link: "#",
-    technologies: ["Vector Art", "Character Design", "Storytelling"]
-  },
-
-  // Game Design
-  {
-    id: 10,
-    title: "Apex Gaming Assets",
-    category: "Game design",
-    mediaUrl: "https://picsum.photos/seed/gameart1/800/600",
-    mediaType: "image",
-    description: "Character concept art and environmental assets for a sci-fi RPG. Focused on atmospheric lighting and detailed texturing.",
-    link: "#",
-    technologies: ["Blender", "Photoshop", "Unity"]
-  },
-  {
-    id: 14,
-    title: "Pixel Quest UI",
-    category: "Game design",
-    mediaUrl: "https://picsum.photos/seed/gameart2/800/600",
-    mediaType: "image",
-    description: "User interface elements and HUD design for a retro-style adventure game.",
-    link: "#",
-    technologies: ["Pixel Art", "Game UI", "Sprite Design"]
+    gallery: APP_STORE_SCREENSHOTS,
+    description: "A curated set of App Store-ready screenshot compositions showcasing multiple game worlds, UI moments, and promotional layouts.",
+    link: "#app-store-screenshots",
+    technologies: ["App Store", "Marketing", "Visual Design"]
   }
 ];
 

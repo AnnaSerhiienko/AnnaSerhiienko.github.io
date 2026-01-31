@@ -10,6 +10,7 @@ import { LanguageProvider, useLanguage } from './i18n.tsx';
 import { AppView } from './views.ts';
 import { SectionId } from './types.ts';
 import AppIconsSplashScreens from './components/AppIconsSplashScreens.tsx';
+import AppStoreScreenshots from './components/AppStoreScreenshots.tsx';
 import ScrollProgress from './components/ScrollProgress.tsx';
 import { nonTokenValues } from './design-system/nonTokenValues.ts';
 
@@ -134,6 +135,7 @@ function AppContent() {
   const [currentView, setCurrentView] = useState<AppView>(AppView.PORTFOLIO);
   const [currentSection, setCurrentSection] = useState<SectionId>(SectionId.HERO);
   const appIconsHash = 'app-icons';
+  const appStoreScreenshotsHash = 'app-store-screenshots';
 
   useEffect(() => {
     const scrollToHash = () => {
@@ -141,6 +143,10 @@ function AppContent() {
       const hash = window.location.hash.replace('#', '');
       if (hash === appIconsHash) {
         setCurrentView(AppView.APP_ICONS);
+        return;
+      }
+      if (hash === appStoreScreenshotsHash) {
+        setCurrentView(AppView.APP_STORE_SCREENSHOTS);
         return;
       }
       const id = hash as SectionId;
@@ -164,7 +170,7 @@ function AppContent() {
   }, [currentView, currentSection]);
 
   useEffect(() => {
-    if (currentView === AppView.APP_ICONS) {
+    if (currentView === AppView.APP_ICONS || currentView === AppView.APP_STORE_SCREENSHOTS) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [currentView]);
@@ -210,8 +216,10 @@ function AppContent() {
             </main>
             <Footer />
           </>
-        ) : (
+        ) : currentView === AppView.APP_ICONS ? (
           <AppIconsSplashScreens onBack={handleBackToPortfolio} />
+        ) : (
+          <AppStoreScreenshots onBack={handleBackToPortfolio} />
         )}
       </Foreground>
     </AppShell>

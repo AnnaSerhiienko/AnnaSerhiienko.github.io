@@ -5,6 +5,7 @@ export interface Project {
   category: string;
   mediaUrl: string;
   mediaType: 'image' | 'video';
+  gallery?: string[];
   description: string;
   link: string;
   technologies: string[];
