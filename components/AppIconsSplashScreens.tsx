@@ -418,27 +418,29 @@ interface AppIconsSplashScreensProps {
   onBack?: () => void;
 }
 
+const assetUrl = (path: string) => new URL(path, import.meta.url).href;
+
 const iconSources = [
-  './assets/images/brand/app-icons-splash-screens/icons/elemental-quest-alt.png',
-  './assets/images/brand/app-icons-splash-screens/icons/monstrous-evorise-icon.png',
-  './assets/images/brand/app-icons-splash-screens/icons/cat-wars.png',
-  './assets/images/brand/app-icons-splash-screens/icons/fatty-fish.png',
-  './assets/images/brand/app-icons-splash-screens/icons/feed-me.png',
-  './assets/images/brand/app-icons-splash-screens/icons/elemental-quest.png',
-  './assets/images/brand/app-icons-splash-screens/icons/revback.png',
-  './assets/images/brand/app-icons-splash-screens/icons/selara.png',
-  './assets/images/brand/app-icons-splash-screens/icons/sky-hero-icon.png',
+  assetUrl('../assets/images/brand/app-icons-splash-screens/icons/elemental-quest-alt.png'),
+  assetUrl('../assets/images/brand/app-icons-splash-screens/icons/monstrous-evorise-icon.png'),
+  assetUrl('../assets/images/brand/app-icons-splash-screens/icons/cat-wars.png'),
+  assetUrl('../assets/images/brand/app-icons-splash-screens/icons/fatty-fish.png'),
+  assetUrl('../assets/images/brand/app-icons-splash-screens/icons/feed-me.png'),
+  assetUrl('../assets/images/brand/app-icons-splash-screens/icons/elemental-quest.png'),
+  assetUrl('../assets/images/brand/app-icons-splash-screens/icons/revback.png'),
+  assetUrl('../assets/images/brand/app-icons-splash-screens/icons/selara.png'),
+  assetUrl('../assets/images/brand/app-icons-splash-screens/icons/sky-hero-icon.png'),
 ];
 
 const splashSources = [
-  './assets/images/brand/app-icons-splash-screens/splash-screens/cat-wars.png',
-  './assets/images/brand/app-icons-splash-screens/splash-screens/elemental-craft.png',
-  './assets/images/brand/app-icons-splash-screens/splash-screens/elemental-quest.png',
-  './assets/images/brand/app-icons-splash-screens/splash-screens/fatty-fish.png',
-  './assets/images/brand/app-icons-splash-screens/splash-screens/feed-me.png',
-  './assets/images/brand/app-icons-splash-screens/splash-screens/monstrous-evorise.png',
-  './assets/images/brand/app-icons-splash-screens/splash-screens/revback.png',
-  './assets/images/brand/app-icons-splash-screens/splash-screens/selara.png',
+  assetUrl('../assets/images/brand/app-icons-splash-screens/splash-screens/cat-wars.png'),
+  assetUrl('../assets/images/brand/app-icons-splash-screens/splash-screens/elemental-craft.png'),
+  assetUrl('../assets/images/brand/app-icons-splash-screens/splash-screens/elemental-quest.png'),
+  assetUrl('../assets/images/brand/app-icons-splash-screens/splash-screens/fatty-fish.png'),
+  assetUrl('../assets/images/brand/app-icons-splash-screens/splash-screens/feed-me.png'),
+  assetUrl('../assets/images/brand/app-icons-splash-screens/splash-screens/monstrous-evorise.png'),
+  assetUrl('../assets/images/brand/app-icons-splash-screens/splash-screens/revback.png'),
+  assetUrl('../assets/images/brand/app-icons-splash-screens/splash-screens/selara.png'),
 ];
 
 const AppIconsSplashScreens: React.FC<AppIconsSplashScreensProps> = ({ onBack }) => {
@@ -575,7 +577,7 @@ const AppIconsSplashScreens: React.FC<AppIconsSplashScreensProps> = ({ onBack })
           </SectionHeader>
           <CompositionCard>
             <CompositionImage
-              src="./assets/images/brand/app-icons-splash-screens/full-composition.png"
+              src={assetUrl('../assets/images/brand/app-icons-splash-screens/full-composition.png')}
               alt={t.appIcons.fullCompositionAlt}
             />
           </CompositionCard>

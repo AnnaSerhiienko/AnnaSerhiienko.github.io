@@ -261,6 +261,7 @@ const SkillRow = styled.div`
 
 const About: React.FC = () => {
   const { t } = useLanguage();
+  const portraitUrl = new URL('../assets/images/profile/me.png', import.meta.url).href;
   
   return (
     <Section id={SectionId.ABOUT}>
@@ -270,7 +271,7 @@ const About: React.FC = () => {
         <Grid>
           <ImageColumn>
             <PortraitCard>
-              <PortraitImage src="./assets/images/profile/me.png" alt={t.about.portraitAlt} />
+              <PortraitImage src={portraitUrl} alt={t.about.portraitAlt} />
               <PortraitOverlay data-overlay />
             </PortraitCard>
 

@@ -1,5 +1,11 @@
 import { Project, SocialLink } from './types';
 
+const APP_ICONS_FULL_COMPOSITION = new URL(
+  './assets/images/brand/app-icons-splash-screens/full-composition.png',
+  import.meta.url
+).href;
+const SMART_HOUSE_APP_VIDEO = new URL('./assets/video/uiux/smart-house-app.mp4', import.meta.url).href;
+
 export const DESIGNER_NAME = "Anna Serhiienko";
 export const DESIGNER_ROLE = "Graphic Designer";
 export const DESIGNER_BIO = "My name is Anna Serhiienko. I have been working as a graphic designer for 5 years. I specialize in creating cohesive visual languages across various media. Whether it's crafting a unique brand identity, designing intuitive user interfaces, or building immersive game assets, I bring creativity and precision to every project.";
@@ -49,7 +55,7 @@ export const PROJECTS: Project[] = [
     id: 15,
     title: "App Icons & Splash Screens",
     category: "Brand design",
-    mediaUrl: "./assets/images/brand/app-icons-splash-screens/full-composition.png",
+    mediaUrl: APP_ICONS_FULL_COMPOSITION,
     mediaType: "image",
     description: "A collection of vibrant app icons and splash screens designed for mobile applications, featuring playful characters and bold visual identities.",
     link: "#app-icons",
@@ -71,7 +77,7 @@ export const PROJECTS: Project[] = [
     id: 16,
     title: "Smart House App",
     category: "UI/UX design",
-    mediaUrl: "./assets/video/uiux/smart-house-app.mp4",
+    mediaUrl: SMART_HOUSE_APP_VIDEO,
     mediaType: "video",
     description: "An intuitive smart home control application featuring a sleek dark interface with smooth animations. Users can effortlessly manage lighting, temperature, and connected devices with elegant micro-interactions and real-time status updates.",
     link: "https://dribbble.com/shots/11804880-Smart-house-App",
