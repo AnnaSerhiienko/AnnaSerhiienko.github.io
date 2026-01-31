@@ -418,29 +418,27 @@ interface AppIconsSplashScreensProps {
   onBack?: () => void;
 }
 
-const assetUrl = (path: string) => new URL(path, import.meta.url).href;
-
 const iconSources = [
-  assetUrl('../assets/images/brand/app-icons-splash-screens/icons/elemental-quest-alt.png'),
-  assetUrl('../assets/images/brand/app-icons-splash-screens/icons/monstrous-evorise-icon.png'),
-  assetUrl('../assets/images/brand/app-icons-splash-screens/icons/cat-wars.png'),
-  assetUrl('../assets/images/brand/app-icons-splash-screens/icons/fatty-fish.png'),
-  assetUrl('../assets/images/brand/app-icons-splash-screens/icons/feed-me.png'),
-  assetUrl('../assets/images/brand/app-icons-splash-screens/icons/elemental-quest.png'),
-  assetUrl('../assets/images/brand/app-icons-splash-screens/icons/revback.png'),
-  assetUrl('../assets/images/brand/app-icons-splash-screens/icons/selara.png'),
-  assetUrl('../assets/images/brand/app-icons-splash-screens/icons/sky-hero-icon.png'),
+  new URL('../assets/images/brand/app-icons-splash-screens/icons/elemental-quest-alt.png', import.meta.url).href,
+  new URL('../assets/images/brand/app-icons-splash-screens/icons/monstrous-evorise-icon.png', import.meta.url).href,
+  new URL('../assets/images/brand/app-icons-splash-screens/icons/cat-wars.png', import.meta.url).href,
+  new URL('../assets/images/brand/app-icons-splash-screens/icons/fatty-fish.png', import.meta.url).href,
+  new URL('../assets/images/brand/app-icons-splash-screens/icons/feed-me.png', import.meta.url).href,
+  new URL('../assets/images/brand/app-icons-splash-screens/icons/elemental-quest.png', import.meta.url).href,
+  new URL('../assets/images/brand/app-icons-splash-screens/icons/revback.png', import.meta.url).href,
+  new URL('../assets/images/brand/app-icons-splash-screens/icons/selara.png', import.meta.url).href,
+  new URL('../assets/images/brand/app-icons-splash-screens/icons/sky-hero-icon.png', import.meta.url).href,
 ];
 
 const splashSources = [
-  assetUrl('../assets/images/brand/app-icons-splash-screens/splash-screens/cat-wars.png'),
-  assetUrl('../assets/images/brand/app-icons-splash-screens/splash-screens/elemental-craft.png'),
-  assetUrl('../assets/images/brand/app-icons-splash-screens/splash-screens/elemental-quest.png'),
-  assetUrl('../assets/images/brand/app-icons-splash-screens/splash-screens/fatty-fish.png'),
-  assetUrl('../assets/images/brand/app-icons-splash-screens/splash-screens/feed-me.png'),
-  assetUrl('../assets/images/brand/app-icons-splash-screens/splash-screens/monstrous-evorise.png'),
-  assetUrl('../assets/images/brand/app-icons-splash-screens/splash-screens/revback.png'),
-  assetUrl('../assets/images/brand/app-icons-splash-screens/splash-screens/selara.png'),
+  new URL('../assets/images/brand/app-icons-splash-screens/splash-screens/cat-wars.png', import.meta.url).href,
+  new URL('../assets/images/brand/app-icons-splash-screens/splash-screens/elemental-craft.png', import.meta.url).href,
+  new URL('../assets/images/brand/app-icons-splash-screens/splash-screens/elemental-quest.png', import.meta.url).href,
+  new URL('../assets/images/brand/app-icons-splash-screens/splash-screens/fatty-fish.png', import.meta.url).href,
+  new URL('../assets/images/brand/app-icons-splash-screens/splash-screens/feed-me.png', import.meta.url).href,
+  new URL('../assets/images/brand/app-icons-splash-screens/splash-screens/monstrous-evorise.png', import.meta.url).href,
+  new URL('../assets/images/brand/app-icons-splash-screens/splash-screens/revback.png', import.meta.url).href,
+  new URL('../assets/images/brand/app-icons-splash-screens/splash-screens/selara.png', import.meta.url).href,
 ];
 
 const AppIconsSplashScreens: React.FC<AppIconsSplashScreensProps> = ({ onBack }) => {
@@ -577,7 +575,7 @@ const AppIconsSplashScreens: React.FC<AppIconsSplashScreensProps> = ({ onBack })
           </SectionHeader>
           <CompositionCard>
             <CompositionImage
-              src={assetUrl('../assets/images/brand/app-icons-splash-screens/full-composition.png')}
+              src={new URL('../assets/images/brand/app-icons-splash-screens/full-composition.png', import.meta.url).href}
               alt={t.appIcons.fullCompositionAlt}
             />
           </CompositionCard>
