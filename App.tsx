@@ -11,6 +11,7 @@ import { AppView } from './views.ts';
 import { SectionId } from './types.ts';
 import AppIconsSplashScreens from './components/AppIconsSplashScreens.tsx';
 import ScrollProgress from './components/ScrollProgress.tsx';
+import { nonTokenValues } from './design-system/nonTokenValues.ts';
 
 const pulse = keyframes`
   0%, 100% { opacity: 0.6; }
@@ -18,7 +19,7 @@ const pulse = keyframes`
 `;
 
 const AppShell = styled.div`
-  min-height: 100vh;
+  min-height: ${nonTokenValues.layout.fullViewportHeight};
   position: relative;
   color: ${({ theme }) => theme.colors.slate[900]};
   background: ${({ theme }) => theme.colors.white};
@@ -27,16 +28,16 @@ const AppShell = styled.div`
 const Background = styled.div`
   position: fixed;
   inset: 0;
-  z-index: 0;
+  z-index: ${nonTokenValues.zIndex.background};
   pointer-events: none;
   overflow: hidden;
 `;
 
 const GradientBlob = styled.div<{ $position: 'top-left' | 'top-right' | 'bottom-left' }>`
   position: absolute;
-  border-radius: 999px;
-  filter: blur(120px);
-  opacity: 0.7;
+  border-radius: ${({ theme }) => theme.radii.full};
+  filter: blur(${nonTokenValues.effects.blurBlob});
+  opacity: ${nonTokenValues.effects.blobOpacity};
   animation: ${pulse} 3s ease-in-out infinite;
 
   ${({ $position }) =>
@@ -46,7 +47,7 @@ const GradientBlob = styled.div<{ $position: 'top-left' | 'top-right' | 'bottom-
       left: -10%;
       width: 50%;
       height: 50%;
-      background: rgba(59, 130, 246, 0.2);
+      background: ${nonTokenValues.effects.blobBlue};
     `}
 
   ${({ $position }) =>
@@ -56,7 +57,7 @@ const GradientBlob = styled.div<{ $position: 'top-left' | 'top-right' | 'bottom-
       right: -10%;
       width: 40%;
       height: 40%;
-      background: rgba(124, 58, 237, 0.2);
+      background: ${nonTokenValues.effects.blobPurple};
       animation: none;
     `}
 
@@ -67,14 +68,14 @@ const GradientBlob = styled.div<{ $position: 'top-left' | 'top-right' | 'bottom-
       left: 20%;
       width: 50%;
       height: 50%;
-      background: rgba(236, 72, 153, 0.2);
+      background: ${nonTokenValues.effects.blobPink};
       animation: none;
     `}
 `;
 
 const Foreground = styled.div`
   position: relative;
-  z-index: 1;
+  z-index: ${nonTokenValues.zIndex.foreground};
 `;
 
 const LanguageSwitch = styled.div`
@@ -82,21 +83,21 @@ const LanguageSwitch = styled.div`
   right: ${({ theme }) => theme.spacing[6]};
   top: 50%;
   transform: translateY(-50%);
-  z-index: 50;
+  z-index: ${nonTokenValues.zIndex.nav};
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing[1]};
   padding: ${({ theme }) => theme.spacing[2]};
   border-radius: ${({ theme }) => theme.radii.full};
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(12px);
+  background: ${nonTokenValues.effects.glassWhite80};
+  backdrop-filter: blur(${nonTokenValues.effects.blurGlass});
   box-shadow: ${({ theme }) => theme.shadows.md};
-  border: 1px solid ${({ theme }) => theme.colors.slate[100]};
+  border: ${nonTokenValues.sizing.hairline} solid ${({ theme }) => theme.colors.slate[100]};
 `;
 
 const LangButton = styled.button<{ $active: boolean }>`
-  width: 40px;
-  height: 40px;
+  width: ${({ theme }) => theme.spacing[8]};
+  height: ${({ theme }) => theme.spacing[8]};
   border-radius: ${({ theme }) => theme.radii.full};
   border: none;
   font-size: ${({ theme }) => theme.typography.sizes.xs};

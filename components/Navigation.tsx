@@ -3,21 +3,22 @@ import styled from 'styled-components';
 import { SectionId } from '../types.ts';
 import { Menu, X, FileText } from 'lucide-react';
 import { useLanguage } from '../i18n.tsx';
+import { nonTokenValues } from '../design-system/nonTokenValues.ts';
 
 const NavShell = styled.nav<{ $scrolled: boolean }>`
   position: fixed;
   top: ${({ theme }) => theme.spacing[4]};
   left: 50%;
   transform: translateX(-50%);
-  z-index: 50;
-  width: 95%;
-  max-width: 1024px;
+  z-index: ${nonTokenValues.zIndex.nav};
+  width: ${nonTokenValues.layout.navWidth};
+  max-width: ${nonTokenValues.layout.navMaxWidth};
   border-radius: ${({ theme }) => theme.radii['2xl']};
   padding: ${({ theme, $scrolled }) => ($scrolled ? `${theme.spacing[3]} ${theme.spacing[8]}` : `${theme.spacing[6]} ${theme.spacing[8]}`)};
-  background: ${({ $scrolled }) => ($scrolled ? 'rgba(255, 255, 255, 0.7)' : 'transparent')};
-  backdrop-filter: ${({ $scrolled }) => ($scrolled ? 'blur(18px)' : 'none')};
+  background: ${({ $scrolled }) => ($scrolled ? nonTokenValues.effects.glassWhite70 : 'transparent')};
+  backdrop-filter: ${({ $scrolled }) => ($scrolled ? `blur(${nonTokenValues.effects.blurStrong})` : 'none')};
   box-shadow: ${({ theme, $scrolled }) => ($scrolled ? theme.shadows.lg : 'none')};
-  border: ${({ $scrolled }) => ($scrolled ? '1px solid rgba(255, 255, 255, 0.2)' : 'none')};
+  border: ${({ $scrolled }) => ($scrolled ? `${nonTokenValues.sizing.hairline} solid ${nonTokenValues.effects.glassWhite20}` : 'none')};
   transition: all 0.5s ease;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
@@ -130,7 +131,7 @@ const PrimaryAction = styled.button`
 
   &:hover {
     background: ${({ theme }) => theme.colors.brand.purple};
-    transform: translateY(-1px) scale(1.02);
+    transform: translateY(${nonTokenValues.motion.hoverLiftSm}) scale(${nonTokenValues.motion.scaleHover});
   }
 
   &:active {
@@ -156,14 +157,14 @@ const MobileToggle = styled.button`
 const MobileMenu = styled.div<{ $open: boolean }>`
   position: fixed;
   inset: 0;
-  z-index: 40;
+  z-index: ${nonTokenValues.zIndex.mobileMenu};
   padding: ${({ theme }) => theme.spacing[8]};
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: ${({ theme }) => theme.spacing[8]};
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
+  background: ${nonTokenValues.effects.glassWhite95};
+  backdrop-filter: blur(${nonTokenValues.effects.blurMenu});
   opacity: ${({ $open }) => ($open ? 1 : 0)};
   pointer-events: ${({ $open }) => ($open ? 'auto' : 'none')};
   transition: all 0.5s ease;
@@ -191,7 +192,7 @@ const MobileLink = styled.button`
 
 const MobileFooter = styled.div`
   padding-top: ${({ theme }) => theme.spacing[8]};
-  border-top: 1px solid ${({ theme }) => theme.colors.slate[100]};
+  border-top: ${nonTokenValues.sizing.hairline} solid ${({ theme }) => theme.colors.slate[100]};
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing[4]};
@@ -232,7 +233,7 @@ const Navigation: React.FC<NavigationProps> = ({ onNavigate }) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > nonTokenValues.navigation.scrollThreshold);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);

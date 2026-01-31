@@ -3,12 +3,13 @@ import styled from 'styled-components';
 import { SOCIALS, DESIGNER_NAME } from '../constants.ts';
 import { Twitter, Linkedin, Dribbble, Mail } from 'lucide-react';
 import { useLanguage } from '../i18n.tsx';
+import { nonTokenValues } from '../design-system/nonTokenValues.ts';
 
 const FooterShell = styled.footer`
   background: ${({ theme }) => theme.colors.white};
   color: ${({ theme }) => theme.colors.slate[900]};
   padding: ${({ theme }) => theme.spacing[12]} ${({ theme }) => theme.spacing[6]};
-  border-top: 1px solid ${({ theme }) => theme.colors.slate[100]};
+  border-top: ${nonTokenValues.sizing.hairline} solid ${({ theme }) => theme.colors.slate[100]};
 `;
 
 const FooterContent = styled.div`
@@ -53,8 +54,8 @@ const SocialRow = styled.div`
 `;
 
 const SocialLink = styled.a`
-  width: 40px;
-  height: 40px;
+  width: ${({ theme }) => theme.spacing[8]};
+  height: ${({ theme }) => theme.spacing[8]};
   border-radius: ${({ theme }) => theme.radii.full};
   background: ${({ theme }) => theme.colors.slate[50]};
   display: inline-flex;
@@ -67,7 +68,7 @@ const SocialLink = styled.a`
   &:hover {
     color: ${({ theme }) => theme.colors.white};
     background: ${({ theme }) => theme.colors.slate[900]};
-    transform: translateY(-4px);
+    transform: translateY(${nonTokenValues.motion.hoverLiftMd});
   }
 `;
 

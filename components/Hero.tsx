@@ -4,20 +4,21 @@ import { SectionId } from '../types';
 import { ArrowDown, Figma, PenTool, Image as ImageIcon, Gamepad2 } from 'lucide-react';
 import { useLanguage } from '../i18n.tsx';
 import Text from '../design-system/components/Text.tsx';
+import { nonTokenValues } from '../design-system/nonTokenValues.ts';
 
 const float = keyframes`
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
+  50% { transform: translateY(${nonTokenValues.motion.floatOffset}); }
 `;
 
 const reveal = keyframes`
-  0% { opacity: 0; transform: translateY(30px); }
+  0% { opacity: 0; transform: translateY(${nonTokenValues.motion.revealOffset}); }
   100% { opacity: 1; transform: translateY(0); }
 `;
 
 const Section = styled.section`
   position: relative;
-  min-height: 100vh;
+  min-height: ${nonTokenValues.layout.fullViewportHeight};
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -30,7 +31,7 @@ const Section = styled.section`
 const Content = styled.div`
   position: relative;
   z-index: 1;
-  max-width: 960px;
+  max-width: ${nonTokenValues.layout.heroContentMaxWidth};
   margin: 0 auto;
   animation: ${reveal} 0.8s cubic-bezier(0, 0, 0.2, 1) forwards;
 `;
@@ -60,17 +61,17 @@ const AvailabilityPill = styled.div`
   align-items: center;
   gap: ${({ theme }) => theme.spacing[2]};
   padding: ${({ theme }) => theme.spacing[2]} ${({ theme }) => theme.spacing[4]};
-  background: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(10px);
-  border: 1px solid ${({ theme }) => theme.colors.slate[200]};
+  background: ${nonTokenValues.effects.glassWhite50};
+  backdrop-filter: blur(${nonTokenValues.effects.blurSoft});
+  border: ${nonTokenValues.sizing.hairline} solid ${({ theme }) => theme.colors.slate[200]};
   border-radius: ${({ theme }) => theme.radii.full};
   margin-bottom: ${({ theme }) => theme.spacing[8]};
   box-shadow: ${({ theme }) => theme.shadows.sm};
 `;
 
 const PulseDot = styled.span`
-  width: 8px;
-  height: 8px;
+  width: ${({ theme }) => theme.spacing[2]};
+  height: ${({ theme }) => theme.spacing[2]};
   border-radius: ${({ theme }) => theme.radii.full};
   background: #22c55e;
   animation: ${float} 3s ease-in-out infinite;
@@ -108,7 +109,7 @@ const GradientText = styled.span`
 
 const Lead = styled(Text)`
   margin: 0 auto ${({ theme }) => theme.spacing[12]} auto;
-  max-width: 560px;
+  max-width: ${nonTokenValues.layout.heroLeadMaxWidth};
   color: ${({ theme }) => theme.colors.slate[500]};
   font-size: ${({ theme }) => theme.typography.sizes.lg};
   line-height: ${({ theme }) => theme.typography.lineHeights.relaxed};
@@ -146,7 +147,7 @@ const PrimaryButton = styled.button`
 
   &:hover {
     background: ${({ theme }) => theme.colors.brand.purple};
-    transform: translateY(-1px);
+    transform: translateY(${nonTokenValues.motion.hoverLiftSm});
     box-shadow: ${({ theme }) => theme.shadows.lg};
   }
 `;
@@ -155,7 +156,7 @@ const ArrowIcon = styled(ArrowDown)`
   transition: transform 0.2s ease;
 
   ${PrimaryButton}:hover & {
-    transform: translateY(4px);
+    transform: translateY(${nonTokenValues.motion.arrowDrop});
   }
 `;
 
@@ -165,16 +166,16 @@ const Hero: React.FC = () => {
   return (
     <Section id={SectionId.HERO}>
       <Content>
-        <FloatingIcon style={{ left: '-48px', top: 0 }}>
+        <FloatingIcon style={{ left: nonTokenValues.sizing.heroFloatLeftOffset, top: 0 }}>
           <Figma color="#7c3aed" size={32} />
         </FloatingIcon>
-        <FloatingIconDelayed style={{ right: '-48px', top: 80 }}>
+        <FloatingIconDelayed style={{ right: nonTokenValues.sizing.heroFloatRightOffset, top: nonTokenValues.sizing.heroFloatRightTop }}>
           <PenTool color="#3b82f6" size={32} />
         </FloatingIconDelayed>
-        <FloatingIconDelayed style={{ left: '40px', bottom: 0 }}>
+        <FloatingIconDelayed style={{ left: nonTokenValues.sizing.heroFloatLeftAlt, bottom: 0 }}>
           <ImageIcon color="#ec4899" size={32} />
         </FloatingIconDelayed>
-        <FloatingIcon style={{ right: 0, bottom: 40 }}>
+        <FloatingIcon style={{ right: 0, bottom: nonTokenValues.sizing.heroFloatRightBottom }}>
           <Gamepad2 color="#10b981" size={32} />
         </FloatingIcon>
 

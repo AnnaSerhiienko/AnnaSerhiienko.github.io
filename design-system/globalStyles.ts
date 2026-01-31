@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { nonTokenValues } from './nonTokenValues.ts';
 
 export const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {
@@ -7,7 +8,7 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     margin: 0;
-    min-height: 100vh;
+    min-height: ${nonTokenValues.layout.fullViewportHeight};
     font-family: ${({ theme }) => theme.typography.fonts.sans};
     color: ${({ theme }) => theme.colors.slate[900]};
     background: ${({ theme }) => theme.colors.white};
@@ -27,7 +28,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   ::-webkit-scrollbar {
-    width: 6px;
+    width: ${nonTokenValues.sizing.scrollbarWidth};
   }
 
   ::-webkit-scrollbar-track {

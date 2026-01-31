@@ -2,13 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import { SectionId } from '../types.ts';
 import Text from '../design-system/components/Text.tsx';
+import { nonTokenValues } from '../design-system/nonTokenValues.ts';
 
 const Section = styled.section`
   padding: ${({ theme }) => theme.spacing[12]} ${({ theme }) => theme.spacing[6]};
 `;
 
 const Container = styled.div`
-  max-width: 720px;
+  max-width: ${nonTokenValues.layout.contactMaxWidth};
   margin: 0 auto;
   text-align: center;
 `;
@@ -30,7 +31,7 @@ const Title = styled(Text)`
 
 const Subtitle = styled(Text)`
   margin: 0 auto;
-  max-width: 480px;
+  max-width: ${nonTokenValues.layout.contactSubtitleMaxWidth};
   color: ${({ theme }) => theme.colors.slate[500]};
   font-size: ${({ theme }) => theme.typography.sizes.lg};
   line-height: ${({ theme }) => theme.typography.lineHeights.relaxed};

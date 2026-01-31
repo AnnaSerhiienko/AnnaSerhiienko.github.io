@@ -5,10 +5,11 @@ import { SKILLS } from '../constants.ts';
 import { Check, Star } from 'lucide-react';
 import { useLanguage, getSkillTranslation } from '../i18n.tsx';
 import Text from '../design-system/components/Text.tsx';
+import { nonTokenValues } from '../design-system/nonTokenValues.ts';
 
 const float = keyframes`
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
+  50% { transform: translateY(${nonTokenValues.motion.floatOffset}); }
 `;
 
 const Section = styled.section`
@@ -21,8 +22,8 @@ const Section = styled.section`
 const Watermark = styled.div`
   position: absolute;
   top: ${({ theme }) => theme.spacing[10]};
-  right: -5%;
-  font-size: 20vw;
+  right: ${nonTokenValues.layout.aboutWatermarkOffsetX};
+  font-size: ${nonTokenValues.layout.aboutWatermarkFontSize};
   font-family: ${({ theme }) => theme.typography.fonts.serif};
   font-style: italic;
   color: ${({ theme }) => theme.colors.slate[50]};
@@ -59,7 +60,7 @@ const PortraitCard = styled.div`
   overflow: hidden;
   aspect-ratio: 4 / 5;
   box-shadow: ${({ theme }) => theme.shadows.card};
-  border: 8px solid ${({ theme }) => theme.colors.white};
+  border: ${({ theme }) => theme.spacing[2]} solid ${({ theme }) => theme.colors.white};
 
   &:hover img {
     transform: scale(1.1);
@@ -80,7 +81,7 @@ const PortraitImage = styled.img`
 const PortraitOverlay = styled.div`
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(99, 102, 241, 0.2), transparent);
+  background: ${nonTokenValues.effects.aboutOverlayGradient};
   opacity: 0;
   transition: opacity 0.3s ease;
 `;
@@ -93,9 +94,9 @@ const ExperienceCard = styled.div`
   padding: ${({ theme }) => theme.spacing[8]};
   border-radius: ${({ theme }) => theme.radii['3xl']};
   box-shadow: ${({ theme }) => theme.shadows.lg};
-  border: 1px solid ${({ theme }) => theme.colors.slate[100]};
+  border: ${nonTokenValues.sizing.hairline} solid ${({ theme }) => theme.colors.slate[100]};
   animation: ${float} 6s ease-in-out infinite;
-  max-width: 200px;
+  max-width: ${nonTokenValues.layout.aboutExperienceMaxWidth};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
     right: -${({ theme }) => theme.spacing[10]};
@@ -195,8 +196,8 @@ const SkillsTitle = styled.h3`
 `;
 
 const SkillsDivider = styled.div`
-  width: 32px;
-  height: 1px;
+  width: ${({ theme }) => theme.spacing[7]};
+  height: ${nonTokenValues.sizing.hairline};
   background: ${({ theme }) => theme.colors.slate[900]};
 `;
 
@@ -218,8 +219,8 @@ const SkillItem = styled.div`
 `;
 
 const SkillIcon = styled.div`
-  width: 20px;
-  height: 20px;
+  width: ${({ theme }) => theme.spacing[5]};
+  height: ${({ theme }) => theme.spacing[5]};
   border-radius: ${({ theme }) => theme.radii.full};
   background: ${({ theme }) => theme.colors.slate[100]};
   display: inline-flex;

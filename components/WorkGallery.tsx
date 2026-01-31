@@ -4,9 +4,10 @@ import { SectionId, Project } from '../types.ts';
 import { PROJECTS, WORK_CATEGORIES } from '../constants.ts';
 import { ArrowUpRight, Filter, X, ExternalLink, Tag } from 'lucide-react';
 import { useLanguage, getCategoryTranslation } from '../i18n.tsx';
+import { nonTokenValues } from '../design-system/nonTokenValues.ts';
 
 const reveal = keyframes`
-  0% { opacity: 0; transform: translateY(30px); }
+  0% { opacity: 0; transform: translateY(${nonTokenValues.motion.revealOffset}); }
   100% { opacity: 1; transform: translateY(0); }
 `;
 
@@ -17,7 +18,7 @@ const fadeIn = keyframes`
 
 const Section = styled.section`
   padding: ${({ theme }) => theme.spacing[12]} ${({ theme }) => theme.spacing[6]};
-  background: rgba(248, 250, 252, 0.6);
+  background: ${nonTokenValues.effects.sectionWash};
 `;
 
 const Container = styled.div`
@@ -39,7 +40,7 @@ const Header = styled.div`
 `;
 
 const HeadingGroup = styled.div`
-  max-width: 520px;
+  max-width: ${nonTokenValues.layout.workHeadingMaxWidth};
 `;
 
 const Title = styled.h2`
@@ -80,7 +81,7 @@ const CategoryButton = styled.button<{ $active: boolean }>`
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
   cursor: pointer;
   transition: all 0.3s ease;
-  border: 1px solid ${({ theme, $active }) => ($active ? 'transparent' : theme.colors.slate[100])};
+  border: ${nonTokenValues.sizing.hairline} solid ${({ theme, $active }) => ($active ? 'transparent' : theme.colors.slate[100])};
   color: ${({ theme, $active }) => ($active ? theme.colors.white : theme.colors.slate[400])};
   background: ${({ theme, $active }) => ($active ? theme.colors.slate[900] : theme.colors.white)};
   box-shadow: ${({ theme, $active }) => ($active ? theme.shadows.md : 'none')};
@@ -121,7 +122,7 @@ const MediaFrame = styled.div`
   transition: transform 0.5s ease, box-shadow 0.5s ease;
 
   ${Card}:hover & {
-    transform: translateY(-8px);
+    transform: translateY(${nonTokenValues.motion.hoverLiftLg});
     box-shadow: ${({ theme }) => theme.shadows.lg};
   }
 `;
@@ -161,7 +162,7 @@ const CardOverlay = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   padding: ${({ theme }) => theme.spacing[10]};
-  background: linear-gradient(to top, rgba(15, 23, 42, 0.8), transparent);
+  background: ${nonTokenValues.effects.cardOverlayGradient};
   opacity: 0;
   transition: opacity 0.5s ease;
 
@@ -171,7 +172,7 @@ const CardOverlay = styled.div`
 `;
 
 const CardCategory = styled.span`
-  color: rgba(255, 255, 255, 0.6);
+  color: ${nonTokenValues.effects.overlayWhite60};
   font-size: ${({ theme }) => theme.typography.sizes.xs};
   font-weight: ${({ theme }) => theme.typography.weights.bold};
   text-transform: uppercase;
@@ -187,8 +188,8 @@ const CardTitle = styled.h3`
 `;
 
 const CardAction = styled.div`
-  width: 48px;
-  height: 48px;
+  width: ${({ theme }) => theme.spacing[9]};
+  height: ${({ theme }) => theme.spacing[9]};
   background: ${({ theme }) => theme.colors.white};
   border-radius: ${({ theme }) => theme.radii.full};
   display: inline-flex;
@@ -208,7 +209,7 @@ const EmptyState = styled.div`
   padding: ${({ theme }) => theme.spacing[16]} ${({ theme }) => theme.spacing[6]};
   background: ${({ theme }) => theme.colors.white};
   border-radius: ${({ theme }) => theme.radii['4xl']};
-  border: 2px dashed ${({ theme }) => theme.colors.slate[100]};
+  border: ${nonTokenValues.sizing.dashedBorderWidth} dashed ${({ theme }) => theme.colors.slate[100]};
 `;
 
 const EmptyText = styled.p`
@@ -222,7 +223,7 @@ const EmptyText = styled.p`
 const ModalOverlay = styled.div`
   position: fixed;
   inset: 0;
-  z-index: 100;
+  z-index: ${nonTokenValues.zIndex.modal};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -237,21 +238,21 @@ const ModalOverlay = styled.div`
 const ModalBackdrop = styled.div`
   position: absolute;
   inset: 0;
-  background: rgba(15, 23, 42, 0.95);
-  backdrop-filter: blur(18px);
+  background: ${nonTokenValues.effects.overlayDark95};
+  backdrop-filter: blur(${nonTokenValues.effects.blurStrong});
 `;
 
 const ModalCard = styled.div`
   position: relative;
   width: 100%;
-  max-width: 1150px;
+  max-width: ${nonTokenValues.layout.workModalMaxWidth};
   background: ${({ theme }) => theme.colors.white};
   border-radius: ${({ theme }) => theme.radii['4xl']};
   overflow: hidden;
   box-shadow: ${({ theme }) => theme.shadows.xl};
   display: flex;
   flex-direction: column;
-  max-height: 90vh;
+  max-height: ${nonTokenValues.layout.workModalMaxHeight};
   animation: ${reveal} 0.6s cubic-bezier(0, 0, 0.2, 1);
 
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
@@ -263,19 +264,19 @@ const CloseButton = styled.button`
   position: absolute;
   top: ${({ theme }) => theme.spacing[6]};
   right: ${({ theme }) => theme.spacing[6]};
-  z-index: 2;
-  width: 48px;
-  height: 48px;
+  z-index: ${nonTokenValues.zIndex.closeButton};
+  width: ${({ theme }) => theme.spacing[9]};
+  height: ${({ theme }) => theme.spacing[9]};
   border-radius: ${({ theme }) => theme.radii.full};
   border: none;
-  background: rgba(255, 255, 255, 0.1);
+  background: ${nonTokenValues.effects.glassWhite10};
   color: ${({ theme }) => theme.colors.slate[900]};
   cursor: pointer;
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(${nonTokenValues.effects.blurGlass});
   transition: background 0.2s ease;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: ${nonTokenValues.effects.glassWhite20};
   }
 `;
 
@@ -283,7 +284,7 @@ const ModalMedia = styled.div`
   width: 100%;
   background: ${({ theme }) => theme.colors.slate[100]};
   overflow: hidden;
-  height: 300px;
+  height: ${nonTokenValues.layout.workModalMediaHeight};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
     width: 60%;
@@ -372,13 +373,13 @@ const TechBadge = styled.span`
   font-size: ${({ theme }) => theme.typography.sizes.xs};
   font-weight: ${({ theme }) => theme.typography.weights.bold};
   color: ${({ theme }) => theme.colors.slate[600]};
-  border: 1px solid ${({ theme }) => theme.colors.slate[100]};
+  border: ${nonTokenValues.sizing.hairline} solid ${({ theme }) => theme.colors.slate[100]};
 `;
 
 const ModalFooter = styled.div`
   margin-top: auto;
   padding-top: ${({ theme }) => theme.spacing[8]};
-  border-top: 1px solid ${({ theme }) => theme.colors.slate[100]};
+  border-top: ${nonTokenValues.sizing.hairline} solid ${({ theme }) => theme.colors.slate[100]};
 `;
 
 const ModalLink = styled.a`
@@ -396,7 +397,7 @@ const ModalLink = styled.a`
 
   &:hover {
     background: ${({ theme }) => theme.colors.brand.purple};
-    transform: translateY(-1px);
+    transform: translateY(${nonTokenValues.motion.hoverLiftSm});
   }
 `;
 

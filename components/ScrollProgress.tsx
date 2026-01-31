@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { nonTokenValues } from '../design-system/nonTokenValues.ts';
 
 const Bar = styled.div.attrs<{ $width: number }>(({ $width }) => ({
   style: { width: `${$width}%` },
@@ -7,9 +8,9 @@ const Bar = styled.div.attrs<{ $width: number }>(({ $width }) => ({
   position: fixed;
   top: 0;
   left: 0;
-  height: 3px;
+  height: ${nonTokenValues.sizing.progressBarHeight};
   background: linear-gradient(90deg, #6366f1, #ec4899);
-  z-index: 100;
+  z-index: ${nonTokenValues.zIndex.progress};
   transition: width 0.1s ease;
 `;
 

@@ -4,10 +4,11 @@ import styled from 'styled-components';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../i18n.tsx';
 import { DESIGNER_NAME } from '../constants.ts';
+import { nonTokenValues } from '../design-system/nonTokenValues.ts';
 
 const Wrapper = styled.section`
-  min-height: 100vh;
-  background: linear-gradient(135deg, rgba(248, 250, 252, 0.9), rgba(236, 254, 255, 0.6));
+  min-height: ${nonTokenValues.layout.fullViewportHeight};
+  background: ${nonTokenValues.effects.appIconsBackground};
   padding-bottom: ${({ theme }) => theme.spacing[16]};
 `;
 
@@ -19,10 +20,10 @@ const Container = styled.div`
 const Header = styled.header`
   position: sticky;
   top: 0;
-  z-index: 20;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(18px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  z-index: ${nonTokenValues.zIndex.stickyHeader};
+  background: ${nonTokenValues.effects.glassWhite70};
+  backdrop-filter: blur(${nonTokenValues.effects.blurStrong});
+  border-bottom: ${nonTokenValues.sizing.hairline} solid ${nonTokenValues.effects.overlayWhite40};
 `;
 
 const HeaderInner = styled.div`
@@ -87,7 +88,7 @@ const Title = styled.h1`
 `;
 
 const Lead = styled.p`
-  max-width: 560px;
+  max-width: ${nonTokenValues.layout.appIconsHeroLeadMaxWidth};
   font-size: ${({ theme }) => theme.typography.sizes.lg};
   line-height: ${({ theme }) => theme.typography.lineHeights.relaxed};
   color: ${({ theme }) => theme.colors.slate[500]};
@@ -106,8 +107,8 @@ const SectionHeader = styled.div`
 `;
 
 const SectionLine = styled.div<{ $light?: boolean }>`
-  width: 48px;
-  height: 1px;
+  width: ${({ theme }) => theme.spacing[9]};
+  height: ${nonTokenValues.sizing.hairline};
   background: ${({ theme, $light }) => ($light ? theme.colors.white : theme.colors.slate[900])};
 `;
 
@@ -138,7 +139,7 @@ const IconCard = styled.div`
   transition: transform 0.4s ease;
 
   &:hover {
-    transform: translateY(-10px) scale(1.02);
+    transform: translateY(${nonTokenValues.motion.iconLift}) scale(${nonTokenValues.motion.scaleHover});
   }
 `;
 
@@ -146,7 +147,7 @@ const IconFrame = styled.div`
   aspect-ratio: 1 / 1;
   border-radius: ${({ theme }) => theme.radii['3xl']};
   background: ${({ theme }) => theme.colors.white};
-  border: 1px solid ${({ theme }) => theme.colors.slate[100]};
+  border: ${nonTokenValues.sizing.hairline} solid ${({ theme }) => theme.colors.slate[100]};
   box-shadow: ${({ theme }) => theme.shadows.md};
   padding: ${({ theme }) => theme.spacing[4]};
   display: flex;
@@ -173,22 +174,22 @@ const CarouselSection = styled.section`
   position: relative;
   padding: ${({ theme }) => theme.spacing[12]} ${({ theme }) => theme.spacing[6]};
   margin-top: ${({ theme }) => theme.spacing[10]};
-  background: linear-gradient(180deg, #020617, #0f172a, #020617);
+  background: ${nonTokenValues.effects.carouselBackground};
   overflow: hidden;
 `;
 
 const CarouselBackdrop = styled.div`
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, rgba(124, 58, 237, 0.08) 0%, rgba(15, 23, 42, 0.95) 60%);
+  background: ${nonTokenValues.effects.carouselBackdrop};
 `;
 
 const CarouselShell = styled.div`
   position: relative;
-  width: 100vw;
+  width: ${nonTokenValues.layout.fullViewportWidth};
   left: 50%;
   transform: translateX(-50%);
-  padding: 0 20px;
+  padding: ${nonTokenValues.sizing.carouselShellPadding};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     width: 100%;
@@ -202,7 +203,7 @@ const CarouselSlider = styled(Slider)`
   padding: ${({ theme }) => theme.spacing[6]} ${({ theme }) => theme.spacing[6]};
 
   .slick-slide {
-    padding: 0 8px;
+    padding: ${nonTokenValues.sizing.carouselSlidePadding};
   }
 
   .slick-list {
@@ -218,16 +219,16 @@ const CarouselSlider = styled(Slider)`
   .slick-next {
     z-index: 5;
     top: 50%;
-    width: 40px;
-    height: 40px;
+    width: ${({ theme }) => theme.spacing[8]};
+    height: ${({ theme }) => theme.spacing[8]};
   }
 
   .slick-prev {
-    left: 16px;
+    left: ${({ theme }) => theme.spacing[4]};
   }
 
   .slick-next {
-    right: 16px;
+    right: ${({ theme }) => theme.spacing[4]};
   }
 
   .slick-prev:before,
@@ -236,31 +237,31 @@ const CarouselSlider = styled(Slider)`
   }
 
   .slick-slide .carousel-card {
-    opacity: 0.55;
-    transform: scale(0.9);
+    opacity: ${nonTokenValues.effects.carouselCardOpacity};
+    transform: scale(${nonTokenValues.motion.scaleDown});
     transition: transform 0.4s ease, opacity 0.4s ease, filter 0.4s ease;
     pointer-events: none;
   }
 
   .slick-center .carousel-card {
     opacity: 1;
-    transform: scale(1.05);
-    filter: drop-shadow(0 24px 50px rgba(0, 0, 0, 0.45));
+    transform: scale(${nonTokenValues.motion.scaleActive});
+    filter: ${nonTokenValues.effects.carouselDropShadow};
     pointer-events: auto;
   }
 
   .slick-slide .carousel-caption {
-    opacity: 0.6;
-    transform: scale(0.92);
-    margin-top: 10px;
+    opacity: ${nonTokenValues.effects.carouselCaptionOpacity};
+    transform: scale(${nonTokenValues.motion.scaleCaptionDown});
+    margin-top: ${nonTokenValues.sizing.carouselCaptionOffsetSm};
     transition: transform 0.4s ease, color 0.4s ease, opacity 0.4s ease, margin-top 0.4s ease;
   }
 
   .slick-center .carousel-caption {
-    margin-top: 18px;
+    margin-top: ${nonTokenValues.sizing.carouselCaptionOffsetLg};
     opacity: 1;
-    transform: scale(1.05);
-    color: rgba(255, 255, 255, 0.98);
+    transform: scale(${nonTokenValues.motion.scaleActive});
+    color: ${nonTokenValues.effects.overlayWhite98};
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
@@ -271,7 +272,7 @@ const CarouselSlider = styled(Slider)`
     }
 
     .slick-slide {
-      padding: 0 4px;
+      padding: ${nonTokenValues.sizing.carouselSlidePaddingSm};
     }
 
     .slick-slide .carousel-card {
@@ -283,7 +284,7 @@ const CarouselSlider = styled(Slider)`
     .slick-slide .carousel-caption {
       opacity: 1;
       transform: scale(1);
-      margin-top: 10px;
+      margin-top: ${nonTokenValues.sizing.carouselCaptionOffsetSm};
     }
 
     .slick-prev,
@@ -297,8 +298,8 @@ const CarouselCard = styled.div`
   aspect-ratio: 9 / 16;
   border-radius: ${({ theme }) => theme.radii['2xl']};
   overflow: hidden;
-  background: #0f172a;
-  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.35);
+  background: ${({ theme }) => theme.colors.slate[900]};
+  box-shadow: ${nonTokenValues.effects.carouselCardShadow};
 `;
 
 const CarouselMedia = styled.img`
@@ -312,17 +313,17 @@ const CarouselCaption = styled.p`
   text-align: center;
   font-size: ${({ theme }) => theme.typography.sizes.xs};
   font-weight: ${({ theme }) => theme.typography.weights.medium};
-  color: rgba(226, 232, 240, 0.8);
+  color: ${nonTokenValues.effects.carouselCaptionMuted};
 `;
 
 const ArrowButton = styled.button`
-  width: 40px;
-  height: 40px;
+  width: ${({ theme }) => theme.spacing[8]};
+  height: ${({ theme }) => theme.spacing[8]};
   border-radius: ${({ theme }) => theme.radii.full};
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.1);
+  border: ${nonTokenValues.sizing.hairline} solid ${nonTokenValues.effects.glassWhite20};
+  background: ${nonTokenValues.effects.glassWhite10};
   color: ${({ theme }) => theme.colors.white};
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(${nonTokenValues.effects.blurGlass});
   cursor: pointer;
   transition: background 0.2s ease;
   display: flex;
@@ -330,7 +331,7 @@ const ArrowButton = styled.button`
   justify-content: center;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: ${nonTokenValues.effects.glassWhite20};
   }
 `;
 
@@ -355,7 +356,7 @@ const FullComposition = styled.section`
 const CompositionCard = styled.div`
   border-radius: ${({ theme }) => theme.radii['4xl']};
   overflow: hidden;
-  background: linear-gradient(135deg, rgba(196, 181, 253, 0.4), rgba(253, 242, 248, 0.5), rgba(191, 219, 254, 0.6));
+  background: ${nonTokenValues.effects.compositionGradient};
   padding: ${({ theme }) => theme.spacing[8]};
   box-shadow: ${({ theme }) => theme.shadows.card};
 
@@ -373,7 +374,7 @@ const CompositionImage = styled.img`
 
 const Footer = styled.footer`
   padding: ${({ theme }) => theme.spacing[10]} ${({ theme }) => theme.spacing[6]};
-  border-top: 1px solid ${({ theme }) => theme.colors.slate[100]};
+  border-top: ${nonTokenValues.sizing.hairline} solid ${({ theme }) => theme.colors.slate[100]};
 `;
 
 const FooterInner = styled.div`
@@ -456,37 +457,40 @@ const AppIconsSplashScreens: React.FC<AppIconsSplashScreensProps> = ({ onBack })
   const sliderSettings = useMemo(
     () => ({
       centerMode: true,
-      centerPadding: '60px',
+      centerPadding: nonTokenValues.carousel.centerPaddingLg,
       infinite: true,
-      slidesToShow: 5,
-      speed: 500,
+      slidesToShow: nonTokenValues.carousel.slidesToShowLg,
+      speed: nonTokenValues.carousel.speed,
       autoplay: true,
-      autoplaySpeed: 2800,
+      autoplaySpeed: nonTokenValues.carousel.autoplaySpeed,
       pauseOnHover: true,
       arrows: true,
       nextArrow: <SlickArrow direction="next" ariaLabel={t.appIcons.next} />,
       prevArrow: <SlickArrow direction="prev" ariaLabel={t.appIcons.previous} />,
       responsive: [
         {
-          breakpoint: 1024,
-          settings: { slidesToShow: 3, centerPadding: '40px' },
+          breakpoint: nonTokenValues.carousel.breakpointLg,
+          settings: {
+            slidesToShow: nonTokenValues.carousel.slidesToShowMd,
+            centerPadding: nonTokenValues.carousel.centerPaddingMd,
+          },
         },
         {
-          breakpoint: 640,
+          breakpoint: nonTokenValues.carousel.breakpointSm,
           settings: {
-            slidesToShow: 3,
-            slidesToScroll: 1,
-            centerPadding: '0px',
+            slidesToShow: nonTokenValues.carousel.slidesToShowSm,
+            slidesToScroll: nonTokenValues.carousel.slidesToScrollSm,
+            centerPadding: nonTokenValues.carousel.centerPaddingSm,
             centerMode: false,
             arrows: false,
           },
         },
         {
-          breakpoint: 520,
+          breakpoint: nonTokenValues.carousel.breakpointXs,
           settings: {
-            slidesToShow: 3,
-            slidesToScroll: 1,
-            centerPadding: '0px',
+            slidesToShow: nonTokenValues.carousel.slidesToShowSm,
+            slidesToScroll: nonTokenValues.carousel.slidesToScrollSm,
+            centerPadding: nonTokenValues.carousel.centerPaddingSm,
             centerMode: false,
             arrows: false,
           },
