@@ -1216,7 +1216,18 @@ Error generating stack: `+l.message+`
 
   .slick-prev,
   .slick-next {
-    z-index: 2;
+    z-index: 5;
+    top: 50%;
+    width: 40px;
+    height: 40px;
+  }
+
+  .slick-prev {
+    left: 16px;
+  }
+
+  .slick-next {
+    right: 16px;
   }
 
   .slick-prev:before,
