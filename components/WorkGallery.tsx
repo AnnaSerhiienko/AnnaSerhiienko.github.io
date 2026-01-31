@@ -435,7 +435,10 @@ const WorkGallery: React.FC = () => {
         </Header>
 
         <Grid>
-          {filteredProjects.map((project, index) => (
+          {filteredProjects.map((project, index) => {
+            const projectCopy = t.projects[project.id];
+            const projectTitle = projectCopy?.title ?? project.title;
+            return (
             <Card
               key={project.id}
               style={{ animationDelay: `${index * 0.1}s` }}
@@ -445,19 +448,20 @@ const WorkGallery: React.FC = () => {
                 {project.mediaType === 'video' ? (
                   <MediaVideo src={project.mediaUrl} muted loop playsInline autoPlay />
                 ) : (
-                  <MediaImage src={project.mediaUrl} alt={project.title} />
+                  <MediaImage src={project.mediaUrl} alt={projectTitle} />
                 )}
 
                 <CardOverlay>
                   <CardCategory>{getCategoryTranslation(project.category, t)}</CardCategory>
-                  <CardTitle>{project.title}</CardTitle>
+                  <CardTitle>{projectTitle}</CardTitle>
                   <CardAction>
                     <ArrowUpRight size={24} />
                   </CardAction>
                 </CardOverlay>
               </MediaFrame>
             </Card>
-          ))}
+          );
+          })}
         </Grid>
 
         {filteredProjects.length === 0 && (
@@ -469,11 +473,17 @@ const WorkGallery: React.FC = () => {
       </Container>
 
       {selectedProject && (
+        (() => {
+          const projectCopy = t.projects[selectedProject.id];
+          const projectTitle = projectCopy?.title ?? selectedProject.title;
+          const projectDescription = projectCopy?.description ?? selectedProject.description;
+          const projectTechnologies = projectCopy?.technologies ?? selectedProject.technologies;
+          return (
         <ModalOverlay>
           <ModalBackdrop onClick={() => setSelectedProject(null)} />
 
           <ModalCard>
-            <CloseButton onClick={() => setSelectedProject(null)} aria-label="Close">
+            <CloseButton onClick={() => setSelectedProject(null)} aria-label={t.work.close}>
               <X size={24} />
             </CloseButton>
 
@@ -481,7 +491,7 @@ const WorkGallery: React.FC = () => {
               {selectedProject.mediaType === 'video' ? (
                 <ModalMediaVideo src={selectedProject.mediaUrl} autoPlay muted loop controls />
               ) : (
-                <ModalMediaImage src={selectedProject.mediaUrl} alt={selectedProject.title} />
+                <ModalMediaImage src={selectedProject.mediaUrl} alt={projectTitle} />
               )}
             </ModalMedia>
 
@@ -491,14 +501,14 @@ const WorkGallery: React.FC = () => {
                 <TagLabel>{getCategoryTranslation(selectedProject.category, t)}</TagLabel>
               </TagRow>
 
-              <ModalTitle>{selectedProject.title}</ModalTitle>
+              <ModalTitle>{projectTitle}</ModalTitle>
 
-              <ModalDescription>{selectedProject.description}</ModalDescription>
+              <ModalDescription>{projectDescription}</ModalDescription>
 
               <TechGroup>
                 <TechTitle>{t.work.technologies}</TechTitle>
                 <TechList>
-                  {selectedProject.technologies.map((tech, idx) => (
+                  {projectTechnologies.map((tech, idx) => (
                     <TechBadge key={idx}>{tech}</TechBadge>
                   ))}
                 </TechList>
@@ -513,6 +523,8 @@ const WorkGallery: React.FC = () => {
             </ModalContent>
           </ModalCard>
         </ModalOverlay>
+          );
+        })()
       )}
     </Section>
   );

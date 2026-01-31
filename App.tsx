@@ -115,15 +115,15 @@ const LangButton = styled.button<{ $active: boolean }>`
   }
 `;
 const LanguageSwitcher: React.FC = () => {
-  const { lang, setLang } = useLanguage();
+  const { lang, setLang, t } = useLanguage();
   
   return (
     <LanguageSwitch>
-      <LangButton $active={lang === 'en'} onClick={() => setLang('en')} title="English">
-        EN
+      <LangButton $active={lang === 'en'} onClick={() => setLang('en')} title={t.languageSwitch.enTitle}>
+        {t.languageSwitch.enShort}
       </LangButton>
-      <LangButton $active={lang === 'uk'} onClick={() => setLang('uk')} title="Українська">
-        UK
+      <LangButton $active={lang === 'uk'} onClick={() => setLang('uk')} title={t.languageSwitch.ukTitle}>
+        {t.languageSwitch.ukShort}
       </LangButton>
     </LanguageSwitch>
   );

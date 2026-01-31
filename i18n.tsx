@@ -2,13 +2,22 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 export type Language = 'en' | 'uk';
 
-interface Translations {
+export interface Translations {
   // Navigation
   nav: {
     work: string;
     about: string;
     cv: string;
     hireMe: string;
+    brandText: string;
+    cvAlert: string;
+  };
+  // Language Switcher
+  languageSwitch: {
+    enShort: string;
+    ukShort: string;
+    enTitle: string;
+    ukTitle: string;
   };
   // Hero
   hero: {
@@ -16,6 +25,7 @@ interface Translations {
     heading1: string;
     heading2: string;
     viewWork: string;
+    lead: string;
   };
   // Work Gallery
   work: {
@@ -32,7 +42,16 @@ interface Translations {
     emptyState: string;
     viewProject: string;
     technologies: string;
+    close: string;
   };
+  projects: Record<
+    number,
+    {
+      title: string;
+      description: string;
+      technologies: string[];
+    }
+  >;
   // About
   about: {
     discovery: string;
@@ -42,6 +61,10 @@ interface Translations {
     years: string;
     proficiencies: string;
     bio: string;
+    watermark: string;
+    emphasis: string;
+    portraitAlt: string;
+    experienceText: string;
     skills: {
       graphicDesign: string;
       uiuxDesign: string;
@@ -52,6 +75,30 @@ interface Translations {
       figma: string;
       marketingCreatives: string;
     };
+  };
+  // Contact
+  contact: {
+    title: string;
+    subtitle: string;
+  };
+  // App Icons & Splash Screens
+  appIcons: {
+    backToPortfolio: string;
+    backToPortfolioAria: string;
+    eyebrow: string;
+    titlePrimary: string;
+    titleEmphasis: string;
+    lead: string;
+    appIconsTitle: string;
+    splashScreensTitle: string;
+    fullCompositionTitle: string;
+    fullCompositionAlt: string;
+    viewMoreProjects: string;
+    footerRights: string;
+    next: string;
+    previous: string;
+    iconLabels: string[];
+    splashLabels: string[];
   };
   // Footer
   footer: {
@@ -68,12 +115,21 @@ const translations: Record<Language, Translations> = {
       about: 'About',
       cv: 'CV',
       hireMe: 'Hire Me',
+      brandText: 'Serhiienko',
+      cvAlert: 'CV download would trigger here (anna_serhiienko_resume.pdf).',
+    },
+    languageSwitch: {
+      enShort: 'EN',
+      ukShort: 'UK',
+      enTitle: 'English',
+      ukTitle: 'Ukrainian',
     },
     hero: {
       available: 'Available for new projects',
       heading1: 'Where ideas turn into',
       heading2: 'visual reality.',
       viewWork: 'View My Work',
+      lead: "I'm Anna Serhiienko, a Graphic Designer crafting digital experiences. Specializing in Brand Identity, UI/UX, and Game Design.",
     },
     work: {
       title: 'Works',
@@ -89,6 +145,69 @@ const translations: Record<Language, Translations> = {
       emptyState: 'Quietly awaiting new masterpieces...',
       viewProject: 'View Project',
       technologies: 'Technologies',
+      close: 'Close',
+    },
+    projects: {
+      1: {
+        title: 'Lumina Brand Identity',
+        description: 'Complete visual identity system for a tech startup, including logo design, typography guidelines, and brand assets.',
+        technologies: ['Illustrator', 'Brand Strategy', 'Indesign'],
+      },
+      11: {
+        title: 'EcoLife Packaging',
+        description: 'Sustainable packaging design and identity for an organic skincare line.',
+        technologies: ['Packaging', 'Print Design', 'Photoshop'],
+      },
+      15: {
+        title: 'App Icons & Splash Screens',
+        description: 'A collection of vibrant app icons and splash screens designed for mobile applications, featuring playful characters and bold visual identities.',
+        technologies: ['Illustrator', 'Icon Design', 'Mobile Branding'],
+      },
+      2: {
+        title: 'Ethereal Finance App',
+        description: 'A reimagined mobile banking experience focusing on transparency and calm, reducing anxiety around financial management.',
+        technologies: ['Figma', 'Prototyping', 'User Research'],
+      },
+      16: {
+        title: 'Smart House App',
+        description: 'An intuitive smart home control application featuring a sleek dark interface with smooth animations. Users can effortlessly manage lighting, temperature, and connected devices with elegant micro-interactions and real-time status updates.',
+        technologies: ['Figma', 'UI Animation', 'IoT Design'],
+      },
+      6: {
+        title: 'Nebula Dashboard',
+        description: 'Dark-mode analytics dashboard for a cloud infrastructure provider, visualizing complex data streams in real-time.',
+        technologies: ['Figma', 'React', 'Motion Design'],
+      },
+      4: {
+        title: 'Summer Campaign 2024',
+        description: "A series of high-conversion social media ads and web banners for a fashion retailer's seasonal launch.",
+        technologies: ['Photoshop', 'After Effects', 'Social Media'],
+      },
+      12: {
+        title: 'Tech Summit Billboards',
+        description: 'Large format print advertisements and digital displays for an international technology conference.',
+        technologies: ['Print', 'Visual Layout', 'Advertising'],
+      },
+      5: {
+        title: 'Neon City Tales',
+        description: 'A digital illustration series exploring cyberpunk aesthetics, used for editorial features and poster art.',
+        technologies: ['Procreate', 'Digital Painting', 'Color Theory'],
+      },
+      13: {
+        title: "Children's Book Art",
+        description: "Whimsical character designs and full-page spreads for a children's storybook about space exploration.",
+        technologies: ['Vector Art', 'Character Design', 'Storytelling'],
+      },
+      10: {
+        title: 'Apex Gaming Assets',
+        description: 'Character concept art and environmental assets for a sci-fi RPG. Focused on atmospheric lighting and detailed texturing.',
+        technologies: ['Blender', 'Photoshop', 'Unity'],
+      },
+      14: {
+        title: 'Pixel Quest UI',
+        description: 'User interface elements and HUD design for a retro-style adventure game.',
+        technologies: ['Pixel Art', 'Game UI', 'Sprite Design'],
+      },
     },
     about: {
       discovery: 'Discovery',
@@ -98,6 +217,10 @@ const translations: Record<Language, Translations> = {
       years: 'Years',
       proficiencies: 'Proficiencies',
       bio: "My name is Anna Serhiienko. I have been working as a graphic designer for 5 years. I specialize in creating cohesive visual languages across various media. Whether it's crafting a unique brand identity, designing intuitive user interfaces, or building immersive game assets, I bring creativity and precision to every project.",
+      watermark: 'Creative',
+      emphasis: 'Emotion',
+      portraitAlt: 'Anna Serhiienko portrait',
+      experienceText: 'Crafting high-end visual solutions for global clients.',
       skills: {
         graphicDesign: 'Graphic Design',
         uiuxDesign: 'UI/UX Design',
@@ -108,6 +231,47 @@ const translations: Record<Language, Translations> = {
         figma: 'Figma',
         marketingCreatives: 'Marketing Creatives',
       },
+    },
+    contact: {
+      title: "Let's Create Together",
+      subtitle: 'Contact section removed.',
+    },
+    appIcons: {
+      backToPortfolio: 'Back to Portfolio',
+      backToPortfolioAria: 'Back to portfolio',
+      eyebrow: 'Mobile Branding',
+      titlePrimary: 'App Icons &',
+      titleEmphasis: 'Splash Screens',
+      lead: 'A collection of vibrant app icons and splash screens designed for mobile applications, featuring playful characters and bold visual identities.',
+      appIconsTitle: 'App Icons',
+      splashScreensTitle: 'Splash Screens',
+      fullCompositionTitle: 'Full Composition',
+      fullCompositionAlt: 'App Icons & Splash Screens Full Composition',
+      viewMoreProjects: 'View More Projects',
+      footerRights: 'All rights reserved.',
+      next: 'Next',
+      previous: 'Previous',
+      iconLabels: [
+        'Elemental Quest — Alt Icon',
+        'Monstrous Evorise',
+        'Cat Wars',
+        'Fatty Fish',
+        'Feed Me',
+        'Elemental Quest',
+        'RevBack',
+        'Selara',
+        'Sky Hero',
+      ],
+      splashLabels: [
+        'Cat Wars',
+        'Elemental Craft',
+        'Elemental Quest',
+        'Fatty Fish',
+        'Feed Me',
+        'Monstrous Evorise',
+        'RevBack',
+        'Selara',
+      ],
     },
     footer: {
       rights: 'All rights reserved.',
@@ -121,12 +285,21 @@ const translations: Record<Language, Translations> = {
       about: 'Про мене',
       cv: 'Резюме',
       hireMe: 'Найняти',
+      brandText: 'Сергієнко',
+      cvAlert: 'Завантаження резюме відбулося б тут (anna_serhiienko_resume.pdf).',
+    },
+    languageSwitch: {
+      enShort: 'EN',
+      ukShort: 'UK',
+      enTitle: 'Англійська',
+      ukTitle: 'Українська',
     },
     hero: {
       available: 'Відкрита для нових проєктів',
       heading1: 'Де ідеї перетворюються на',
       heading2: 'візуальну реальність.',
       viewWork: 'Переглянути роботи',
+      lead: 'Я Анна Сергієнко — графічна дизайнерка, що створює цифрові враження. Спеціалізуюся на айдентиці брендів, UI/UX та ігровому дизайні.',
     },
     work: {
       title: 'Роботи',
@@ -142,6 +315,69 @@ const translations: Record<Language, Translations> = {
       emptyState: 'Тихо очікуємо нових шедеврів...',
       viewProject: 'Переглянути проєкт',
       technologies: 'Технології',
+      close: 'Закрити',
+    },
+    projects: {
+      1: {
+        title: 'Lumina Brand Identity',
+        description: 'Повна система візуальної айдентики для техстартапу: логотип, типографіка та бренд-матеріали.',
+        technologies: ['Illustrator', 'Brand Strategy', 'Indesign'],
+      },
+      11: {
+        title: 'EcoLife Packaging',
+        description: 'Дизайн екопакування та айдентики для лінійки органічної косметики.',
+        technologies: ['Packaging', 'Print Design', 'Photoshop'],
+      },
+      15: {
+        title: 'App Icons & Splash Screens',
+        description: 'Колекція яскравих іконок і сплеш-екранів для мобільних застосунків із грайливими персонажами та сміливою айдентикою.',
+        technologies: ['Illustrator', 'Icon Design', 'Mobile Branding'],
+      },
+      2: {
+        title: 'Ethereal Finance App',
+        description: 'Переосмислений мобільний банкінг із фокусом на прозорість і спокій, що зменшує тривожність у фінансових питаннях.',
+        technologies: ['Figma', 'Prototyping', 'User Research'],
+      },
+      16: {
+        title: 'Smart House App',
+        description: 'Інтуїтивний застосунок для розумного дому зі стильним темним інтерфейсом і плавними анімаціями. Користувачі легко керують освітленням, температурою та пристроями завдяки елегантним мікровзаємодіям і статусам у реальному часі.',
+        technologies: ['Figma', 'UI Animation', 'IoT Design'],
+      },
+      6: {
+        title: 'Nebula Dashboard',
+        description: 'Аналітичний дашборд у темному режимі для хмарного провайдера з візуалізацією складних потоків даних у реальному часі.',
+        technologies: ['Figma', 'React', 'Motion Design'],
+      },
+      4: {
+        title: 'Summer Campaign 2024',
+        description: 'Серія конверсійних креативів для соцмереж і веббанерів під сезонний запуск модного бренду.',
+        technologies: ['Photoshop', 'After Effects', 'Social Media'],
+      },
+      12: {
+        title: 'Tech Summit Billboards',
+        description: 'Великоформатні друковані та цифрові носії для міжнародної технологічної конференції.',
+        technologies: ['Print', 'Visual Layout', 'Advertising'],
+      },
+      5: {
+        title: 'Neon City Tales',
+        description: 'Цифрова серія ілюстрацій у кіберпанк-естетиці для редакційних матеріалів і постерів.',
+        technologies: ['Procreate', 'Digital Painting', 'Color Theory'],
+      },
+      13: {
+        title: "Children's Book Art",
+        description: 'Казкові дизайни персонажів і розвороти для дитячої книжки про космічні пригоди.',
+        technologies: ['Vector Art', 'Character Design', 'Storytelling'],
+      },
+      10: {
+        title: 'Apex Gaming Assets',
+        description: 'Концепт-арт персонажів і середовища для науково-фантастичної RPG з акцентом на атмосферне освітлення та деталізовані текстури.',
+        technologies: ['Blender', 'Photoshop', 'Unity'],
+      },
+      14: {
+        title: 'Pixel Quest UI',
+        description: 'Елементи інтерфейсу та HUD для ретро-пригодницької гри.',
+        technologies: ['Pixel Art', 'Game UI', 'Sprite Design'],
+      },
     },
     about: {
       discovery: 'Знайомство',
@@ -151,6 +387,10 @@ const translations: Record<Language, Translations> = {
       years: 'Років',
       proficiencies: 'Навички',
       bio: "Мене звати Анна Сергієнко. Я працюю графічним дизайнером вже 5 років. Спеціалізуюся на створенні цілісних візуальних мов у різних медіа. Чи то створення унікальної ідентичності бренду, проєктування інтуїтивних інтерфейсів користувача, чи розробка захоплюючих ігрових ресурсів — я привношу креативність і точність у кожен проєкт.",
+      watermark: 'Творчість',
+      emphasis: 'Емоцій',
+      portraitAlt: 'Портрет Анни Сергієнко',
+      experienceText: 'Створюю преміальні візуальні рішення для клієнтів по всьому світу.',
       skills: {
         graphicDesign: 'Графічний дизайн',
         uiuxDesign: 'UI/UX дизайн',
@@ -161,6 +401,47 @@ const translations: Record<Language, Translations> = {
         figma: 'Figma',
         marketingCreatives: 'Маркетингові креативи',
       },
+    },
+    contact: {
+      title: 'Створімо разом',
+      subtitle: 'Секцію контактів видалено.',
+    },
+    appIcons: {
+      backToPortfolio: 'Повернутися до портфоліо',
+      backToPortfolioAria: 'Повернутися до портфоліо',
+      eyebrow: 'Мобільний брендинг',
+      titlePrimary: 'Іконки додатків та',
+      titleEmphasis: 'Сплеш-екрани',
+      lead: 'Колекція яскравих іконок та сплеш-екранів для мобільних застосунків із грайливими персонажами та сміливою візуальною айдентикою.',
+      appIconsTitle: 'Іконки додатків',
+      splashScreensTitle: 'Сплеш-екрани',
+      fullCompositionTitle: 'Повна композиція',
+      fullCompositionAlt: 'Повна композиція іконок і сплеш-екранів',
+      viewMoreProjects: 'Переглянути більше проєктів',
+      footerRights: 'Усі права захищено.',
+      next: 'Далі',
+      previous: 'Назад',
+      iconLabels: [
+        'Elemental Quest — Alt Icon',
+        'Monstrous Evorise',
+        'Cat Wars',
+        'Fatty Fish',
+        'Feed Me',
+        'Elemental Quest',
+        'RevBack',
+        'Selara',
+        'Sky Hero',
+      ],
+      splashLabels: [
+        'Cat Wars',
+        'Elemental Craft',
+        'Elemental Quest',
+        'Fatty Fish',
+        'Feed Me',
+        'Monstrous Evorise',
+        'RevBack',
+        'Selara',
+      ],
     },
     footer: {
       rights: 'Усі права захищено.',

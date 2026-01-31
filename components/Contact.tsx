@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { SectionId } from '../types.ts';
+import Text from '../design-system/components/Text.tsx';
 
 const Section = styled.section`
   padding: ${({ theme }) => theme.spacing[12]} ${({ theme }) => theme.spacing[6]};
@@ -16,7 +17,7 @@ const Header = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing[12]};
 `;
 
-const Title = styled.h2`
+const Title = styled(Text)`
   margin: 0 0 ${({ theme }) => theme.spacing[4]} 0;
   font-size: ${({ theme }) => theme.typography.sizes['3xl']};
   font-weight: ${({ theme }) => theme.typography.weights.bold};
@@ -27,7 +28,7 @@ const Title = styled.h2`
   }
 `;
 
-const Subtitle = styled.p`
+const Subtitle = styled(Text)`
   margin: 0 auto;
   max-width: 480px;
   color: ${({ theme }) => theme.colors.slate[500]};
@@ -40,8 +41,8 @@ const Contact: React.FC = () => {
     <Section id={SectionId.CONTACT}>
       <Container>
         <Header>
-          <Title>Let's Create Together</Title>
-          <Subtitle>Contact section removed.</Subtitle>
+          <Title as="h2" message={(translations) => translations.contact.title} />
+          <Subtitle as="p" message={(translations) => translations.contact.subtitle} />
         </Header>
       </Container>
     </Section>

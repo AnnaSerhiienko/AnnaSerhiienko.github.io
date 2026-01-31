@@ -4,6 +4,7 @@ import { SectionId } from '../types.ts';
 import { SKILLS } from '../constants.ts';
 import { Check, Star } from 'lucide-react';
 import { useLanguage, getSkillTranslation } from '../i18n.tsx';
+import Text from '../design-system/components/Text.tsx';
 
 const float = keyframes`
   0%, 100% { transform: translateY(0); }
@@ -128,7 +129,7 @@ const ExperienceSub = styled.span`
   font-size: ${({ theme }) => theme.typography.sizes.lg};
 `;
 
-const ExperienceText = styled.p`
+const ExperienceText = styled(Text)`
   margin: 0;
   font-size: ${({ theme }) => theme.typography.sizes.xs};
   font-weight: ${({ theme }) => theme.typography.weights.medium};
@@ -167,7 +168,7 @@ const Emphasis = styled.span`
   font-style: italic;
 `;
 
-const Bio = styled.p`
+const Bio = styled(Text)`
   margin: 0 0 ${({ theme }) => theme.spacing[12]} 0;
   font-size: ${({ theme }) => theme.typography.sizes.lg};
   color: ${({ theme }) => theme.colors.slate[500]};
@@ -262,13 +263,13 @@ const About: React.FC = () => {
   
   return (
     <Section id={SectionId.ABOUT}>
-      <Watermark>Creative</Watermark>
+      <Watermark>{t.about.watermark}</Watermark>
 
       <Container>
         <Grid>
           <ImageColumn>
             <PortraitCard>
-              <PortraitImage src="./assets/images/profile/me.png" alt="Anna Serhiienko" />
+              <PortraitImage src="./assets/images/profile/me.png" alt={t.about.portraitAlt} />
               <PortraitOverlay data-overlay />
             </PortraitCard>
 
@@ -280,17 +281,17 @@ const About: React.FC = () => {
               <ExperienceValue>
                 5+ <ExperienceSub>{t.about.years}</ExperienceSub>
               </ExperienceValue>
-              <ExperienceText>Crafting high-end visual solutions for global clients.</ExperienceText>
+              <ExperienceText as="p" message={(translations) => translations.about.experienceText} />
             </ExperienceCard>
           </ImageColumn>
 
           <Content>
             <Eyebrow>{t.about.discovery}</Eyebrow>
             <Heading>
-              {t.about.heading1} <Emphasis>Emotion</Emphasis> <br /> {t.about.heading2}
+              {t.about.heading1} <Emphasis>{t.about.emphasis}</Emphasis> <br /> {t.about.heading2}
             </Heading>
 
-            <Bio>{t.about.bio}</Bio>
+            <Bio as="p" message={(translations) => translations.about.bio} />
 
             <SkillsGroup>
               <div>

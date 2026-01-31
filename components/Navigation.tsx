@@ -257,7 +257,7 @@ const Navigation: React.FC<NavigationProps> = ({ onNavigate }) => {
   };
 
   const downloadCV = () => {
-    alert("CV Download would trigger here (anna_serhiienko_resume.pdf)");
+    alert(t.nav.cvAlert);
   };
 
   const navLinks = [
@@ -271,7 +271,7 @@ const Navigation: React.FC<NavigationProps> = ({ onNavigate }) => {
         <NavRow>
           <Brand onClick={() => scrollToSection(SectionId.HERO)}>
             <BrandAccent>A.</BrandAccent>
-            <BrandText>Serhiienko</BrandText>
+            <BrandText>{t.nav.brandText}</BrandText>
           </Brand>
 
           <DesktopNav>

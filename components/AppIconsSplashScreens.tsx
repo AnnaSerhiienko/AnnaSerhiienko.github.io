@@ -2,6 +2,8 @@ import React, { useMemo } from 'react';
 import Slider from 'react-slick';
 import styled from 'styled-components';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { useLanguage } from '../i18n.tsx';
+import { DESIGNER_NAME } from '../constants.ts';
 
 const Wrapper = styled.section`
   min-height: 100vh;
@@ -337,10 +339,11 @@ interface SlickArrowProps {
   style?: React.CSSProperties;
   onClick?: () => void;
   direction: 'prev' | 'next';
+  ariaLabel: string;
 }
 
-const SlickArrow: React.FC<SlickArrowProps> = ({ className, style, onClick, direction }) => (
-  <ArrowButton className={className} style={style} onClick={onClick} aria-label={direction === 'next' ? 'Next' : 'Previous'}>
+const SlickArrow: React.FC<SlickArrowProps> = ({ className, style, onClick, direction, ariaLabel }) => (
+  <ArrowButton className={className} style={style} onClick={onClick} aria-label={ariaLabel}>
     {direction === 'next' ? <ArrowRight size={18} /> : <ArrowLeft size={18} />}
   </ArrowButton>
 );
@@ -414,81 +417,31 @@ interface AppIconsSplashScreensProps {
   onBack?: () => void;
 }
 
-const iconItems = [
-  {
-    src: './assets/images/brand/app-icons-splash-screens/icons/elemental-quest-alt.png',
-    label: 'Elemental Quest — Alt Icon',
-  },
-  {
-    src: './assets/images/brand/app-icons-splash-screens/icons/monstrous-evorise-icon.png',
-    label: 'Monstrous Evorise',
-  },
-  {
-    src: './assets/images/brand/app-icons-splash-screens/icons/cat-wars.png',
-    label: 'Cat Wars',
-  },
-  {
-    src: './assets/images/brand/app-icons-splash-screens/icons/fatty-fish.png',
-    label: 'Fatty Fish',
-  },
-  {
-    src: './assets/images/brand/app-icons-splash-screens/icons/feed-me.png',
-    label: 'Feed Me',
-  },
-  {
-    src: './assets/images/brand/app-icons-splash-screens/icons/elemental-quest.png',
-    label: 'Elemental Quest',
-  },
-  {
-    src: './assets/images/brand/app-icons-splash-screens/icons/revback.png',
-    label: 'RevBack',
-  },
-  {
-    src: './assets/images/brand/app-icons-splash-screens/icons/selara.png',
-    label: 'Selara',
-  },
-  {
-    src: './assets/images/brand/app-icons-splash-screens/icons/sky-hero-icon.png',
-    label: 'Sky Hero',
-  },
+const iconSources = [
+  './assets/images/brand/app-icons-splash-screens/icons/elemental-quest-alt.png',
+  './assets/images/brand/app-icons-splash-screens/icons/monstrous-evorise-icon.png',
+  './assets/images/brand/app-icons-splash-screens/icons/cat-wars.png',
+  './assets/images/brand/app-icons-splash-screens/icons/fatty-fish.png',
+  './assets/images/brand/app-icons-splash-screens/icons/feed-me.png',
+  './assets/images/brand/app-icons-splash-screens/icons/elemental-quest.png',
+  './assets/images/brand/app-icons-splash-screens/icons/revback.png',
+  './assets/images/brand/app-icons-splash-screens/icons/selara.png',
+  './assets/images/brand/app-icons-splash-screens/icons/sky-hero-icon.png',
 ];
 
-const splashItems = [
-  {
-    src: './assets/images/brand/app-icons-splash-screens/splash-screens/cat-wars.png',
-    label: 'Cat Wars',
-  },
-  {
-    src: './assets/images/brand/app-icons-splash-screens/splash-screens/elemental-craft.png',
-    label: 'Elemental Craft',
-  },
-  {
-    src: './assets/images/brand/app-icons-splash-screens/splash-screens/elemental-quest.png',
-    label: 'Elemental Quest',
-  },
-  {
-    src: './assets/images/brand/app-icons-splash-screens/splash-screens/fatty-fish.png',
-    label: 'Fatty Fish',
-  },
-  {
-    src: './assets/images/brand/app-icons-splash-screens/splash-screens/feed-me.png',
-    label: 'Feed Me',
-  },
-  {
-    src: './assets/images/brand/app-icons-splash-screens/splash-screens/monstrous-evorise.png',
-    label: 'Monstrous Evorise',
-  },
-  {
-    src: './assets/images/brand/app-icons-splash-screens/splash-screens/revback.png',
-    label: 'RevBack',
-  },
-  {
-    src: './assets/images/brand/app-icons-splash-screens/splash-screens/selara.png',
-    label: 'Selara',
-  },
+const splashSources = [
+  './assets/images/brand/app-icons-splash-screens/splash-screens/cat-wars.png',
+  './assets/images/brand/app-icons-splash-screens/splash-screens/elemental-craft.png',
+  './assets/images/brand/app-icons-splash-screens/splash-screens/elemental-quest.png',
+  './assets/images/brand/app-icons-splash-screens/splash-screens/fatty-fish.png',
+  './assets/images/brand/app-icons-splash-screens/splash-screens/feed-me.png',
+  './assets/images/brand/app-icons-splash-screens/splash-screens/monstrous-evorise.png',
+  './assets/images/brand/app-icons-splash-screens/splash-screens/revback.png',
+  './assets/images/brand/app-icons-splash-screens/splash-screens/selara.png',
 ];
 
 const AppIconsSplashScreens: React.FC<AppIconsSplashScreensProps> = ({ onBack }) => {
+  const { t } = useLanguage();
 
   const handleBack = () => {
     if (onBack) {
@@ -511,8 +464,8 @@ const AppIconsSplashScreens: React.FC<AppIconsSplashScreensProps> = ({ onBack })
       autoplaySpeed: 2800,
       pauseOnHover: true,
       arrows: true,
-      nextArrow: <SlickArrow direction="next" />,
-      prevArrow: <SlickArrow direction="prev" />,
+      nextArrow: <SlickArrow direction="next" ariaLabel={t.appIcons.next} />,
+      prevArrow: <SlickArrow direction="prev" ariaLabel={t.appIcons.previous} />,
       responsive: [
         {
           breakpoint: 1024,
@@ -540,30 +493,29 @@ const AppIconsSplashScreens: React.FC<AppIconsSplashScreensProps> = ({ onBack })
         },
       ],
     }),
-    []
+    [t]
   );
 
   return (
     <Wrapper>
       <Header>
         <HeaderInner>
-          <BackButton onClick={handleBack} aria-label="Back to portfolio">
+          <BackButton onClick={handleBack} aria-label={t.appIcons.backToPortfolioAria}>
             <ArrowLeft size={18} />
-            Back to Portfolio
+            {t.appIcons.backToPortfolio}
           </BackButton>
-          <HeaderTag>Brand Design</HeaderTag>
+          <HeaderTag>{t.work.categories.brandDesign}</HeaderTag>
         </HeaderInner>
       </Header>
 
       <Hero>
         <Container>
-          <Eyebrow>Mobile Branding</Eyebrow>
+          <Eyebrow>{t.appIcons.eyebrow}</Eyebrow>
           <Title>
-            App Icons & <em>Splash Screens</em>
+            {t.appIcons.titlePrimary} <em>{t.appIcons.titleEmphasis}</em>
           </Title>
           <Lead>
-            A collection of vibrant app icons and splash screens designed for mobile applications,
-            featuring playful characters and bold visual identities.
+            {t.appIcons.lead}
           </Lead>
         </Container>
       </Hero>
@@ -572,16 +524,16 @@ const AppIconsSplashScreens: React.FC<AppIconsSplashScreensProps> = ({ onBack })
         <Container>
           <SectionHeader>
             <SectionLine />
-            <SectionTitle>App Icons</SectionTitle>
+            <SectionTitle>{t.appIcons.appIconsTitle}</SectionTitle>
           </SectionHeader>
 
           <IconGrid>
-            {iconItems.map((icon) => (
-              <IconCard key={icon.label}>
+            {iconSources.map((src, index) => (
+              <IconCard key={src}>
                 <IconFrame>
-                  <IconImage src={icon.src} alt={icon.label} />
+                  <IconImage src={src} alt={t.appIcons.iconLabels[index]} />
                 </IconFrame>
-                <IconLabel>{icon.label}</IconLabel>
+                <IconLabel>{t.appIcons.iconLabels[index]}</IconLabel>
               </IconCard>
             ))}
           </IconGrid>
@@ -593,18 +545,18 @@ const AppIconsSplashScreens: React.FC<AppIconsSplashScreensProps> = ({ onBack })
         <Container style={{ position: 'relative', zIndex: 1 }}>
           <SectionHeader>
             <SectionLine $light />
-            <SectionTitle $light>Splash Screens</SectionTitle>
+            <SectionTitle $light>{t.appIcons.splashScreensTitle}</SectionTitle>
           </SectionHeader>
         </Container>
 
         <CarouselShell>
           <CarouselSlider {...sliderSettings}>
-            {splashItems.map((item) => (
-              <div key={item.label}>
+            {splashSources.map((src, index) => (
+              <div key={src}>
                 <CarouselCard className="carousel-card">
-                  <CarouselMedia src={item.src} alt={item.label} loading="lazy" />
+                  <CarouselMedia src={src} alt={t.appIcons.splashLabels[index]} loading="lazy" />
                 </CarouselCard>
-                <CarouselCaption className="carousel-caption">{item.label}</CarouselCaption>
+                <CarouselCaption className="carousel-caption">{t.appIcons.splashLabels[index]}</CarouselCaption>
               </div>
             ))}
           </CarouselSlider>
@@ -615,12 +567,12 @@ const AppIconsSplashScreens: React.FC<AppIconsSplashScreensProps> = ({ onBack })
         <Container>
           <SectionHeader>
             <SectionLine />
-            <SectionTitle>Full Composition</SectionTitle>
+            <SectionTitle>{t.appIcons.fullCompositionTitle}</SectionTitle>
           </SectionHeader>
           <CompositionCard>
             <CompositionImage
               src="./assets/images/brand/app-icons-splash-screens/full-composition.png"
-              alt="App Icons & Splash Screens Full Composition"
+              alt={t.appIcons.fullCompositionAlt}
             />
           </CompositionCard>
         </Container>
@@ -628,9 +580,9 @@ const AppIconsSplashScreens: React.FC<AppIconsSplashScreensProps> = ({ onBack })
 
       <Footer>
         <FooterInner>
-          <FooterText>© {year} Anna Serhiienko. All rights reserved.</FooterText>
+          <FooterText>© {year} {DESIGNER_NAME}. {t.appIcons.footerRights}</FooterText>
           <FooterLink onClick={handleBack}>
-            View More Projects
+            {t.appIcons.viewMoreProjects}
             <ArrowRight size={16} />
           </FooterLink>
         </FooterInner>

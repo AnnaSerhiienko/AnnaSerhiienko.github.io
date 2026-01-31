@@ -101,7 +101,7 @@ const Footer: React.FC = () => {
     <FooterShell>
       <FooterContent>
         <FooterBlock>
-          <Brand>Anna Serhiienko</Brand>
+          <Brand>{DESIGNER_NAME}</Brand>
           <MetaText>© {new Date().getFullYear()} {DESIGNER_NAME}. {t.footer.rights}</MetaText>
         </FooterBlock>
 

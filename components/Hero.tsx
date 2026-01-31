@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import { SectionId } from '../types';
 import { ArrowDown, Figma, PenTool, Image as ImageIcon, Gamepad2 } from 'lucide-react';
 import { useLanguage } from '../i18n.tsx';
+import Text from '../design-system/components/Text.tsx';
 
 const float = keyframes`
   0%, 100% { transform: translateY(0); }
@@ -105,7 +106,7 @@ const GradientText = styled.span`
   -webkit-text-fill-color: transparent;
 `;
 
-const Lead = styled.p`
+const Lead = styled(Text)`
   margin: 0 auto ${({ theme }) => theme.spacing[12]} auto;
   max-width: 560px;
   color: ${({ theme }) => theme.colors.slate[500]};
@@ -187,10 +188,7 @@ const Hero: React.FC = () => {
           <GradientText>{t.hero.heading2}</GradientText>
         </Heading>
 
-        <Lead>
-          I'm Anna Serhiienko, a Graphic Designer crafting digital experiences. Specializing in Brand
-          Identity, UI/UX, and Game Design.
-        </Lead>
+        <Lead as="p" message={(translations) => translations.hero.lead} />
 
         <Actions>
           <PrimaryButton onClick={() => document.getElementById(SectionId.WORK)?.scrollIntoView({ behavior: 'smooth' })}>
