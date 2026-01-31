@@ -161,6 +161,12 @@ function AppContent() {
     if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, [currentView, currentSection]);
 
+  useEffect(() => {
+    if (currentView === AppView.APP_ICONS) {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }
+  }, [currentView]);
+
   const handleNavigate = (sectionId: SectionId) => {
     setCurrentView(AppView.PORTFOLIO);
     setCurrentSection(sectionId);

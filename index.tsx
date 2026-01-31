@@ -4,6 +4,8 @@ import { ThemeProvider } from 'styled-components';
 import App from './App.tsx';
 import { GlobalStyle } from './design-system/globalStyles.ts';
 import { theme } from './design-system/theme.ts';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {

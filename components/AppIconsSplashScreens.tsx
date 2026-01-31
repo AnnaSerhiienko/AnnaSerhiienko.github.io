@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo } from 'react';
+import Slider from 'react-slick';
 import styled from 'styled-components';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
@@ -188,27 +189,58 @@ const CarouselShell = styled.div`
   padding: 0 20px;
 `;
 
-const CarouselViewport = styled.div`
-  display: flex;
-  gap: 16px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
+const CarouselSlider = styled(Slider)`
   padding: ${({ theme }) => theme.spacing[6]} ${({ theme }) => theme.spacing[6]};
-  scroll-behavior: smooth;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 
-  &::-webkit-scrollbar {
-    display: none;
+  .slick-slide {
+    padding: 0 8px;
   }
-`;
 
-const CarouselSlide = styled.div`
-  flex: 0 0 clamp(160px, 20vw, 240px);
-  scroll-snap-align: center;
+  .slick-list {
+    overflow: visible;
+  }
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    flex: 0 0 clamp(140px, 55vw, 200px);
+  .slick-track {
+    display: flex;
+    align-items: center;
+  }
+
+  .slick-prev,
+  .slick-next {
+    z-index: 2;
+  }
+
+  .slick-prev:before,
+  .slick-next:before {
+    content: '';
+  }
+
+  .slick-slide .carousel-card {
+    opacity: 0.55;
+    transform: scale(0.9);
+    transition: transform 0.4s ease, opacity 0.4s ease, filter 0.4s ease;
+    pointer-events: none;
+  }
+
+  .slick-center .carousel-card {
+    opacity: 1;
+    transform: scale(1.05);
+    filter: drop-shadow(0 24px 50px rgba(0, 0, 0, 0.45));
+    pointer-events: auto;
+  }
+
+  .slick-slide .carousel-caption {
+    opacity: 0.6;
+    transform: scale(0.92);
+    margin-top: 10px;
+    transition: transform 0.4s ease, color 0.4s ease, opacity 0.4s ease, margin-top 0.4s ease;
+  }
+
+  .slick-center .carousel-caption {
+    margin-top: 18px;
+    opacity: 1;
+    transform: scale(1.05);
+    color: rgba(255, 255, 255, 0.98);
   }
 `;
 
@@ -234,11 +266,7 @@ const CarouselCaption = styled.p`
   color: rgba(226, 232, 240, 0.8);
 `;
 
-const CarouselButton = styled.button<{ $position: 'left' | 'right' }>`
-  position: absolute;
-  top: 50%;
-  ${({ $position }) => ($position === 'left' ? 'left: -12px;' : 'right: -12px;')}
-  transform: translateY(-50%);
+const ArrowButton = styled.button`
   width: 40px;
   height: 40px;
   border-radius: ${({ theme }) => theme.radii.full};
@@ -248,11 +276,27 @@ const CarouselButton = styled.button<{ $position: 'left' | 'right' }>`
   backdrop-filter: blur(12px);
   cursor: pointer;
   transition: background 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     background: rgba(255, 255, 255, 0.2);
   }
 `;
+
+interface SlickArrowProps {
+  className?: string;
+  style?: React.CSSProperties;
+  onClick?: () => void;
+  direction: 'prev' | 'next';
+}
+
+const SlickArrow: React.FC<SlickArrowProps> = ({ className, style, onClick, direction }) => (
+  <ArrowButton className={className} style={style} onClick={onClick} aria-label={direction === 'next' ? 'Next' : 'Previous'}>
+    {direction === 'next' ? <ArrowRight size={18} /> : <ArrowLeft size={18} />}
+  </ArrowButton>
+);
 
 const FullComposition = styled.section`
   padding: ${({ theme }) => theme.spacing[12]} ${({ theme }) => theme.spacing[6]};
@@ -398,8 +442,6 @@ const splashItems = [
 ];
 
 const AppIconsSplashScreens: React.FC<AppIconsSplashScreensProps> = ({ onBack }) => {
-  const carouselRef = useRef<HTMLDivElement | null>(null);
-  const [isPaused, setIsPaused] = useState(false);
 
   const handleBack = () => {
     if (onBack) {
@@ -409,24 +451,34 @@ const AppIconsSplashScreens: React.FC<AppIconsSplashScreensProps> = ({ onBack })
     window.location.hash = '#work';
   };
 
-  const scrollBySlide = (direction: number) => {
-    const viewport = carouselRef.current;
-    if (!viewport) return;
-    const firstSlide = viewport.querySelector<HTMLElement>('[data-slide]');
-    if (!firstSlide) return;
-    const styles = getComputedStyle(viewport);
-    const gap = parseFloat(styles.columnGap || styles.gap || '0');
-    const amount = firstSlide.getBoundingClientRect().width + gap;
-    viewport.scrollBy({ left: direction * amount, behavior: 'smooth' });
-  };
-
-  useEffect(() => {
-    if (isPaused) return;
-    const timer = window.setInterval(() => scrollBySlide(1), 2800);
-    return () => window.clearInterval(timer);
-  }, [isPaused]);
-
   const year = useMemo(() => new Date().getFullYear(), []);
+
+  const sliderSettings = useMemo(
+    () => ({
+      centerMode: true,
+      centerPadding: '60px',
+      infinite: true,
+      slidesToShow: 5,
+      speed: 500,
+      autoplay: true,
+      autoplaySpeed: 2800,
+      pauseOnHover: true,
+      arrows: true,
+      nextArrow: <SlickArrow direction="next" />,
+      prevArrow: <SlickArrow direction="prev" />,
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: { slidesToShow: 3, centerPadding: '40px' },
+        },
+        {
+          breakpoint: 640,
+          settings: { slidesToShow: 2, centerPadding: '20px' },
+        },
+      ],
+    }),
+    []
+  );
 
   return (
     <Wrapper>
@@ -483,27 +535,16 @@ const AppIconsSplashScreens: React.FC<AppIconsSplashScreensProps> = ({ onBack })
         </Container>
 
         <CarouselShell>
-          <CarouselViewport
-            ref={carouselRef}
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
-          >
+          <CarouselSlider {...sliderSettings}>
             {splashItems.map((item) => (
-              <CarouselSlide key={item.label} data-slide>
-                <CarouselCard>
+              <div key={item.label}>
+                <CarouselCard className="carousel-card">
                   <CarouselMedia src={item.src} alt={item.label} loading="lazy" />
                 </CarouselCard>
-                <CarouselCaption>{item.label}</CarouselCaption>
-              </CarouselSlide>
+                <CarouselCaption className="carousel-caption">{item.label}</CarouselCaption>
+              </div>
             ))}
-          </CarouselViewport>
-
-          <CarouselButton $position="left" onClick={() => scrollBySlide(-1)} aria-label="Previous">
-            <ArrowLeft size={18} />
-          </CarouselButton>
-          <CarouselButton $position="right" onClick={() => scrollBySlide(1)} aria-label="Next">
-            <ArrowRight size={18} />
-          </CarouselButton>
+          </CarouselSlider>
         </CarouselShell>
       </CarouselSection>
 
