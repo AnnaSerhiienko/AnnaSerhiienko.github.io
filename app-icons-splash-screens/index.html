@@ -24,7 +24,7 @@
       transform: translateX(-50%);
       padding: 0 20px;
     }
-    .carousel-track { display: flex; gap: 1.25rem; will-change: transform; transition: transform 0.45s ease; padding: 0; }
+    .carousel-track { display: flex; gap: 16px; will-change: transform; transition: transform 0.45s ease; padding: 0; }
     .carousel-slide { flex: 0 0 clamp(160px, 20vw, 240px); }
     @media (max-width: 640px) {
       .carousel-slide { flex: 0 0 clamp(140px, 55vw, 200px); }
@@ -33,6 +33,8 @@
     .carousel-card.is-near { opacity: 0.8; transform: scale(0.96); pointer-events: auto; }
     .carousel-card.is-active { opacity: 1; transform: scale(1.05); filter: drop-shadow(0 24px 50px rgba(0,0,0,0.45)); pointer-events: auto; }
     .carousel-media { width: 100%; height: 100%; object-fit: contain; }
+    .carousel-caption { margin-top: 10px; transition: transform 0.4s ease, color 0.4s ease, opacity 0.4s ease, margin-top 0.4s ease; opacity: 0.6; transform: scale(0.92); }
+    .carousel-caption.is-active { margin-top: 18px; opacity: 1; transform: scale(1.05); color: rgba(255, 255, 255, 0.98); }
     .carousel-track[data-dragging="true"] { cursor: grabbing; user-select: none; }
     .carousel-track { cursor: grab; }
   </style>
@@ -158,7 +160,7 @@
     <div class="max-w-7xl mx-auto">
       <div class="flex items-center gap-4 mb-10">
         <div class="w-12 h-px bg-white"></div>
-        <h2 class="text-xs font-bold uppercase tracking-[0.2em] text-white">Splash Screens</h2>
+        <h2 class="text-sm font-bold uppercase tracking-[0.2em] text-white drop-shadow-lg">Splash Screens</h2>
       </div>
 
       <div class="carousel-shell">
@@ -168,56 +170,56 @@
               <div class="carousel-card aspect-[9/16] rounded-[1.25rem] overflow-hidden bg-slate-900 shadow-2xl shadow-black/30">
                 <img loading="lazy" src="../assets/images/brand/app-icons-splash-screens/splash-screens/cat-wars.png" alt="Cat Wars Splash Screen" class="carousel-media">
               </div>
-              <p class="text-center mt-3 text-xs font-medium text-slate-300">Cat Wars</p>
+              <p class="carousel-caption text-center text-xs font-medium text-slate-300">Cat Wars</p>
             </div>
 
             <div class="carousel-slide" data-carousel-slide>
               <div class="carousel-card aspect-[9/16] rounded-[1.25rem] overflow-hidden bg-slate-900 shadow-2xl shadow-black/30">
                 <img loading="lazy" src="../assets/images/brand/app-icons-splash-screens/splash-screens/elemental-craft.png" alt="Elemental Craft Splash Screen" class="carousel-media">
               </div>
-              <p class="text-center mt-3 text-xs font-medium text-slate-300">Elemental Craft</p>
+              <p class="carousel-caption text-center text-xs font-medium text-slate-300">Elemental Craft</p>
             </div>
 
             <div class="carousel-slide" data-carousel-slide>
               <div class="carousel-card aspect-[9/16] rounded-[1.25rem] overflow-hidden bg-slate-900 shadow-2xl shadow-black/30">
                 <img loading="lazy" src="../assets/images/brand/app-icons-splash-screens/splash-screens/elemental-quest.png" alt="Elemental Quest Splash Screen" class="carousel-media">
               </div>
-              <p class="text-center mt-3 text-xs font-medium text-slate-300">Elemental Quest</p>
+              <p class="carousel-caption text-center text-xs font-medium text-slate-300">Elemental Quest</p>
             </div>
 
             <div class="carousel-slide" data-carousel-slide>
               <div class="carousel-card aspect-[9/16] rounded-[1.25rem] overflow-hidden bg-slate-900 shadow-2xl shadow-black/30">
                 <img loading="lazy" src="../assets/images/brand/app-icons-splash-screens/splash-screens/fatty-fish.png" alt="Fatty Fish Splash Screen" class="carousel-media">
               </div>
-              <p class="text-center mt-3 text-xs font-medium text-slate-300">Fatty Fish</p>
+              <p class="carousel-caption text-center text-xs font-medium text-slate-300">Fatty Fish</p>
             </div>
 
             <div class="carousel-slide" data-carousel-slide>
               <div class="carousel-card aspect-[9/16] rounded-[1.25rem] overflow-hidden bg-slate-900 shadow-2xl shadow-black/30">
                 <img loading="lazy" src="../assets/images/brand/app-icons-splash-screens/splash-screens/feed-me.png" alt="Feed Me Splash Screen" class="carousel-media">
               </div>
-              <p class="text-center mt-3 text-xs font-medium text-slate-300">Feed Me</p>
+              <p class="carousel-caption text-center text-xs font-medium text-slate-300">Feed Me</p>
             </div>
 
             <div class="carousel-slide" data-carousel-slide>
               <div class="carousel-card aspect-[9/16] rounded-[1.25rem] overflow-hidden bg-slate-900 shadow-2xl shadow-black/30">
                 <img loading="lazy" src="../assets/images/brand/app-icons-splash-screens/splash-screens/monstrous-evorise.png" alt="Monstrous Evorise Splash Screen" class="carousel-media">
               </div>
-              <p class="text-center mt-3 text-xs font-medium text-slate-300">Monstrous Evorise</p>
+              <p class="carousel-caption text-center text-xs font-medium text-slate-300">Monstrous Evorise</p>
             </div>
 
             <div class="carousel-slide" data-carousel-slide>
               <div class="carousel-card aspect-[9/16] rounded-[1.25rem] overflow-hidden bg-slate-900 shadow-2xl shadow-black/30">
                 <img loading="lazy" src="../assets/images/brand/app-icons-splash-screens/splash-screens/revback.png" alt="RevBack Splash Screen" class="carousel-media">
               </div>
-              <p class="text-center mt-3 text-xs font-medium text-slate-300">RevBack</p>
+              <p class="carousel-caption text-center text-xs font-medium text-slate-300">RevBack</p>
             </div>
 
             <div class="carousel-slide" data-carousel-slide>
               <div class="carousel-card aspect-[9/16] rounded-[1.25rem] overflow-hidden bg-slate-900 shadow-2xl shadow-black/30">
                 <img loading="lazy" src="../assets/images/brand/app-icons-splash-screens/splash-screens/selara.png" alt="Selara Splash Screen" class="carousel-media">
               </div>
-              <p class="text-center mt-3 text-xs font-medium text-slate-300">Selara</p>
+              <p class="carousel-caption text-center text-xs font-medium text-slate-300">Selara</p>
             </div>
 
           </div>
@@ -276,7 +278,7 @@
       return 5;
     };
 
-    const cloneBuffer = Math.max(3, getSlidesPerView() + 1);
+    let cloneBuffer = Math.max(3, getSlidesPerView() + 1);
     let slideOffset = 0;
     let index = cloneBuffer;
     let autoplayTimer;
@@ -284,14 +286,34 @@
     let startX = 0;
     let currentX = 0;
     let startTranslate = 0;
+    let centerOffsetPx = 0;
+    let slides = Array.from(track.querySelectorAll('[data-carousel-slide]'));
 
-    // Clone slides for infinite loop
-    const prependClones = baseSlides.slice(-cloneBuffer).map(node => node.cloneNode(true));
-    prependClones.forEach(clone => track.insertBefore(clone, track.firstChild));
-    const appendClones = baseSlides.slice(0, cloneBuffer).map(node => node.cloneNode(true));
-    appendClones.forEach(clone => track.appendChild(clone));
+    const rebuildClones = (force = false) => {
+      const nextBuffer = Math.max(3, getSlidesPerView() + 1);
+      if (!force && nextBuffer === cloneBuffer) return;
 
-    const slides = Array.from(track.querySelectorAll('[data-carousel-slide]'));
+      const realCount = baseSlides.length;
+      const currentRealIndex = realCount
+        ? (index - cloneBuffer + realCount) % realCount
+        : 0;
+
+      cloneBuffer = nextBuffer;
+      track.innerHTML = '';
+      baseSlides.forEach(slide => track.appendChild(slide));
+
+      const prependClones = baseSlides.slice(-cloneBuffer).map(node => node.cloneNode(true));
+      prependClones.forEach(clone => track.insertBefore(clone, track.firstChild));
+      const appendClones = baseSlides.slice(0, cloneBuffer).map(node => node.cloneNode(true));
+      appendClones.forEach(clone => track.appendChild(clone));
+
+      slides = Array.from(track.querySelectorAll('[data-carousel-slide]'));
+      index = cloneBuffer + currentRealIndex;
+      setTransition(false);
+      measure();
+      update();
+      requestAnimationFrame(() => setTransition(true));
+    };
 
     const setTransition = (enable) => {
       track.style.transition = enable ? 'transform 0.45s ease' : 'none';
@@ -303,26 +325,26 @@
       const rect = first.getBoundingClientRect();
       const gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap || '0');
       slideOffset = rect.width + gap;
+      // Use window width for centering since carousel-shell spans full viewport
+      centerOffsetPx = (window.innerWidth - rect.width) / 2;
     };
 
     const applyStateClasses = () => {
-      const realCount = baseSlides.length;
+      // Directly mark the slide at position `index` as active (the one shown at center)
       slides.forEach((slide, i) => {
-        const realIndex = (i - cloneBuffer + realCount) % realCount;
-        const activeIndex = (index - cloneBuffer + realCount) % realCount;
-        const delta = Math.abs(realIndex - activeIndex);
         slide.firstElementChild?.classList.remove('is-active', 'is-near');
-        if (delta === 0) {
+        const caption = slide.querySelector('.carousel-caption');
+        caption?.classList.remove('is-active');
+        if (i === index) {
           slide.firstElementChild?.classList.add('is-active');
-        } else if (delta === 1 || delta === realCount - 1) {
-          slide.firstElementChild?.classList.add('is-near');
+          caption?.classList.add('is-active');
         }
       });
     };
 
     const update = () => {
       if (!slideOffset) measure();
-      track.style.transform = `translateX(-${index * slideOffset}px)`;
+      track.style.transform = `translateX(${centerOffsetPx - index * slideOffset}px)`;
       applyStateClasses();
     };
 
@@ -330,15 +352,13 @@
       const realCount = baseSlides.length;
       if (index >= realCount + cloneBuffer) {
         setTransition(false);
-        index = cloneBuffer;
+        index = index - realCount;
         update();
-        requestAnimationFrame(() => setTransition(true));
       }
       if (index < cloneBuffer) {
         setTransition(false);
-        index = realCount + cloneBuffer - 1;
+        index = index + realCount;
         update();
-        requestAnimationFrame(() => setTransition(true));
       }
     };
 
@@ -372,7 +392,7 @@
       track.dataset.dragging = 'true';
       setTransition(false);
       startX = e.clientX || e.touches?.[0]?.clientX || 0;
-      startTranslate = -index * slideOffset;
+      startTranslate = centerOffsetPx - index * slideOffset;
       pauseAutoplay();
     };
 
@@ -405,11 +425,8 @@
     };
 
     track.addEventListener('pointerdown', onPointerDown, { passive: true });
-    track.addEventListener('touchstart', onPointerDown, { passive: true });
     window.addEventListener('pointermove', onPointerMove, { passive: true });
-    window.addEventListener('touchmove', onPointerMove, { passive: true });
     window.addEventListener('pointerup', onPointerUp, { passive: true });
-    window.addEventListener('touchend', onPointerUp, { passive: true });
 
     // Buttons
     prevBtn?.addEventListener('click', () => { goPrev(); pauseAutoplay(); setTimeout(resumeAutoplay, 1200); });
@@ -417,18 +434,13 @@
 
     track.addEventListener('transitionend', handleLoop);
     window.addEventListener('resize', () => {
-      setTransition(false);
-      measure();
-      update();
-      requestAnimationFrame(() => setTransition(true));
+      rebuildClones();
     });
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) pauseAutoplay(); else resumeAutoplay();
     });
 
-    setTransition(false);
-    measure();
-    update();
+    rebuildClones(true);
     handleLoop();
     requestAnimationFrame(() => {
       setTransition(true);
