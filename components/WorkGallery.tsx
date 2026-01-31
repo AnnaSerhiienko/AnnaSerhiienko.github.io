@@ -138,8 +138,6 @@ const WorkGallery: React.FC = () => {
               <div className="mt-auto pt-8 border-t border-slate-100">
                 <a 
                   href={selectedProject.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold hover:bg-brand-purple transition-all shadow-xl shadow-slate-900/10"
                 >
                   {t.work.viewProject}

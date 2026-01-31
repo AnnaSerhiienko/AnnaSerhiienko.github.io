@@ -18,7 +18,7 @@ const About: React.FC = () => {
           <div className="relative">
             <div className="relative rounded-[3rem] overflow-hidden aspect-[4/5] shadow-2xl shadow-slate-200 border-8 border-white group">
               <img 
-                src="./assets/profile/me.png" 
+                src="./assets/images/profile/me.png" 
                 alt="Anna Serhiienko" 
                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
               />

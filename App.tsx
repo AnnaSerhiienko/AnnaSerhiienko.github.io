@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navigation from './components/Navigation.tsx';
 import Hero from './components/Hero.tsx';
 import WorkGallery from './components/WorkGallery.tsx';
@@ -39,6 +39,19 @@ const LanguageSwitcher: React.FC = () => {
 };
 
 function AppContent() {
+  useEffect(() => {
+    const scrollToHash = () => {
+      if (!window.location.hash) return;
+      const id = window.location.hash.replace('#', '');
+      const target = document.getElementById(id);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
+    scrollToHash();
+    window.addEventListener('hashchange', scrollToHash);
+    return () => window.removeEventListener('hashchange', scrollToHash);
+  }, []);
+
   return (
     <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-brand-purple selection:text-white relative">
       {/* Background Gradients */}
