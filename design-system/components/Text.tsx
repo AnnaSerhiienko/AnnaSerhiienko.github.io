@@ -8,6 +8,7 @@ export type FormattedMessage = (t: Translations) => string;
 
 interface TextProps extends React.HTMLAttributes<HTMLSpanElement> {
   as?: React.ElementType;
+  element?: React.ElementType;
   message: FormattedMessage;
   size?: TextSize;
   weight?: keyof typeof weightMap;
@@ -51,6 +52,7 @@ const StyledText = styled.span<{
 
 const Text: React.FC<TextProps> = ({
   as = 'span',
+  element,
   message,
   size = 'md',
   weight = 'regular',
@@ -58,9 +60,10 @@ const Text: React.FC<TextProps> = ({
   ...rest
 }) => {
   const { t } = useLanguage();
+  const elementToRender = element ?? as;
 
   return (
-    <StyledText as={as} $size={size} $weight={weight} $color={color} {...rest}>
+    <StyledText as={elementToRender} $size={size} $weight={weight} $color={color} {...rest}>
       {message(t)}
     </StyledText>
   );

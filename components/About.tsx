@@ -281,7 +281,7 @@ const About: React.FC = () => {
               <ExperienceValue>
                 5+ <ExperienceSub>{t.about.years}</ExperienceSub>
               </ExperienceValue>
-              <ExperienceText as="p" message={(translations) => translations.about.experienceText} />
+              <ExperienceText element="p" message={(translations) => translations.about.experienceText} />
             </ExperienceCard>
           </ImageColumn>
 
@@ -291,7 +291,7 @@ const About: React.FC = () => {
               {t.about.heading1} <Emphasis>{t.about.emphasis}</Emphasis> <br /> {t.about.heading2}
             </Heading>
 
-            <Bio as="p" message={(translations) => translations.about.bio} />
+            <Bio element="p" message={(translations) => translations.about.bio} />
 
             <SkillsGroup>
               <div>

@@ -14,6 +14,7 @@ type TextAlign = 'left' | 'center' | 'right';
 
 interface HeadingProps extends React.HTMLAttributes<HTMLElement> {
   as?: React.ElementType;
+  element?: React.ElementType;
   level?: HeadingLevel;
   message: FormattedMessage;
   size?: HeadingSize;
@@ -65,6 +66,7 @@ const StyledHeading = styled.h2<{
 
 const Heading: React.FC<HeadingProps> = ({
   as,
+  element,
   level = 2,
   message,
   size,
@@ -76,7 +78,7 @@ const Heading: React.FC<HeadingProps> = ({
   const { t } = useLanguage();
   const fallbackTag = `h${level}` as const;
   const headingSize = size ?? (fallbackTag as HeadingSize);
-  const HeadingTag = as ?? fallbackTag;
+  const HeadingTag = element ?? as ?? fallbackTag;
 
   return (
     <StyledHeading

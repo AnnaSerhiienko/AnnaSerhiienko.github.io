@@ -41,8 +41,8 @@ const Contact: React.FC = () => {
     <Section id={SectionId.CONTACT}>
       <Container>
         <Header>
-          <Title as="h2" message={(translations) => translations.contact.title} />
-          <Subtitle as="p" message={(translations) => translations.contact.subtitle} />
+          <Title element="h2" message={(translations) => translations.contact.title} />
+          <Subtitle element="p" message={(translations) => translations.contact.subtitle} />
         </Header>
       </Container>
     </Section>

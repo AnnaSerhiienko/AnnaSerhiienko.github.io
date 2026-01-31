@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-const Bar = styled.div<{ $width: number }>`
+const Bar = styled.div.attrs<{ $width: number }>(({ $width }) => ({
+  style: { width: `${$width}%` },
+}))<{ $width: number }>`
   position: fixed;
   top: 0;
   left: 0;
   height: 3px;
-  width: ${({ $width }) => `${$width}%`};
   background: linear-gradient(90deg, #6366f1, #ec4899);
   z-index: 100;
   transition: width 0.1s ease;

@@ -188,7 +188,7 @@ const Hero: React.FC = () => {
           <GradientText>{t.hero.heading2}</GradientText>
         </Heading>
 
-        <Lead as="p" message={(translations) => translations.hero.lead} />
+        <Lead element="p" message={(translations) => translations.hero.lead} />
 
         <Actions>
           <PrimaryButton onClick={() => document.getElementById(SectionId.WORK)?.scrollIntoView({ behavior: 'smooth' })}>
