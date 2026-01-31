@@ -1,8 +1,7 @@
 import { Project, SocialLink } from './types';
-import assetUrl from './utils/assetUrl.ts';
-
-const APP_ICONS_FULL_COMPOSITION = assetUrl('images/brand/app-icons-splash-screens/full-composition.png');
-const SMART_HOUSE_APP_VIDEO = assetUrl('video/uiux/smart-house-app.mp4');
+const ASSET_BASE_URL = '/assets';
+const APP_ICONS_FULL_COMPOSITION = `${ASSET_BASE_URL}/images/brand/app-icons-splash-screens/full-composition.png`;
+const SMART_HOUSE_APP_VIDEO = `${ASSET_BASE_URL}/video/uiux/smart-house-app.mp4`;
 
 export const DESIGNER_NAME = "Anna Serhiienko";
 export const DESIGNER_ROLE = "Graphic Designer";

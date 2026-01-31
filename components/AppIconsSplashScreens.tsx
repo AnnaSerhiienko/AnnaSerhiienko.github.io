@@ -5,7 +5,7 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../i18n.tsx';
 import { DESIGNER_NAME } from '../constants.ts';
 import { nonTokenValues } from '../design-system/nonTokenValues.ts';
-import assetUrl from '../utils/assetUrl.ts';
+const ASSET_BASE_URL = '/assets';
 
 const Wrapper = styled.section`
   min-height: ${nonTokenValues.layout.fullViewportHeight};
@@ -420,26 +420,26 @@ interface AppIconsSplashScreensProps {
 }
 
 const iconSources = [
-  assetUrl('images/brand/app-icons-splash-screens/icons/elemental-quest-alt.png'),
-  assetUrl('images/brand/app-icons-splash-screens/icons/monstrous-evorise-icon.png'),
-  assetUrl('images/brand/app-icons-splash-screens/icons/cat-wars.png'),
-  assetUrl('images/brand/app-icons-splash-screens/icons/fatty-fish.png'),
-  assetUrl('images/brand/app-icons-splash-screens/icons/feed-me.png'),
-  assetUrl('images/brand/app-icons-splash-screens/icons/elemental-quest.png'),
-  assetUrl('images/brand/app-icons-splash-screens/icons/revback.png'),
-  assetUrl('images/brand/app-icons-splash-screens/icons/selara.png'),
-  assetUrl('images/brand/app-icons-splash-screens/icons/sky-hero-icon.png'),
+  `${ASSET_BASE_URL}/images/brand/app-icons-splash-screens/icons/elemental-quest-alt.png`,
+  `${ASSET_BASE_URL}/images/brand/app-icons-splash-screens/icons/monstrous-evorise-icon.png`,
+  `${ASSET_BASE_URL}/images/brand/app-icons-splash-screens/icons/cat-wars.png`,
+  `${ASSET_BASE_URL}/images/brand/app-icons-splash-screens/icons/fatty-fish.png`,
+  `${ASSET_BASE_URL}/images/brand/app-icons-splash-screens/icons/feed-me.png`,
+  `${ASSET_BASE_URL}/images/brand/app-icons-splash-screens/icons/elemental-quest.png`,
+  `${ASSET_BASE_URL}/images/brand/app-icons-splash-screens/icons/revback.png`,
+  `${ASSET_BASE_URL}/images/brand/app-icons-splash-screens/icons/selara.png`,
+  `${ASSET_BASE_URL}/images/brand/app-icons-splash-screens/icons/sky-hero-icon.png`,
 ];
 
 const splashSources = [
-  assetUrl('images/brand/app-icons-splash-screens/splash-screens/cat-wars.png'),
-  assetUrl('images/brand/app-icons-splash-screens/splash-screens/elemental-craft.png'),
-  assetUrl('images/brand/app-icons-splash-screens/splash-screens/elemental-quest.png'),
-  assetUrl('images/brand/app-icons-splash-screens/splash-screens/fatty-fish.png'),
-  assetUrl('images/brand/app-icons-splash-screens/splash-screens/feed-me.png'),
-  assetUrl('images/brand/app-icons-splash-screens/splash-screens/monstrous-evorise.png'),
-  assetUrl('images/brand/app-icons-splash-screens/splash-screens/revback.png'),
-  assetUrl('images/brand/app-icons-splash-screens/splash-screens/selara.png'),
+  `${ASSET_BASE_URL}/images/brand/app-icons-splash-screens/splash-screens/cat-wars.png`,
+  `${ASSET_BASE_URL}/images/brand/app-icons-splash-screens/splash-screens/elemental-craft.png`,
+  `${ASSET_BASE_URL}/images/brand/app-icons-splash-screens/splash-screens/elemental-quest.png`,
+  `${ASSET_BASE_URL}/images/brand/app-icons-splash-screens/splash-screens/fatty-fish.png`,
+  `${ASSET_BASE_URL}/images/brand/app-icons-splash-screens/splash-screens/feed-me.png`,
+  `${ASSET_BASE_URL}/images/brand/app-icons-splash-screens/splash-screens/monstrous-evorise.png`,
+  `${ASSET_BASE_URL}/images/brand/app-icons-splash-screens/splash-screens/revback.png`,
+  `${ASSET_BASE_URL}/images/brand/app-icons-splash-screens/splash-screens/selara.png`,
 ];
 
 const AppIconsSplashScreens: React.FC<AppIconsSplashScreensProps> = ({ onBack }) => {
@@ -576,7 +576,7 @@ const AppIconsSplashScreens: React.FC<AppIconsSplashScreensProps> = ({ onBack })
           </SectionHeader>
           <CompositionCard>
             <CompositionImage
-              src={assetUrl('images/brand/app-icons-splash-screens/full-composition.png')}
+              src={`${ASSET_BASE_URL}/images/brand/app-icons-splash-screens/full-composition.png`}
               alt={t.appIcons.fullCompositionAlt}
             />
           </CompositionCard>

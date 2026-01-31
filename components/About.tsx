@@ -6,7 +6,6 @@ import { Check, Star } from 'lucide-react';
 import { useLanguage, getSkillTranslation } from '../i18n.tsx';
 import Text from '../design-system/components/Text.tsx';
 import { nonTokenValues } from '../design-system/nonTokenValues.ts';
-import assetUrl from '../utils/assetUrl.ts';
 
 const float = keyframes`
   0%, 100% { transform: translateY(0); }
@@ -262,7 +261,7 @@ const SkillRow = styled.div`
 
 const About: React.FC = () => {
   const { t } = useLanguage();
-    const portraitUrl = assetUrl('images/profile/me.png');
+    const portraitUrl = '/assets/images/profile/me.png';
   
   return (
     <Section id={SectionId.ABOUT}>

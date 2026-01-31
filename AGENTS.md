@@ -29,7 +29,6 @@
 - Reuse existing tokens, patterns, and component structure.
 - Avoid new dependencies unless necessary; if added, update package.json and package-lock.json.
 - Keep translations in i18n.tsx; avoid hardcoding new copy when a translation is expected.
-- Use utils/assetUrl.ts for any local assets to ensure Vite bundles them correctly (especially on GitHub Pages).
 
 ## Carousel (App Icons)
 - Uses react-slick center mode and slick-carousel styles.
