@@ -1,72 +1,321 @@
 import React from 'react';
+import styled, { keyframes } from 'styled-components';
 import { SectionId } from '../types.ts';
 import { SKILLS } from '../constants.ts';
 import { Check, Star } from 'lucide-react';
 import { useLanguage, getSkillTranslation } from '../i18n.tsx';
 
+const float = keyframes`
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+`;
+
+const Section = styled.section`
+  position: relative;
+  overflow: hidden;
+  background: ${({ theme }) => theme.colors.white};
+  padding: ${({ theme }) => theme.spacing[12]} ${({ theme }) => theme.spacing[6]};
+`;
+
+const Watermark = styled.div`
+  position: absolute;
+  top: ${({ theme }) => theme.spacing[10]};
+  right: -5%;
+  font-size: 20vw;
+  font-family: ${({ theme }) => theme.typography.fonts.serif};
+  font-style: italic;
+  color: ${({ theme }) => theme.colors.slate[50]};
+  opacity: 0.5;
+  pointer-events: none;
+  user-select: none;
+`;
+
+const Container = styled.div`
+  max-width: ${({ theme }) => theme.layout.container};
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+`;
+
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: ${({ theme }) => theme.spacing[13]};
+  align-items: center;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+`;
+
+const ImageColumn = styled.div`
+  position: relative;
+`;
+
+const PortraitCard = styled.div`
+  position: relative;
+  border-radius: ${({ theme }) => theme.radii['4xl']};
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  box-shadow: ${({ theme }) => theme.shadows.card};
+  border: 8px solid ${({ theme }) => theme.colors.white};
+
+  &:hover img {
+    transform: scale(1.1);
+  }
+
+  &:hover div[data-overlay] {
+    opacity: 1;
+  }
+`;
+
+const PortraitImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1s ease;
+`;
+
+const PortraitOverlay = styled.div`
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(99, 102, 241, 0.2), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+`;
+
+const ExperienceCard = styled.div`
+  position: absolute;
+  bottom: -${({ theme }) => theme.spacing[9]};
+  right: -${({ theme }) => theme.spacing[4]};
+  background: ${({ theme }) => theme.colors.white};
+  padding: ${({ theme }) => theme.spacing[8]};
+  border-radius: ${({ theme }) => theme.radii['3xl']};
+  box-shadow: ${({ theme }) => theme.shadows.lg};
+  border: 1px solid ${({ theme }) => theme.colors.slate[100]};
+  animation: ${float} 6s ease-in-out infinite;
+  max-width: 200px;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    right: -${({ theme }) => theme.spacing[10]};
+  }
+`;
+
+const ExperienceHeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing[2]};
+  margin-bottom: ${({ theme }) => theme.spacing[2]};
+`;
+
+const ExperienceLabel = styled.span`
+  font-size: ${({ theme }) => theme.typography.sizes.xs};
+  font-weight: ${({ theme }) => theme.typography.weights.bold};
+  text-transform: uppercase;
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wider};
+  color: ${({ theme }) => theme.colors.slate[400]};
+`;
+
+const ExperienceValue = styled.p`
+  margin: 0 0 ${({ theme }) => theme.spacing[1]} 0;
+  font-family: ${({ theme }) => theme.typography.fonts.serif};
+  font-size: ${({ theme }) => theme.typography.sizes['3xl']};
+  font-weight: ${({ theme }) => theme.typography.weights.bold};
+  color: ${({ theme }) => theme.colors.slate[900]};
+`;
+
+const ExperienceSub = styled.span`
+  font-size: ${({ theme }) => theme.typography.sizes.lg};
+`;
+
+const ExperienceText = styled.p`
+  margin: 0;
+  font-size: ${({ theme }) => theme.typography.sizes.xs};
+  font-weight: ${({ theme }) => theme.typography.weights.medium};
+  color: ${({ theme }) => theme.colors.slate[500]};
+  line-height: ${({ theme }) => theme.typography.lineHeights.relaxed};
+`;
+
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Eyebrow = styled.span`
+  font-size: ${({ theme }) => theme.typography.sizes.xs};
+  font-weight: ${({ theme }) => theme.typography.weights.bold};
+  text-transform: uppercase;
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wider};
+  color: ${({ theme }) => theme.colors.brand.purple};
+  margin-bottom: ${({ theme }) => theme.spacing[6]};
+`;
+
+const Heading = styled.h2`
+  margin: 0 0 ${({ theme }) => theme.spacing[10]} 0;
+  font-family: ${({ theme }) => theme.typography.fonts.serif};
+  font-size: ${({ theme }) => theme.typography.sizes['4xl']};
+  font-weight: ${({ theme }) => theme.typography.weights.bold};
+  color: ${({ theme }) => theme.colors.slate[900]};
+  line-height: ${({ theme }) => theme.typography.lineHeights.tight};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    font-size: ${({ theme }) => theme.typography.sizes['6xl']};
+  }
+`;
+
+const Emphasis = styled.span`
+  font-style: italic;
+`;
+
+const Bio = styled.p`
+  margin: 0 0 ${({ theme }) => theme.spacing[12]} 0;
+  font-size: ${({ theme }) => theme.typography.sizes.lg};
+  color: ${({ theme }) => theme.colors.slate[500]};
+  font-weight: ${({ theme }) => theme.typography.weights.light};
+  line-height: ${({ theme }) => theme.typography.lineHeights.relaxed};
+`;
+
+const SkillsGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing[12]};
+`;
+
+const SkillsTitle = styled.h3`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing[2]};
+  margin: 0 0 ${({ theme }) => theme.spacing[6]} 0;
+  font-size: ${({ theme }) => theme.typography.sizes.xs};
+  font-weight: ${({ theme }) => theme.typography.weights.bold};
+  text-transform: uppercase;
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
+  color: ${({ theme }) => theme.colors.slate[900]};
+`;
+
+const SkillsDivider = styled.div`
+  width: 32px;
+  height: 1px;
+  background: ${({ theme }) => theme.colors.slate[900]};
+`;
+
+const SkillsGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: ${({ theme }) => theme.spacing[4]} ${({ theme }) => theme.spacing[8]};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+`;
+
+const SkillItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing[3]};
+  transition: color 0.3s ease;
+`;
+
+const SkillIcon = styled.div`
+  width: 20px;
+  height: 20px;
+  border-radius: ${({ theme }) => theme.radii.full};
+  background: ${({ theme }) => theme.colors.slate[100]};
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+`;
+
+const SkillCheck = styled(Check)`
+  color: ${({ theme }) => theme.colors.slate[400]};
+  transition: color 0.3s ease;
+`;
+
+const SkillLabel = styled.span`
+  font-size: ${({ theme }) => theme.typography.sizes.md};
+  font-weight: ${({ theme }) => theme.typography.weights.medium};
+  color: ${({ theme }) => theme.colors.slate[600]};
+  transition: color 0.3s ease;
+`;
+
+const SkillRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing[3]};
+
+  &:hover ${SkillIcon} {
+    background: ${({ theme }) => theme.colors.brand.purple};
+  }
+
+  &:hover ${SkillCheck} {
+    color: ${({ theme }) => theme.colors.white};
+  }
+
+  &:hover ${SkillLabel} {
+    color: ${({ theme }) => theme.colors.slate[900]};
+  }
+`;
+
 const About: React.FC = () => {
   const { t } = useLanguage();
   
   return (
-    <section id={SectionId.ABOUT} className="py-24 px-6 relative overflow-hidden bg-white">
-      <div className="absolute top-20 right-[-5%] text-[20vw] font-serif italic text-slate-50 opacity-50 pointer-events-none select-none">
-        Creative
-      </div>
+    <Section id={SectionId.ABOUT}>
+      <Watermark>Creative</Watermark>
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-          <div className="relative">
-            <div className="relative rounded-[3rem] overflow-hidden aspect-[4/5] shadow-2xl shadow-slate-200 border-8 border-white group">
-              <img 
-                src="./assets/images/profile/me.png" 
-                alt="Anna Serhiienko" 
-                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-purple/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-            </div>
+      <Container>
+        <Grid>
+          <ImageColumn>
+            <PortraitCard>
+              <PortraitImage src="./assets/images/profile/me.png" alt="Anna Serhiienko" />
+              <PortraitOverlay data-overlay />
+            </PortraitCard>
 
-            <div className="absolute -bottom-10 -right-4 md:-right-10 bg-white p-8 rounded-[2rem] shadow-2xl shadow-slate-900/5 border border-slate-100 animate-float max-w-[200px]">
-              <div className="flex items-center gap-2 mb-2">
-                <Star className="text-brand-purple fill-brand-purple" size={16} />
-                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{t.about.experience}</span>
-              </div>
-              <p className="text-4xl font-serif font-bold text-slate-900 mb-1">5+ <span className="text-xl">{t.about.years}</span></p>
-              <p className="text-xs text-slate-500 font-medium leading-relaxed">Crafting high-end visual solutions for global clients.</p>
-            </div>
-          </div>
+            <ExperienceCard>
+              <ExperienceHeader>
+                <Star color="#6366f1" fill="#6366f1" size={16} />
+                <ExperienceLabel>{t.about.experience}</ExperienceLabel>
+              </ExperienceHeader>
+              <ExperienceValue>
+                5+ <ExperienceSub>{t.about.years}</ExperienceSub>
+              </ExperienceValue>
+              <ExperienceText>Crafting high-end visual solutions for global clients.</ExperienceText>
+            </ExperienceCard>
+          </ImageColumn>
 
-          <div className="flex flex-col">
-            <span className="text-xs font-bold uppercase tracking-[0.3em] text-brand-purple mb-6">{t.about.discovery}</span>
-            <h2 className="text-5xl md:text-7xl font-bold text-slate-900 mb-10 font-serif leading-tight">
-              {t.about.heading1} <span className="italic">Emotion</span> <br /> {t.about.heading2}
-            </h2>
-            
-            <p className="text-xl text-slate-500 leading-relaxed mb-12 font-light">
-              {t.about.bio}
-            </p>
-            
-            <div className="space-y-12">
+          <Content>
+            <Eyebrow>{t.about.discovery}</Eyebrow>
+            <Heading>
+              {t.about.heading1} <Emphasis>Emotion</Emphasis> <br /> {t.about.heading2}
+            </Heading>
+
+            <Bio>{t.about.bio}</Bio>
+
+            <SkillsGroup>
               <div>
-                <h3 className="text-xs font-bold text-slate-900 mb-6 uppercase tracking-[0.2em] flex items-center gap-2">
-                  <div className="w-8 h-px bg-slate-900"></div>
+                <SkillsTitle>
+                  <SkillsDivider />
                   {t.about.proficiencies}
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
+                </SkillsTitle>
+                <SkillsGrid>
                   {SKILLS.map((skill, index) => (
-                    <div key={index} className="flex items-center space-x-3 group">
-                      <div className="w-5 h-5 rounded-full bg-slate-100 group-hover:bg-brand-purple flex items-center justify-center transition-colors">
-                        <Check size={12} className="text-slate-400 group-hover:text-white" />
-                      </div>
-                      <span className="text-slate-600 font-medium group-hover:text-slate-900 transition-colors">{getSkillTranslation(skill, t)}</span>
-                    </div>
+                    <SkillItem key={index}>
+                      <SkillRow>
+                        <SkillIcon>
+                          <SkillCheck size={12} />
+                        </SkillIcon>
+                        <SkillLabel>{getSkillTranslation(skill, t)}</SkillLabel>
+                      </SkillRow>
+                    </SkillItem>
                   ))}
-                </div>
+                </SkillsGrid>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+            </SkillsGroup>
+          </Content>
+        </Grid>
+      </Container>
+    </Section>
   );
 };
 

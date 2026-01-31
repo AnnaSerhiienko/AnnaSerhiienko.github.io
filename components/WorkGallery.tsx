@@ -1,8 +1,404 @@
 import React, { useState, useMemo } from 'react';
+import styled, { keyframes } from 'styled-components';
 import { SectionId, Project } from '../types.ts';
 import { PROJECTS, WORK_CATEGORIES } from '../constants.ts';
-import { ArrowUpRight, PlayCircle, Filter, X, ExternalLink, Tag } from 'lucide-react';
+import { ArrowUpRight, Filter, X, ExternalLink, Tag } from 'lucide-react';
 import { useLanguage, getCategoryTranslation } from '../i18n.tsx';
+
+const reveal = keyframes`
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+`;
+
+const fadeIn = keyframes`
+  from { opacity: 0; }
+  to { opacity: 1; }
+`;
+
+const Section = styled.section`
+  padding: ${({ theme }) => theme.spacing[12]} ${({ theme }) => theme.spacing[6]};
+  background: rgba(248, 250, 252, 0.6);
+`;
+
+const Container = styled.div`
+  max-width: ${({ theme }) => theme.layout.container};
+  margin: 0 auto;
+`;
+
+const Header = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing[8]};
+  margin-bottom: ${({ theme }) => theme.spacing[12]};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+`;
+
+const HeadingGroup = styled.div`
+  max-width: 520px;
+`;
+
+const Title = styled.h2`
+  margin: 0 0 ${({ theme }) => theme.spacing[6]} 0;
+  font-family: ${({ theme }) => theme.typography.fonts.serif};
+  font-size: ${({ theme }) => theme.typography.sizes['3xl']};
+  font-weight: ${({ theme }) => theme.typography.weights.bold};
+  color: ${({ theme }) => theme.colors.slate[900]};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    font-size: ${({ theme }) => theme.typography.sizes['5xl']};
+  }
+`;
+
+const Subtitle = styled.p`
+  margin: 0;
+  color: ${({ theme }) => theme.colors.slate[500]};
+  font-size: ${({ theme }) => theme.typography.sizes.lg};
+  line-height: ${({ theme }) => theme.typography.lineHeights.relaxed};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    font-size: ${({ theme }) => theme.typography.sizes.xl};
+  }
+`;
+
+const CategoryList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: ${({ theme }) => theme.spacing[2]};
+`;
+
+const CategoryButton = styled.button<{ $active: boolean }>`
+  padding: ${({ theme }) => theme.spacing[3]} ${({ theme }) => theme.spacing[6]};
+  border-radius: ${({ theme }) => theme.radii.full};
+  font-size: ${({ theme }) => theme.typography.sizes.xs};
+  font-weight: ${({ theme }) => theme.typography.weights.bold};
+  text-transform: uppercase;
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid ${({ theme, $active }) => ($active ? 'transparent' : theme.colors.slate[100])};
+  color: ${({ theme, $active }) => ($active ? theme.colors.white : theme.colors.slate[400])};
+  background: ${({ theme, $active }) => ($active ? theme.colors.slate[900] : theme.colors.white)};
+  box-shadow: ${({ theme, $active }) => ($active ? theme.shadows.md : 'none')};
+  transform: ${({ $active }) => ($active ? 'scale(1.05)' : 'scale(1)')};
+
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.brand.purple};
+    color: ${({ theme, $active }) => ($active ? theme.colors.white : theme.colors.brand.purple)};
+  }
+`;
+
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: ${({ theme }) => theme.spacing[8]};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+    gap: ${({ theme }) => theme.spacing[12]};
+  }
+`;
+
+const Card = styled.div`
+  cursor: pointer;
+  animation: ${reveal} 0.8s cubic-bezier(0, 0, 0.2, 1) forwards;
+`;
+
+const MediaFrame = styled.div`
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: ${({ theme }) => theme.radii['4xl']};
+  overflow: hidden;
+  background: ${({ theme }) => theme.colors.slate[200]};
+  box-shadow: ${({ theme }) => theme.shadows.sm};
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+
+  ${Card}:hover & {
+    transform: translateY(-8px);
+    box-shadow: ${({ theme }) => theme.shadows.lg};
+  }
+`;
+
+const MediaImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1);
+  transform: scale(1.1);
+  transition: transform 0.7s ease, filter 0.7s ease;
+
+  ${Card}:hover & {
+    filter: grayscale(0);
+    transform: scale(1);
+  }
+`;
+
+const MediaVideo = styled.video`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1);
+  transform: scale(1.1);
+  transition: transform 0.7s ease, filter 0.7s ease;
+
+  ${Card}:hover & {
+    filter: grayscale(0);
+    transform: scale(1);
+  }
+`;
+
+const CardOverlay = styled.div`
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: ${({ theme }) => theme.spacing[10]};
+  background: linear-gradient(to top, rgba(15, 23, 42, 0.8), transparent);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+
+  ${Card}:hover & {
+    opacity: 1;
+  }
+`;
+
+const CardCategory = styled.span`
+  color: rgba(255, 255, 255, 0.6);
+  font-size: ${({ theme }) => theme.typography.sizes.xs};
+  font-weight: ${({ theme }) => theme.typography.weights.bold};
+  text-transform: uppercase;
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
+  margin-bottom: ${({ theme }) => theme.spacing[2]};
+`;
+
+const CardTitle = styled.h3`
+  margin: 0 0 ${({ theme }) => theme.spacing[4]} 0;
+  font-family: ${({ theme }) => theme.typography.fonts.serif};
+  font-size: ${({ theme }) => theme.typography.sizes['2xl']};
+  color: ${({ theme }) => theme.colors.white};
+`;
+
+const CardAction = styled.div`
+  width: 48px;
+  height: 48px;
+  background: ${({ theme }) => theme.colors.white};
+  border-radius: ${({ theme }) => theme.radii.full};
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: ${({ theme }) => theme.colors.slate[900]};
+  transform: scale(0);
+  transition: transform 0.5s ease 0.1s;
+
+  ${Card}:hover & {
+    transform: scale(1);
+  }
+`;
+
+const EmptyState = styled.div`
+  text-align: center;
+  padding: ${({ theme }) => theme.spacing[16]} ${({ theme }) => theme.spacing[6]};
+  background: ${({ theme }) => theme.colors.white};
+  border-radius: ${({ theme }) => theme.radii['4xl']};
+  border: 2px dashed ${({ theme }) => theme.colors.slate[100]};
+`;
+
+const EmptyText = styled.p`
+  margin: 0;
+  color: ${({ theme }) => theme.colors.slate[400]};
+  font-family: ${({ theme }) => theme.typography.fonts.serif};
+  font-style: italic;
+  font-size: ${({ theme }) => theme.typography.sizes.xl};
+`;
+
+const ModalOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: ${({ theme }) => theme.spacing[4]};
+  animation: ${fadeIn} 0.2s ease;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    padding: ${({ theme }) => theme.spacing[10]};
+  }
+`;
+
+const ModalBackdrop = styled.div`
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(18px);
+`;
+
+const ModalCard = styled.div`
+  position: relative;
+  width: 100%;
+  max-width: 1150px;
+  background: ${({ theme }) => theme.colors.white};
+  border-radius: ${({ theme }) => theme.radii['4xl']};
+  overflow: hidden;
+  box-shadow: ${({ theme }) => theme.shadows.xl};
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  animation: ${reveal} 0.6s cubic-bezier(0, 0, 0.2, 1);
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    flex-direction: row;
+  }
+`;
+
+const CloseButton = styled.button`
+  position: absolute;
+  top: ${({ theme }) => theme.spacing[6]};
+  right: ${({ theme }) => theme.spacing[6]};
+  z-index: 2;
+  width: 48px;
+  height: 48px;
+  border-radius: ${({ theme }) => theme.radii.full};
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: ${({ theme }) => theme.colors.slate[900]};
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+`;
+
+const ModalMedia = styled.div`
+  width: 100%;
+  background: ${({ theme }) => theme.colors.slate[100]};
+  overflow: hidden;
+  height: 300px;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    width: 60%;
+    height: auto;
+  }
+`;
+
+const ModalMediaImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
+const ModalMediaVideo = styled.video`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
+const ModalContent = styled.div`
+  width: 100%;
+  padding: ${({ theme }) => theme.spacing[8]};
+  display: flex;
+  flex-direction: column;
+  background: ${({ theme }) => theme.colors.white};
+  overflow-y: auto;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    width: 40%;
+    padding: ${({ theme }) => theme.spacing[12]};
+  }
+`;
+
+const TagRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing[2]};
+  margin-bottom: ${({ theme }) => theme.spacing[6]};
+  color: ${({ theme }) => theme.colors.brand.purple};
+`;
+
+const TagLabel = styled.span`
+  font-size: ${({ theme }) => theme.typography.sizes.xs};
+  font-weight: ${({ theme }) => theme.typography.weights.bold};
+  text-transform: uppercase;
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
+`;
+
+const ModalTitle = styled.h3`
+  margin: 0 0 ${({ theme }) => theme.spacing[6]} 0;
+  font-family: ${({ theme }) => theme.typography.fonts.serif};
+  font-size: ${({ theme }) => theme.typography.sizes['3xl']};
+  color: ${({ theme }) => theme.colors.slate[900]};
+`;
+
+const ModalDescription = styled.p`
+  margin: 0 0 ${({ theme }) => theme.spacing[10]} 0;
+  color: ${({ theme }) => theme.colors.slate[500]};
+  font-size: ${({ theme }) => theme.typography.sizes.lg};
+  line-height: ${({ theme }) => theme.typography.lineHeights.relaxed};
+`;
+
+const TechGroup = styled.div`
+  margin-bottom: ${({ theme }) => theme.spacing[10]};
+`;
+
+const TechTitle = styled.h4`
+  margin: 0 0 ${({ theme }) => theme.spacing[4]} 0;
+  font-size: ${({ theme }) => theme.typography.sizes.xs};
+  font-weight: ${({ theme }) => theme.typography.weights.bold};
+  text-transform: uppercase;
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
+  color: ${({ theme }) => theme.colors.slate[400]};
+`;
+
+const TechList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: ${({ theme }) => theme.spacing[2]};
+`;
+
+const TechBadge = styled.span`
+  padding: ${({ theme }) => theme.spacing[2]} ${({ theme }) => theme.spacing[4]};
+  background: ${({ theme }) => theme.colors.slate[50]};
+  border-radius: ${({ theme }) => theme.radii.xl};
+  font-size: ${({ theme }) => theme.typography.sizes.xs};
+  font-weight: ${({ theme }) => theme.typography.weights.bold};
+  color: ${({ theme }) => theme.colors.slate[600]};
+  border: 1px solid ${({ theme }) => theme.colors.slate[100]};
+`;
+
+const ModalFooter = styled.div`
+  margin-top: auto;
+  padding-top: ${({ theme }) => theme.spacing[8]};
+  border-top: 1px solid ${({ theme }) => theme.colors.slate[100]};
+`;
+
+const ModalLink = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing[3]};
+  padding: ${({ theme }) => theme.spacing[4]} ${({ theme }) => theme.spacing[8]};
+  background: ${({ theme }) => theme.colors.slate[900]};
+  color: ${({ theme }) => theme.colors.white};
+  border-radius: ${({ theme }) => theme.radii['2xl']};
+  font-weight: ${({ theme }) => theme.typography.weights.bold};
+  text-decoration: none;
+  box-shadow: ${({ theme }) => theme.shadows.md};
+  transition: background 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.brand.purple};
+    transform: translateY(-1px);
+  }
+`;
 
 const WorkGallery: React.FC = () => {
   const { t } = useLanguage();
@@ -17,138 +413,108 @@ const WorkGallery: React.FC = () => {
   }, [activeCategory]);
 
   return (
-    <section id={SectionId.WORK} className="py-24 px-6 relative bg-slate-50/50">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
-          <div className="max-w-xl">
-            <h2 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6 font-serif">{t.work.title}</h2>
-            <p className="text-slate-500 text-lg md:text-xl">
-              {t.work.subtitle}
-            </p>
-          </div>
+    <Section id={SectionId.WORK}>
+      <Container>
+        <Header>
+          <HeadingGroup>
+            <Title>{t.work.title}</Title>
+            <Subtitle>{t.work.subtitle}</Subtitle>
+          </HeadingGroup>
 
-          <div className="flex flex-wrap gap-2">
+          <CategoryList>
             {categories.map((cat) => (
-              <button
+              <CategoryButton
                 key={cat}
+                $active={activeCategory === cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 ${
-                  activeCategory === cat
-                    ? 'bg-slate-900 text-white shadow-xl shadow-slate-900/20 scale-105'
-                    : 'bg-white text-slate-400 border border-slate-100 hover:border-brand-purple hover:text-brand-purple'
-                }`}
               >
                 {cat === 'All' ? t.work.all : getCategoryTranslation(cat, t)}
-              </button>
+              </CategoryButton>
             ))}
-          </div>
-        </div>
+          </CategoryList>
+        </Header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16">
+        <Grid>
           {filteredProjects.map((project, index) => (
-            <div 
-              key={project.id} 
-              className="group cursor-pointer animate-reveal"
+            <Card
+              key={project.id}
               style={{ animationDelay: `${index * 0.1}s` }}
               onClick={() => setSelectedProject(project)}
             >
-              <div className="relative aspect-[4/3] rounded-[3rem] overflow-hidden bg-slate-200 shadow-sm transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-brand-purple/10 group-hover:-translate-y-2">
+              <MediaFrame>
                 {project.mediaType === 'video' ? (
-                  <video 
-                    src={project.mediaUrl} 
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-110 group-hover:scale-100"
-                    muted loop playsInline autoPlay
-                  />
+                  <MediaVideo src={project.mediaUrl} muted loop playsInline autoPlay />
                 ) : (
-                  <img 
-                    src={project.mediaUrl} 
-                    alt={project.title} 
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-110 group-hover:scale-100"
-                  />
+                  <MediaImage src={project.mediaUrl} alt={project.title} />
                 )}
-                
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-10">
-                  <span className="text-white/60 text-xs font-bold uppercase tracking-[0.2em] mb-2">{getCategoryTranslation(project.category, t)}</span>
-                  <h3 className="text-white text-3xl font-serif font-bold mb-4">{project.title}</h3>
-                  <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-slate-900 scale-0 group-hover:scale-100 transition-transform duration-500 delay-100">
+
+                <CardOverlay>
+                  <CardCategory>{getCategoryTranslation(project.category, t)}</CardCategory>
+                  <CardTitle>{project.title}</CardTitle>
+                  <CardAction>
                     <ArrowUpRight size={24} />
-                  </div>
-                </div>
-              </div>
-            </div>
+                  </CardAction>
+                </CardOverlay>
+              </MediaFrame>
+            </Card>
           ))}
-        </div>
+        </Grid>
 
         {filteredProjects.length === 0 && (
-          <div className="text-center py-32 bg-white rounded-[3rem] border-2 border-dashed border-slate-100">
-            <Filter className="mx-auto text-slate-200 mb-4" size={48} />
-            <p className="text-slate-400 font-medium font-serif italic text-xl">{t.work.emptyState}</p>
-          </div>
+          <EmptyState>
+            <Filter color="#e2e8f0" size={48} />
+            <EmptyText>{t.work.emptyState}</EmptyText>
+          </EmptyState>
         )}
-      </div>
+      </Container>
 
       {selectedProject && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-10 animate-fadeIn">
-          <div 
-            className="absolute inset-0 bg-slate-900/95 backdrop-blur-xl"
-            onClick={() => setSelectedProject(null)}
-          />
-          
-          <div className="relative w-full max-w-6xl bg-white rounded-[3rem] overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[90vh] animate-reveal">
-            <button 
-              onClick={() => setSelectedProject(null)}
-              className="absolute top-6 right-6 z-20 w-12 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-slate-900 transition-colors"
-            >
+        <ModalOverlay>
+          <ModalBackdrop onClick={() => setSelectedProject(null)} />
+
+          <ModalCard>
+            <CloseButton onClick={() => setSelectedProject(null)} aria-label="Close">
               <X size={24} />
-            </button>
+            </CloseButton>
 
-            <div className="w-full md:w-3/5 bg-slate-100 overflow-hidden h-[300px] md:h-auto">
+            <ModalMedia>
               {selectedProject.mediaType === 'video' ? (
-                <video src={selectedProject.mediaUrl} className="w-full h-full object-cover" autoPlay muted loop controls />
+                <ModalMediaVideo src={selectedProject.mediaUrl} autoPlay muted loop controls />
               ) : (
-                <img src={selectedProject.mediaUrl} alt={selectedProject.title} className="w-full h-full object-cover" />
+                <ModalMediaImage src={selectedProject.mediaUrl} alt={selectedProject.title} />
               )}
-            </div>
+            </ModalMedia>
 
-            <div className="w-full md:w-2/5 p-8 md:p-12 overflow-y-auto bg-white flex flex-col">
-              <div className="flex items-center gap-2 mb-6">
-                <Tag size={14} className="text-brand-purple" />
-                <span className="text-xs font-bold uppercase tracking-widest text-brand-purple">{getCategoryTranslation(selectedProject.category, t)}</span>
-              </div>
-              
-              <h3 className="text-4xl font-serif font-bold text-slate-900 mb-6">{selectedProject.title}</h3>
-              
-              <p className="text-slate-500 text-lg leading-relaxed mb-10">
-                {selectedProject.description}
-              </p>
+            <ModalContent>
+              <TagRow>
+                <Tag size={14} />
+                <TagLabel>{getCategoryTranslation(selectedProject.category, t)}</TagLabel>
+              </TagRow>
 
-              <div className="space-y-8 mb-10">
-                <div>
-                  <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-4">{t.work.technologies}</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedProject.technologies.map((tech, idx) => (
-                      <span key={idx} className="px-4 py-2 bg-slate-50 rounded-xl text-xs font-bold text-slate-600 border border-slate-100">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
+              <ModalTitle>{selectedProject.title}</ModalTitle>
 
-              <div className="mt-auto pt-8 border-t border-slate-100">
-                <a 
-                  href={selectedProject.link}
-                  className="inline-flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold hover:bg-brand-purple transition-all shadow-xl shadow-slate-900/10"
-                >
+              <ModalDescription>{selectedProject.description}</ModalDescription>
+
+              <TechGroup>
+                <TechTitle>{t.work.technologies}</TechTitle>
+                <TechList>
+                  {selectedProject.technologies.map((tech, idx) => (
+                    <TechBadge key={idx}>{tech}</TechBadge>
+                  ))}
+                </TechList>
+              </TechGroup>
+
+              <ModalFooter>
+                <ModalLink href={selectedProject.link}>
                   {t.work.viewProject}
                   <ExternalLink size={18} />
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
+                </ModalLink>
+              </ModalFooter>
+            </ModalContent>
+          </ModalCard>
+        </ModalOverlay>
       )}
-    </section>
+    </Section>
   );
 };
 

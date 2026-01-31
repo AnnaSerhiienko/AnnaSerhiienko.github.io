@@ -52,7 +52,7 @@ export const PROJECTS: Project[] = [
     mediaUrl: "./assets/images/brand/app-icons-splash-screens/full-composition.png",
     mediaType: "image",
     description: "A collection of vibrant app icons and splash screens designed for mobile applications, featuring playful characters and bold visual identities.",
-    link: "./app-icons-splash-screens/",
+    link: "#app-icons",
     technologies: ["Illustrator", "Icon Design", "Mobile Branding"]
   },
 

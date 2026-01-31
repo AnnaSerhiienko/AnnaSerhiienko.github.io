@@ -1,59 +1,205 @@
 import React from 'react';
+import styled, { keyframes } from 'styled-components';
 import { SectionId } from '../types';
-import { ArrowDown, Figma, PenTool, Image as ImageIcon, Gamepad2, MousePointer2 } from 'lucide-react';
+import { ArrowDown, Figma, PenTool, Image as ImageIcon, Gamepad2 } from 'lucide-react';
 import { useLanguage } from '../i18n.tsx';
+
+const float = keyframes`
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+`;
+
+const reveal = keyframes`
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+`;
+
+const Section = styled.section`
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: ${({ theme }) => theme.spacing[10]} ${({ theme }) => theme.spacing[6]} 0;
+  overflow: hidden;
+`;
+
+const Content = styled.div`
+  position: relative;
+  z-index: 1;
+  max-width: 960px;
+  margin: 0 auto;
+  animation: ${reveal} 0.8s cubic-bezier(0, 0, 0.2, 1) forwards;
+`;
+
+const FloatingIcon = styled.div`
+  position: absolute;
+  padding: ${({ theme }) => theme.spacing[4]};
+  background: ${({ theme }) => theme.colors.white};
+  border-radius: ${({ theme }) => theme.radii['2xl']};
+  box-shadow: ${({ theme }) => theme.shadows.md};
+  animation: ${float} 6s ease-in-out infinite;
+  display: none;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+`;
+
+const FloatingIconDelayed = styled(FloatingIcon)`
+  animation-delay: 3s;
+`;
+
+const AvailabilityPill = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing[2]};
+  padding: ${({ theme }) => theme.spacing[2]} ${({ theme }) => theme.spacing[4]};
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  border: 1px solid ${({ theme }) => theme.colors.slate[200]};
+  border-radius: ${({ theme }) => theme.radii.full};
+  margin-bottom: ${({ theme }) => theme.spacing[8]};
+  box-shadow: ${({ theme }) => theme.shadows.sm};
+`;
+
+const PulseDot = styled.span`
+  width: 8px;
+  height: 8px;
+  border-radius: ${({ theme }) => theme.radii.full};
+  background: #22c55e;
+  animation: ${float} 3s ease-in-out infinite;
+`;
+
+const AvailabilityText = styled.span`
+  color: ${({ theme }) => theme.colors.slate[600]};
+  font-size: ${({ theme }) => theme.typography.sizes.sm};
+  font-weight: ${({ theme }) => theme.typography.weights.medium};
+`;
+
+const Heading = styled.h1`
+  margin: 0 0 ${({ theme }) => theme.spacing[8]} 0;
+  font-size: ${({ theme }) => theme.typography.sizes['4xl']};
+  font-weight: ${({ theme }) => theme.typography.weights.bold};
+  color: ${({ theme }) => theme.colors.slate[900]};
+  line-height: ${({ theme }) => theme.typography.lineHeights.tight};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    font-size: ${({ theme }) => theme.typography.sizes['6xl']};
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+    font-size: ${({ theme }) => theme.typography.sizes['7xl']};
+  }
+`;
+
+const GradientText = styled.span`
+  display: inline-block;
+  background: linear-gradient(90deg, #2563eb, #7c3aed, #db2777);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+`;
+
+const Lead = styled.p`
+  margin: 0 auto ${({ theme }) => theme.spacing[12]} auto;
+  max-width: 560px;
+  color: ${({ theme }) => theme.colors.slate[500]};
+  font-size: ${({ theme }) => theme.typography.sizes.lg};
+  line-height: ${({ theme }) => theme.typography.lineHeights.relaxed};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    font-size: ${({ theme }) => theme.typography.sizes.xl};
+  }
+`;
+
+const Actions = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing[4]};
+  justify-content: center;
+  align-items: center;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+    flex-direction: row;
+  }
+`;
+
+const PrimaryButton = styled.button`
+  padding: ${({ theme }) => theme.spacing[4]} ${({ theme }) => theme.spacing[8]};
+  background: ${({ theme }) => theme.colors.slate[900]};
+  color: ${({ theme }) => theme.colors.white};
+  border-radius: ${({ theme }) => theme.radii.full};
+  font-weight: ${({ theme }) => theme.typography.weights.medium};
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing[2]};
+  box-shadow: ${({ theme }) => theme.shadows.md};
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.brand.purple};
+    transform: translateY(-1px);
+    box-shadow: ${({ theme }) => theme.shadows.lg};
+  }
+`;
+
+const ArrowIcon = styled(ArrowDown)`
+  transition: transform 0.2s ease;
+
+  ${PrimaryButton}:hover & {
+    transform: translateY(4px);
+  }
+`;
 
 const Hero: React.FC = () => {
   const { t } = useLanguage();
   
   return (
-    <section 
-      id={SectionId.HERO} 
-      className="relative min-h-screen flex flex-col justify-center items-center text-center px-6 overflow-hidden pt-20"
-    >
-      <div className="z-10 max-w-5xl mx-auto fade-in relative">
-        {/* Floating Icons Decorations */}
-        <div className="absolute -left-12 top-0 md:-left-24 md:top-10 p-4 bg-white rounded-2xl shadow-xl shadow-purple-500/10 animate-float hidden md:block">
-          <Figma className="text-purple-600 w-8 h-8" />
-        </div>
-        <div className="absolute -right-12 top-20 md:-right-32 md:top-20 p-4 bg-white rounded-2xl shadow-xl shadow-blue-500/10 animate-float-delayed hidden md:block">
-          <PenTool className="text-blue-500 w-8 h-8" />
-        </div>
-        <div className="absolute left-10 bottom-0 md:-left-16 md:bottom-20 p-4 bg-white rounded-2xl shadow-xl shadow-pink-500/10 animate-float-delayed hidden md:block">
-          <ImageIcon className="text-pink-500 w-8 h-8" />
-        </div>
-        <div className="absolute right-0 bottom-10 md:-right-20 md:bottom-10 p-4 bg-white rounded-2xl shadow-xl shadow-green-500/10 animate-float hidden md:block">
-          <Gamepad2 className="text-emerald-500 w-8 h-8" />
-        </div>
+    <Section id={SectionId.HERO}>
+      <Content>
+        <FloatingIcon style={{ left: '-48px', top: 0 }}>
+          <Figma color="#7c3aed" size={32} />
+        </FloatingIcon>
+        <FloatingIconDelayed style={{ right: '-48px', top: 80 }}>
+          <PenTool color="#3b82f6" size={32} />
+        </FloatingIconDelayed>
+        <FloatingIconDelayed style={{ left: '40px', bottom: 0 }}>
+          <ImageIcon color="#ec4899" size={32} />
+        </FloatingIconDelayed>
+        <FloatingIcon style={{ right: 0, bottom: 40 }}>
+          <Gamepad2 color="#10b981" size={32} />
+        </FloatingIcon>
 
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/50 backdrop-blur-sm border border-slate-200 rounded-full mb-8 shadow-sm">
-          <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-          <span className="text-slate-600 text-sm font-medium">{t.hero.available}</span>
-        </div>
+        <AvailabilityPill>
+          <PulseDot />
+          <AvailabilityText>{t.hero.available}</AvailabilityText>
+        </AvailabilityPill>
 
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-slate-900 mb-8 leading-tight tracking-tight">
+        <Heading>
           {t.hero.heading1} <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600">
-             {t.hero.heading2}
-          </span>
-        </h1>
-        
-        <p className="text-slate-500 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
-          I'm Anna Serhiienko, a Graphic Designer crafting digital experiences. 
-          Specializing in Brand Identity, UI/UX, and Game Design.
-        </p>
-        
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <button 
-            onClick={() => document.getElementById(SectionId.WORK)?.scrollIntoView({ behavior: 'smooth' })}
-            className="px-8 py-4 bg-slate-900 text-white rounded-full font-medium hover:bg-brand-purple transition-all shadow-lg shadow-slate-900/20 hover:shadow-brand-purple/30 flex items-center gap-2 group"
-          >
+          <GradientText>{t.hero.heading2}</GradientText>
+        </Heading>
+
+        <Lead>
+          I'm Anna Serhiienko, a Graphic Designer crafting digital experiences. Specializing in Brand
+          Identity, UI/UX, and Game Design.
+        </Lead>
+
+        <Actions>
+          <PrimaryButton onClick={() => document.getElementById(SectionId.WORK)?.scrollIntoView({ behavior: 'smooth' })}>
             {t.hero.viewWork}
-            <ArrowDown size={18} className="group-hover:translate-y-1 transition-transform" />
-          </button>
-        </div>
-      </div>
-    </section>
+            <ArrowIcon size={18} />
+          </PrimaryButton>
+        </Actions>
+      </Content>
+    </Section>
   );
 };
 

@@ -1,9 +1,231 @@
 import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 import { SectionId } from '../types.ts';
 import { Menu, X, FileText } from 'lucide-react';
 import { useLanguage } from '../i18n.tsx';
 
-const Navigation: React.FC = () => {
+const NavShell = styled.nav<{ $scrolled: boolean }>`
+  position: fixed;
+  top: ${({ theme }) => theme.spacing[4]};
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  width: 95%;
+  max-width: 1024px;
+  border-radius: ${({ theme }) => theme.radii['2xl']};
+  padding: ${({ theme, $scrolled }) => ($scrolled ? `${theme.spacing[3]} ${theme.spacing[8]}` : `${theme.spacing[6]} ${theme.spacing[8]}`)};
+  background: ${({ $scrolled }) => ($scrolled ? 'rgba(255, 255, 255, 0.7)' : 'transparent')};
+  backdrop-filter: ${({ $scrolled }) => ($scrolled ? 'blur(18px)' : 'none')};
+  box-shadow: ${({ theme, $scrolled }) => ($scrolled ? theme.shadows.lg : 'none')};
+  border: ${({ $scrolled }) => ($scrolled ? '1px solid rgba(255, 255, 255, 0.2)' : 'none')};
+  transition: all 0.5s ease;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    border-radius: ${({ theme }) => theme.radii.full};
+  }
+`;
+
+const NavRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const Brand = styled.button`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing[1]};
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: ${({ theme }) => theme.typography.sizes.lg};
+  font-weight: ${({ theme }) => theme.typography.weights.bold};
+  letter-spacing: -0.02em;
+  color: ${({ theme }) => theme.colors.slate[900]};
+`;
+
+const BrandAccent = styled.span`
+  font-family: ${({ theme }) => theme.typography.fonts.serif};
+  font-style: italic;
+  color: ${({ theme }) => theme.colors.brand.purple};
+  transition: transform 0.2s ease;
+
+  ${Brand}:hover & {
+    transform: rotate(12deg);
+  }
+`;
+
+const BrandText = styled.span`
+  display: none;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+    display: inline;
+  }
+`;
+
+const DesktopNav = styled.div`
+  display: none;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing[10]};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    display: flex;
+  }
+`;
+
+const NavLink = styled.button`
+  border: none;
+  background: transparent;
+  font-size: ${({ theme }) => theme.typography.sizes.xs};
+  font-weight: ${({ theme }) => theme.typography.weights.bold};
+  text-transform: uppercase;
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
+  color: ${({ theme }) => theme.colors.slate[500]};
+  cursor: pointer;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.brand.purple};
+  }
+`;
+
+const ActionGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing[4]};
+`;
+
+const SecondaryAction = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing[2]};
+  border: none;
+  background: transparent;
+  font-size: ${({ theme }) => theme.typography.sizes.xs};
+  font-weight: ${({ theme }) => theme.typography.weights.bold};
+  text-transform: uppercase;
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
+  color: ${({ theme }) => theme.colors.slate[400]};
+  cursor: pointer;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.slate[900]};
+  }
+`;
+
+const PrimaryAction = styled.button`
+  border: none;
+  background: ${({ theme }) => theme.colors.slate[900]};
+  color: ${({ theme }) => theme.colors.white};
+  padding: ${({ theme }) => theme.spacing[3]} ${({ theme }) => theme.spacing[6]};
+  border-radius: ${({ theme }) => theme.radii.full};
+  font-size: ${({ theme }) => theme.typography.sizes.xs};
+  font-weight: ${({ theme }) => theme.typography.weights.bold};
+  text-transform: uppercase;
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: ${({ theme }) => theme.shadows.md};
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.brand.purple};
+    transform: translateY(-1px) scale(1.02);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+`;
+
+const MobileToggle = styled.button`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: ${({ theme }) => theme.spacing[2]};
+  border: none;
+  background: transparent;
+  color: ${({ theme }) => theme.colors.slate[900]};
+  cursor: pointer;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    display: none;
+  }
+`;
+
+const MobileMenu = styled.div<{ $open: boolean }>`
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  padding: ${({ theme }) => theme.spacing[8]};
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: ${({ theme }) => theme.spacing[8]};
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  opacity: ${({ $open }) => ($open ? 1 : 0)};
+  pointer-events: ${({ $open }) => ($open ? 'auto' : 'none')};
+  transition: all 0.5s ease;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    display: none;
+  }
+`;
+
+const MobileLink = styled.button`
+  border: none;
+  background: transparent;
+  text-align: left;
+  font-size: ${({ theme }) => theme.typography.sizes['3xl']};
+  font-family: ${({ theme }) => theme.typography.fonts.serif};
+  font-weight: ${({ theme }) => theme.typography.weights.bold};
+  color: ${({ theme }) => theme.colors.slate[900]};
+  cursor: pointer;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.brand.purple};
+  }
+`;
+
+const MobileFooter = styled.div`
+  padding-top: ${({ theme }) => theme.spacing[8]};
+  border-top: 1px solid ${({ theme }) => theme.colors.slate[100]};
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing[4]};
+`;
+
+const MobileSecondary = styled.button`
+  border: none;
+  background: transparent;
+  text-align: left;
+  font-size: ${({ theme }) => theme.typography.sizes.lg};
+  font-weight: ${({ theme }) => theme.typography.weights.bold};
+  color: ${({ theme }) => theme.colors.slate[400]};
+  display: inline-flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing[3]};
+  cursor: pointer;
+`;
+
+const MobilePrimary = styled.button`
+  border: none;
+  background: ${({ theme }) => theme.colors.slate[900]};
+  color: ${({ theme }) => theme.colors.white};
+  padding: ${({ theme }) => theme.spacing[5]} ${({ theme }) => theme.spacing[6]};
+  border-radius: ${({ theme }) => theme.radii['2xl']};
+  font-size: ${({ theme }) => theme.typography.sizes.lg};
+  font-weight: ${({ theme }) => theme.typography.weights.bold};
+  cursor: pointer;
+`;
+
+interface NavigationProps {
+  onNavigate?: (sectionId: SectionId) => void;
+}
+
+const Navigation: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { t } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -17,6 +239,12 @@ const Navigation: React.FC = () => {
   }, []);
 
   const scrollToSection = (id: SectionId) => {
+    if (onNavigate) {
+      onNavigate(id);
+      setIsMobileMenuOpen(false);
+      return;
+    }
+
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
@@ -39,86 +267,48 @@ const Navigation: React.FC = () => {
 
   return (
     <>
-      <nav
-        className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 w-[95%] max-w-5xl rounded-2xl md:rounded-full ${
-          isScrolled 
-            ? 'bg-white/70 backdrop-blur-xl shadow-2xl shadow-slate-200/50 py-3 px-8 border border-white/20' 
-            : 'bg-transparent py-6 px-8'
-        }`}
-      >
-        <div className="flex justify-between items-center">
-          <div 
-            className="text-xl font-bold tracking-tighter cursor-pointer text-slate-900 flex items-center gap-1 group"
-            onClick={() => scrollToSection(SectionId.HERO)}
-          >
-            <span className="font-serif italic text-brand-purple group-hover:rotate-12 transition-transform">A.</span>
-            <span className="hidden sm:inline">Serhiienko</span>
-          </div>
+      <NavShell $scrolled={isScrolled}>
+        <NavRow>
+          <Brand onClick={() => scrollToSection(SectionId.HERO)}>
+            <BrandAccent>A.</BrandAccent>
+            <BrandText>Serhiienko</BrandText>
+          </Brand>
 
-          <div className="hidden md:flex items-center space-x-10">
+          <DesktopNav>
             {navLinks.map((link) => (
-              <button
-                key={link.id}
-                onClick={() => scrollToSection(link.id)}
-                className="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-brand-purple transition-colors"
-              >
+              <NavLink key={link.id} onClick={() => scrollToSection(link.id)}>
                 {link.label}
-              </button>
+              </NavLink>
             ))}
-            <div className="flex items-center gap-4">
-              <button 
-                onClick={downloadCV}
-                className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-colors"
-              >
+            <ActionGroup>
+              <SecondaryAction onClick={downloadCV}>
                 <FileText size={16} />
                 {t.nav.cv}
-              </button>
-              <button 
-                onClick={openEmail}
-                className="bg-slate-900 text-white px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-brand-purple hover:scale-105 active:scale-95 transition-all shadow-xl shadow-slate-900/10"
-              >
-                {t.nav.hireMe}
-              </button>
-            </div>
-          </div>
+              </SecondaryAction>
+              <PrimaryAction onClick={openEmail}>{t.nav.hireMe}</PrimaryAction>
+            </ActionGroup>
+          </DesktopNav>
 
-          <button 
-            className="md:hidden text-slate-900 p-2"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
+          <MobileToggle onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-      </nav>
+          </MobileToggle>
+        </NavRow>
+      </NavShell>
 
-      <div className={`fixed inset-0 z-40 bg-white/95 backdrop-blur-2xl p-8 flex flex-col justify-center space-y-8 md:hidden transition-all duration-500 ${
-        isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-      }`}>
+      <MobileMenu $open={isMobileMenuOpen}>
         {navLinks.map((link) => (
-          <button
-            key={link.id}
-            onClick={() => scrollToSection(link.id)}
-            className="text-left text-4xl font-serif font-bold text-slate-900 hover:text-brand-purple transition-colors"
-          >
+          <MobileLink key={link.id} onClick={() => scrollToSection(link.id)}>
             {link.label}
-          </button>
+          </MobileLink>
         ))}
-        <div className="pt-8 border-t border-slate-100 flex flex-col gap-4">
-          <button 
-            onClick={downloadCV}
-            className="text-left text-xl font-bold text-slate-400 flex items-center gap-3"
-          >
+        <MobileFooter>
+          <MobileSecondary onClick={downloadCV}>
             <FileText size={24} />
             {t.nav.cv}
-          </button>
-          <button 
-            onClick={openEmail}
-            className="w-full bg-slate-900 text-white py-5 rounded-2xl text-lg font-bold"
-          >
-            {t.nav.hireMe}
-          </button>
-        </div>
-      </div>
+          </MobileSecondary>
+          <MobilePrimary onClick={openEmail}>{t.nav.hireMe}</MobilePrimary>
+        </MobileFooter>
+      </MobileMenu>
     </>
   );
 };
