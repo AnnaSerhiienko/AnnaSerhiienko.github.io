@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { SectionId, Project } from '../types.ts';
 import { PROJECTS, WORK_CATEGORIES } from '../constants.ts';
@@ -405,6 +405,17 @@ const WorkGallery: React.FC = () => {
   const { t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  useEffect(() => {
+    if (!selectedProject) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [selectedProject]);
 
   const categories = ['All', ...WORK_CATEGORIES];
 
