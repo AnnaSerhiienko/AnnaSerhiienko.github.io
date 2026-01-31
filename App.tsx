@@ -147,6 +147,7 @@ function AppContent() {
       if (target) {
         setCurrentView(AppView.PORTFOLIO);
         setCurrentSection(id);
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     };
 
@@ -163,20 +164,24 @@ function AppContent() {
 
   useEffect(() => {
     if (currentView === AppView.APP_ICONS) {
-      window.scrollTo({ top: 0, behavior: 'auto' });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [currentView]);
 
   const handleNavigate = (sectionId: SectionId) => {
     setCurrentView(AppView.PORTFOLIO);
     setCurrentSection(sectionId);
-    window.location.hash = sectionId;
+    window.history.pushState(null, '', `#${sectionId}`);
+    const target = document.getElementById(sectionId);
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   const handleBackToPortfolio = () => {
     setCurrentView(AppView.PORTFOLIO);
     setCurrentSection(SectionId.WORK);
-    window.location.hash = SectionId.WORK;
+    window.history.pushState(null, '', `#${SectionId.WORK}`);
+    const target = document.getElementById(SectionId.WORK);
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
