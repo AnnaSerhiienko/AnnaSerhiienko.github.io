@@ -187,6 +187,13 @@ const CarouselShell = styled.div`
   left: 50%;
   transform: translateX(-50%);
   padding: 0 20px;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    width: 100%;
+    left: 0;
+    transform: none;
+    padding: 0;
+  }
 `;
 
 const CarouselSlider = styled(Slider)`
@@ -252,6 +259,35 @@ const CarouselSlider = styled(Slider)`
     opacity: 1;
     transform: scale(1.05);
     color: rgba(255, 255, 255, 0.98);
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: 0;
+
+    .slick-list {
+      overflow: hidden;
+    }
+
+    .slick-slide {
+      padding: 0 4px;
+    }
+
+    .slick-slide .carousel-card {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+
+    .slick-slide .carousel-caption {
+      opacity: 1;
+      transform: scale(1);
+      margin-top: 10px;
+    }
+
+    .slick-prev,
+    .slick-next {
+      display: none !important;
+    }
   }
 `;
 
@@ -484,7 +520,23 @@ const AppIconsSplashScreens: React.FC<AppIconsSplashScreensProps> = ({ onBack })
         },
         {
           breakpoint: 640,
-          settings: { slidesToShow: 2, centerPadding: '20px' },
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            centerPadding: '0px',
+            centerMode: false,
+            arrows: false,
+          },
+        },
+        {
+          breakpoint: 520,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            centerPadding: '0px',
+            centerMode: false,
+            arrows: false,
+          },
         },
       ],
     }),
