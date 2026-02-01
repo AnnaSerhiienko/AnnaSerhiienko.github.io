@@ -11,6 +11,7 @@ import { AppView } from './views.ts';
 import { SectionId } from './types.ts';
 import AppIconsSplashScreens from './components/AppIconsSplashScreens.tsx';
 import AppStoreScreenshots from './components/AppStoreScreenshots.tsx';
+import NamelacaIconsIllustration from './components/NamelacaIconsIllustration.tsx';
 import ScrollProgress from './components/ScrollProgress.tsx';
 import { nonTokenValues } from './design-system/nonTokenValues.ts';
 
@@ -136,6 +137,7 @@ function AppContent() {
   const [currentSection, setCurrentSection] = useState<SectionId>(SectionId.HERO);
   const appIconsHash = 'app-icons';
   const appStoreScreenshotsHash = 'app-store-screenshots';
+  const namelacaHash = 'namelaca';
 
   useEffect(() => {
     const scrollToHash = () => {
@@ -147,6 +149,10 @@ function AppContent() {
       }
       if (hash === appStoreScreenshotsHash) {
         setCurrentView(AppView.APP_STORE_SCREENSHOTS);
+        return;
+      }
+      if (hash === namelacaHash) {
+        setCurrentView(AppView.NAMELACA);
         return;
       }
       const id = hash as SectionId;
@@ -170,7 +176,11 @@ function AppContent() {
   }, [currentView, currentSection]);
 
   useEffect(() => {
-    if (currentView === AppView.APP_ICONS || currentView === AppView.APP_STORE_SCREENSHOTS) {
+    if (
+      currentView === AppView.APP_ICONS ||
+      currentView === AppView.APP_STORE_SCREENSHOTS ||
+      currentView === AppView.NAMELACA
+    ) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [currentView]);
@@ -218,8 +228,10 @@ function AppContent() {
           </>
         ) : currentView === AppView.APP_ICONS ? (
           <AppIconsSplashScreens onBack={handleBackToPortfolio} />
-        ) : (
+        ) : currentView === AppView.APP_STORE_SCREENSHOTS ? (
           <AppStoreScreenshots onBack={handleBackToPortfolio} />
+        ) : (
+          <NamelacaIconsIllustration onBack={handleBackToPortfolio} />
         )}
       </Foreground>
     </AppShell>

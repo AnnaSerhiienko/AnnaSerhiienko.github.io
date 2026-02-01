@@ -2,6 +2,7 @@ import { Project, SocialLink } from './types';
 const ASSET_BASE_URL = '/assets';
 const APP_ICONS_FULL_COMPOSITION = `${ASSET_BASE_URL}/images/brand/app-icons-splash-screens/full-composition.png`;
 const SMART_HOUSE_APP_VIDEO = `${ASSET_BASE_URL}/video/uiux/smart-house-app.mp4`;
+const NAMELACA_COVER = `${ASSET_BASE_URL}/images/brand/Namelaca icons and illustration/Full_Composition_Namelaca.png`;
 const BEAUTY_SHOP_ONBOARDING_VIDEO = `${ASSET_BASE_URL}/video/uiux/Onboarding for Beauty shop.mp4`;
 const APP_STORE_SCREENSHOTS = [
   `${ASSET_BASE_URL}/images/brand/App Store Screenshots/1 Cat Wars.jpg`,
@@ -132,6 +133,16 @@ export const PROJECTS: Project[] = [
     description: "A refined onboarding flow for a beauty shop app, focused on personalization and smooth first-time guidance.",
     link: "https://dribbble.com/shots/11284581-Onboarding-for-Beauty-shop",
     technologies: ["Figma", "UI/UX", "Onboarding"]
+  },
+  {
+    id: 20,
+    title: "Namelaca Icons & Illustration",
+    category: "UI/UX design",
+    mediaUrl: NAMELACA_COVER,
+    mediaType: "image",
+    description: "Iconography and illustration set for Namelaca, covering UI states, empty screens, and branded visuals.",
+    link: "#namelaca",
+    technologies: ["Illustration", "Icon Design", "UI Assets"]
   },
   {
     id: 17,

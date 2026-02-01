@@ -107,6 +107,12 @@ export interface Translations {
     title: string;
     lead: string;
   };
+  namelaca: {
+    backToPortfolio: string;
+    headerTag: string;
+    eyebrow: string;
+    title: string;
+  };
   // Footer
   footer: {
     rights: string;
@@ -174,6 +180,11 @@ const translations: Record<Language, Translations> = {
         title: 'RevBack Logo Design',
         description: 'Logo design exploration for the RevBack mobile app with a bold, modern identity.',
         technologies: ['Logo Design', 'Brand Identity', 'Illustrator'],
+      },
+      20: {
+        title: 'Namelaca Icons & Illustration',
+        description: 'Iconography and illustration set for Namelaca, covering UI states, empty screens, and branded visuals.',
+        technologies: ['Illustration', 'Icon Design', 'UI Assets'],
       },
       2: {
         title: 'Ethereal Finance App',
@@ -307,6 +318,12 @@ const translations: Record<Language, Translations> = {
       title: 'App Store Screenshots',
       lead: '',
     },
+    namelaca: {
+      backToPortfolio: 'Back to Portfolio',
+      headerTag: 'Namelaca',
+      eyebrow: 'UI/UX Design',
+      title: 'Namelaca Icons & Illustration',
+    },
     footer: {
       rights: 'All rights reserved.',
       portfolio: 'Portfolio',
@@ -376,6 +393,11 @@ const translations: Record<Language, Translations> = {
         title: 'RevBack Logo Design',
         description: 'Дослідження логотипу для мобільного застосунку RevBack із сміливою сучасною айдентикою.',
         technologies: ['Logo Design', 'Бренд-айдентика', 'Illustrator'],
+      },
+      20: {
+        title: 'Namelaca Icons & Illustration',
+        description: 'Набір іконок та ілюстрацій для Namelaca: UI-стани, порожні екрани та брендовані візуали.',
+        technologies: ['Ілюстрації', 'Дизайн іконок', 'UI-ресурси'],
       },
       2: {
         title: 'Ethereal Finance App',
@@ -493,6 +515,12 @@ const translations: Record<Language, Translations> = {
       eyebrow: 'Маркетинг',
       title: 'Скріншоти App Store',
       lead: '',
+    },
+    namelaca: {
+      backToPortfolio: 'Назад до портфоліо',
+      headerTag: 'Namelaca',
+      eyebrow: 'UI/UX дизайн',
+      title: 'Namelaca Icons & Illustration',
     },
     footer: {
       rights: 'Усі права захищено.',
