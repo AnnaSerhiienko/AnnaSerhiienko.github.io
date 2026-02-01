@@ -2,6 +2,7 @@ import { Project, SocialLink } from './types';
 const ASSET_BASE_URL = '/assets';
 const APP_ICONS_FULL_COMPOSITION = `${ASSET_BASE_URL}/images/brand/app-icons-splash-screens/full-composition.png`;
 const SMART_HOUSE_APP_VIDEO = `${ASSET_BASE_URL}/video/uiux/smart-house-app.mp4`;
+const BEAUTY_SHOP_ONBOARDING_VIDEO = `${ASSET_BASE_URL}/video/uiux/Onboarding for Beauty shop.mp4`;
 const APP_STORE_SCREENSHOTS = [
   `${ASSET_BASE_URL}/images/brand/App Store Screenshots/1 Cat Wars.jpg`,
   `${ASSET_BASE_URL}/images/brand/App Store Screenshots/2 Cat Wars.jpg`,
@@ -100,6 +101,16 @@ export const PROJECTS: Project[] = [
     link: "#app-icons",
     technologies: ["Illustrator", "Icon Design", "Mobile Branding"]
   },
+  {
+    id: 19,
+    title: "RevBack Logo Design",
+    category: "Brand design",
+    mediaUrl: "https://cdn.dribbble.com/userupload/36126269/file/original-f90f3932c3f7d4e6048c28f799c4cbba.gif",
+    mediaType: "image",
+    description: "Logo design exploration for the RevBack mobile app with a bold, modern identity.",
+    link: "https://dribbble.com/shots/17802180-Logo-design-for-RevBack-mobile-app",
+    technologies: ["Logo Design", "Brand Identity", "Illustrator"]
+  },
 
   // UI/UX Design
   {
@@ -111,6 +122,16 @@ export const PROJECTS: Project[] = [
     description: "An intuitive smart home control application featuring a sleek dark interface with smooth animations. Users can effortlessly manage lighting, temperature, and connected devices with elegant micro-interactions and real-time status updates.",
     link: "https://dribbble.com/shots/11804880-Smart-house-App",
     technologies: ["Figma", "UI Animation", "IoT Design"]
+  },
+  {
+    id: 18,
+    title: "Onboarding for Beauty Shop",
+    category: "UI/UX design",
+    mediaUrl: BEAUTY_SHOP_ONBOARDING_VIDEO,
+    mediaType: "video",
+    description: "A refined onboarding flow for a beauty shop app, focused on personalization and smooth first-time guidance.",
+    link: "https://dribbble.com/shots/11284581-Onboarding-for-Beauty-shop",
+    technologies: ["Figma", "UI/UX", "Onboarding"]
   },
   {
     id: 17,

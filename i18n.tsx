@@ -170,6 +170,11 @@ const translations: Record<Language, Translations> = {
         description: 'A collection of vibrant app icons and splash screens designed for mobile applications, featuring playful characters and bold visual identities.',
         technologies: ['Illustrator', 'Icon Design', 'Mobile Branding'],
       },
+      19: {
+        title: 'RevBack Logo Design',
+        description: 'Logo design exploration for the RevBack mobile app with a bold, modern identity.',
+        technologies: ['Logo Design', 'Brand Identity', 'Illustrator'],
+      },
       2: {
         title: 'Ethereal Finance App',
         description: 'A reimagined mobile banking experience focusing on transparency and calm, reducing anxiety around financial management.',
@@ -179,6 +184,11 @@ const translations: Record<Language, Translations> = {
         title: 'Smart House App',
         description: 'An intuitive smart home control application featuring a sleek dark interface with smooth animations. Users can effortlessly manage lighting, temperature, and connected devices with elegant micro-interactions and real-time status updates.',
         technologies: ['Figma', 'UI Animation', 'IoT Design'],
+      },
+      18: {
+        title: 'Onboarding for Beauty Shop',
+        description: 'A refined onboarding flow for a beauty shop app, focused on personalization and smooth first-time guidance.',
+        technologies: ['Figma', 'UI/UX', 'Onboarding'],
       },
       17: {
         title: 'App Store Screenshots',
@@ -309,6 +319,11 @@ const translations: Record<Language, Translations> = {
       about: 'Про мене',
       cv: 'Резюме',
       hireMe: 'Найняти',
+      18: {
+        title: 'Onboarding for Beauty Shop',
+        description: 'Вишуканий онбординг для застосунку б’юті-магазину з фокусом на персоналізації та плавному першому досвіді.',
+        technologies: ['Figma', 'UI/UX', 'Онбординг'],
+      },
       brandText: 'Сергієнко',
       cvAlert: 'Завантаження резюме відбулося б тут (anna_serhiienko_resume.pdf).',
     },
@@ -356,6 +371,11 @@ const translations: Record<Language, Translations> = {
         title: 'App Icons & Splash Screens',
         description: 'Колекція яскравих іконок і сплеш-екранів для мобільних застосунків із грайливими персонажами та сміливою айдентикою.',
         technologies: ['Illustrator', 'Icon Design', 'Mobile Branding'],
+      },
+      19: {
+        title: 'RevBack Logo Design',
+        description: 'Дослідження логотипу для мобільного застосунку RevBack із сміливою сучасною айдентикою.',
+        technologies: ['Logo Design', 'Бренд-айдентика', 'Illustrator'],
       },
       2: {
         title: 'Ethereal Finance App',
