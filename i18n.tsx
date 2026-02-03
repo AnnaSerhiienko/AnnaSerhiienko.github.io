@@ -113,6 +113,14 @@ export interface Translations {
     eyebrow: string;
     title: string;
   };
+  mindzy: {
+    backToPortfolio: string;
+    eyebrow: string;
+    title: string;
+    lead: string;
+    interfaceTitle: string;
+    videoTitle: string;
+  };
   // Footer
   footer: {
     rights: string;
@@ -186,6 +194,11 @@ const translations: Record<Language, Translations> = {
         description: 'Iconography and illustration set for Namelaca, covering UI states, empty screens, and branded visuals.',
         technologies: ['Illustration', 'Icon Design', 'UI Assets'],
       },
+      21: {
+        title: 'Mindzy – Brain Training',
+        description: 'Interface suite for Mindzy, showcasing a range of brain-training games and playful UI states.',
+        technologies: ['UI/UX', 'Game UI', 'Visual Design'],
+      },
       2: {
         title: 'Ethereal Finance App',
         description: 'A reimagined mobile banking experience focusing on transparency and calm, reducing anxiety around financial management.',
@@ -248,13 +261,13 @@ const translations: Record<Language, Translations> = {
       },
     },
     about: {
-      discovery: 'Discovery',
+      discovery: 'About Me',
       heading1: 'Designing',
       heading2: 'Through Craft.',
       experience: 'Experience',
       years: 'Years',
       proficiencies: 'Proficiencies',
-      bio: "My name is Anna Serhiienko. I have been working as a graphic designer for 5 years. I specialize in creating cohesive visual languages across various media. Whether it's crafting a unique brand identity, designing intuitive user interfaces, or building immersive game assets, I bring creativity and precision to every project.",
+      bio: "I am a Graphic Designer with 5 years of experience creating design solutions and visual graphics for digital products and brands.\nI work with Figma, Adobe Illustrator, Photoshop, and After Effects. I design branding materials, user interfaces, marketing visuals, and game assets, always focusing on business goals and user experience.",
       watermark: 'Creative',
       emphasis: 'Emotion',
       portraitAlt: 'Anna Serhiienko portrait',
@@ -323,6 +336,14 @@ const translations: Record<Language, Translations> = {
       headerTag: 'Namelaca',
       eyebrow: 'UI/UX Design',
       title: 'Namelaca Icons & Illustration',
+    },
+    mindzy: {
+      backToPortfolio: 'Back to Portfolio',
+      eyebrow: 'UI/UX Design',
+      title: 'Mindzy – Brain Training',
+      lead: 'A showcase of Mindzy game interfaces and motion previews.',
+      interfaceTitle: 'Game Interfaces',
+      videoTitle: 'Gameplay Videos',
     },
     footer: {
       rights: 'All rights reserved.',
@@ -399,6 +420,11 @@ const translations: Record<Language, Translations> = {
         description: 'Набір іконок та ілюстрацій для Namelaca: UI-стани, порожні екрани та брендовані візуали.',
         technologies: ['Ілюстрації', 'Дизайн іконок', 'UI-ресурси'],
       },
+      21: {
+        title: 'Mindzy – Brain Training',
+        description: 'Набір інтерфейсів Mindzy із різноманітними іграми для тренування мозку та UI-станами.',
+        technologies: ['UI/UX', 'Ігровий UI', 'Візуальний дизайн'],
+      },
       2: {
         title: 'Ethereal Finance App',
         description: 'Переосмислений мобільний банкінг із фокусом на прозорість і спокій, що зменшує тривожність у фінансових питаннях.',
@@ -446,13 +472,13 @@ const translations: Record<Language, Translations> = {
       },
     },
     about: {
-      discovery: 'Знайомство',
+      discovery: 'Про мене',
       heading1: 'Дизайн',
       heading2: 'Через майстерність.',
       experience: 'Досвід',
       years: 'Років',
       proficiencies: 'Навички',
-      bio: "Мене звати Анна Сергієнко. Я працюю графічним дизайнером вже 5 років. Спеціалізуюся на створенні цілісних візуальних мов у різних медіа. Чи то створення унікальної ідентичності бренду, проєктування інтуїтивних інтерфейсів користувача, чи розробка захоплюючих ігрових ресурсів — я привношу креативність і точність у кожен проєкт.",
+      bio: "Я графічний дизайнер з 5-річним досвідом створення дизайн-рішень та візуальної графіки для цифрових продуктів і брендів.\nПрацюю з Figma, Adobe Illustrator, Photoshop та After Effects. Розробляю брендинг-матеріали, користувацькі інтерфейси, маркетингові візуали та ігрові ресурси, завжди фокусуючись на бізнес-цілях та досвіді користувача.",
       watermark: 'Творчість',
       emphasis: 'Емоцій',
       portraitAlt: 'Портрет Анни Сергієнко',
@@ -521,6 +547,14 @@ const translations: Record<Language, Translations> = {
       headerTag: 'Namelaca',
       eyebrow: 'UI/UX дизайн',
       title: 'Namelaca Icons & Illustration',
+    },
+    mindzy: {
+      backToPortfolio: 'Назад до портфоліо',
+      eyebrow: 'UI/UX дизайн',
+      title: 'Mindzy – Brain Training',
+      lead: 'Добірка інтерфейсів Mindzy та відеопереглядів гри.',
+      interfaceTitle: 'Інтерфейси ігор',
+      videoTitle: 'Відео геймплею',
     },
     footer: {
       rights: 'Усі права захищено.',

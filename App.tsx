@@ -12,6 +12,7 @@ import { SectionId } from './types.ts';
 import AppIconsSplashScreens from './components/AppIconsSplashScreens.tsx';
 import AppStoreScreenshots from './components/AppStoreScreenshots.tsx';
 import NamelacaIconsIllustration from './components/NamelacaIconsIllustration.tsx';
+import MindzyBrainTraining from './components/MindzyBrainTraining.tsx';
 import ScrollProgress from './components/ScrollProgress.tsx';
 import { nonTokenValues } from './design-system/nonTokenValues.ts';
 
@@ -138,6 +139,7 @@ function AppContent() {
   const appIconsHash = 'app-icons';
   const appStoreScreenshotsHash = 'app-store-screenshots';
   const namelacaHash = 'namelaca';
+  const mindzyHash = 'mindzy';
 
   useEffect(() => {
     const scrollToHash = () => {
@@ -153,6 +155,10 @@ function AppContent() {
       }
       if (hash === namelacaHash) {
         setCurrentView(AppView.NAMELACA);
+        return;
+      }
+      if (hash === mindzyHash) {
+        setCurrentView(AppView.MINDZY);
         return;
       }
       const id = hash as SectionId;
@@ -179,7 +185,8 @@ function AppContent() {
     if (
       currentView === AppView.APP_ICONS ||
       currentView === AppView.APP_STORE_SCREENSHOTS ||
-      currentView === AppView.NAMELACA
+      currentView === AppView.NAMELACA ||
+      currentView === AppView.MINDZY
     ) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -230,8 +237,10 @@ function AppContent() {
           <AppIconsSplashScreens onBack={handleBackToPortfolio} />
         ) : currentView === AppView.APP_STORE_SCREENSHOTS ? (
           <AppStoreScreenshots onBack={handleBackToPortfolio} />
-        ) : (
+        ) : currentView === AppView.NAMELACA ? (
           <NamelacaIconsIllustration onBack={handleBackToPortfolio} />
+        ) : (
+          <MindzyBrainTraining onBack={handleBackToPortfolio} />
         )}
       </Foreground>
     </AppShell>

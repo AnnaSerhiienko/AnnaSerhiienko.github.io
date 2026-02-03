@@ -4,6 +4,7 @@ const APP_ICONS_FULL_COMPOSITION = `${ASSET_BASE_URL}/images/brand/app-icons-spl
 const SMART_HOUSE_APP_VIDEO = `${ASSET_BASE_URL}/video/uiux/smart-house-app.mp4`;
 const NAMELACA_COVER = `${ASSET_BASE_URL}/images/brand/Namelaca icons and illustration/Full_Composition_Namelaca.png`;
 const BEAUTY_SHOP_ONBOARDING_VIDEO = `${ASSET_BASE_URL}/video/uiux/Onboarding for Beauty shop.mp4`;
+const MINDZY_COVER = `${ASSET_BASE_URL}/images/brand/Mindzy – Brain Training/UI/Full_Composition_Mindzy – Brain Training.png`;
 const APP_STORE_SCREENSHOTS = [
   `${ASSET_BASE_URL}/images/brand/App Store Screenshots/1 Cat Wars.jpg`,
   `${ASSET_BASE_URL}/images/brand/App Store Screenshots/2 Cat Wars.jpg`,
@@ -143,6 +144,16 @@ export const PROJECTS: Project[] = [
     description: "Iconography and illustration set for Namelaca, covering UI states, empty screens, and branded visuals.",
     link: "#namelaca",
     technologies: ["Illustration", "Icon Design", "UI Assets"]
+  },
+  {
+    id: 21,
+    title: "Mindzy – Brain Training",
+    category: "UI/UX design",
+    mediaUrl: MINDZY_COVER,
+    mediaType: "image",
+    description: "Interface suite for Mindzy, showcasing a range of brain-training games and playful UI states.",
+    link: "#mindzy",
+    technologies: ["UI/UX", "Game UI", "Visual Design"]
   },
   {
     id: 17,

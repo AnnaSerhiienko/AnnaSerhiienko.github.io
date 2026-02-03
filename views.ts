@@ -3,4 +3,5 @@ export enum AppView {
   APP_ICONS = 'app-icons',
   APP_STORE_SCREENSHOTS = 'app-store-screenshots',
   NAMELACA = 'namelaca',
+  MINDZY = 'mindzy',
 }
