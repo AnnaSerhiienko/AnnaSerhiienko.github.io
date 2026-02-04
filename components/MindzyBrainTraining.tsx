@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 import Slider from 'react-slick';
 import styled from 'styled-components';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
@@ -218,17 +218,16 @@ const CarouselSlider = styled(Slider)`
   }
 
   .slick-slide .carousel-caption {
-    opacity: ${nonTokenValues.effects.carouselCaptionOpacity};
-    transform: scale(${nonTokenValues.motion.scaleCaptionDown});
-    margin-top: ${nonTokenValues.sizing.carouselCaptionOffsetSm};
-    transition: transform 0.4s ease, color 0.4s ease, opacity 0.4s ease, margin-top 0.4s ease;
+    opacity: 0.4;
+    transform: scale(0.9);
+    margin-top: ${({ theme }) => theme.spacing[4]};
+    transition: transform 0.4s ease, color 0.4s ease, opacity 0.4s ease;
   }
 
   .slick-center .carousel-caption {
-    margin-top: ${nonTokenValues.sizing.carouselCaptionOffsetLg};
     opacity: 1;
-    transform: scale(${nonTokenValues.motion.scaleActive});
-    color: ${nonTokenValues.effects.overlayWhite98};
+    transform: scale(1);
+    color: ${({ theme }) => theme.colors.white};
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
@@ -269,21 +268,23 @@ const CarouselCard = styled.div`
   border-radius: ${({ theme }) => theme.radii['2xl']};
   max-width: 320px;
   margin: 0 auto;
+  cursor: pointer;
 `;
 
 const CarouselVideo = styled.video`
   width: 100%;
   height: 100%;
   object-fit: contain;
-  clip-path: inset(5.5% 0 0 0);
+  clip-path: inset(5.5% 0 0 0 round 16px);
 `;
 
 const CarouselCaption = styled.p`
-  margin-top: ${({ theme }) => theme.spacing[3]};
+  margin-top: ${({ theme }) => theme.spacing[4]};
   text-align: center;
-  font-size: ${({ theme }) => theme.typography.sizes.xs};
-  font-weight: ${({ theme }) => theme.typography.weights.medium};
+  font-size: ${({ theme }) => theme.typography.sizes.lg};
+  font-weight: ${({ theme }) => theme.typography.weights.semibold};
   color: ${nonTokenValues.effects.carouselCaptionMuted};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
 `;
 
 const ArrowButton = styled.button`
@@ -326,10 +327,9 @@ interface MindzyBrainTrainingProps {
 }
 
 const videoFiles = [
-  'Air Traffic.MP4',
   'Catch the bug.MP4',
   'Color count.MP4',
-  'Linking Pairs.MP4',
+  'Linking Pairs.mov',
   'Magnetic Grid.MP4',
   'Match pairs.MP4',
   'Missing operations.MP4',
@@ -346,6 +346,7 @@ const videoFiles = [
 
 const MindzyBrainTraining: React.FC<MindzyBrainTrainingProps> = ({ onBack }) => {
   const { t } = useLanguage();
+  const sliderRef = useRef<Slider>(null);
 
   const handleBack = () => {
     if (onBack) {
@@ -353,6 +354,12 @@ const MindzyBrainTraining: React.FC<MindzyBrainTrainingProps> = ({ onBack }) => 
       return;
     }
     window.location.hash = '#work';
+  };
+
+  const handleSlideClick = (index: number) => {
+    if (sliderRef.current) {
+      sliderRef.current.slickGoTo(index);
+    }
   };
 
   const videoSources = useMemo(
@@ -437,14 +444,14 @@ const MindzyBrainTraining: React.FC<MindzyBrainTrainingProps> = ({ onBack }) => 
           </SectionHeader>
         </Container>
         <CarouselShell>
-          <CarouselSlider {...sliderSettings}>
-            {videoSources.map((source) => (
-              <div key={source}>
+          <CarouselSlider ref={sliderRef} {...sliderSettings}>
+            {videoSources.map((source, index) => (
+              <div key={source} onClick={() => handleSlideClick(index)}>
                 <CarouselCard className="carousel-card">
-                  <CarouselVideo src={resolveMediaUrl(source)} muted loop playsInline autoPlay />
+                  <CarouselVideo src={resolveMediaUrl(source)} muted loop playsInline autoPlay preload="metadata" />
                 </CarouselCard>
                 <CarouselCaption className="carousel-caption">
-                  {source.split('/').pop()?.replace('.MP4', '')}
+                  {source.split('/').pop()?.replace(/\.(MP4|mov)$/i, '')}
                 </CarouselCaption>
               </div>
             ))}

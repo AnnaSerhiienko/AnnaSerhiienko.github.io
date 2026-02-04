@@ -93,6 +93,17 @@ export const SKILLS = [
 ];
 
 export const PROJECTS: Project[] = [
+  // UI/UX Design
+  {
+    id: 20,
+    title: "Namelaca Icons & Illustration",
+    category: "UI/UX design",
+    mediaUrl: NAMELACA_COVER,
+    mediaType: "image",
+    description: "Iconography and illustration set for Namelaca, covering UI states, empty screens, and branded visuals.",
+    link: "#namelaca",
+    technologies: ["Illustration", "Icon Design", "UI Assets"]
+  },
   // Brand Design
   {
     id: 15,
@@ -135,16 +146,6 @@ export const PROJECTS: Project[] = [
     description: "A refined onboarding flow for a beauty shop app, focused on personalization and smooth first-time guidance.",
     link: "https://dribbble.com/shots/11284581-Onboarding-for-Beauty-shop",
     technologies: ["Figma", "UI/UX", "Onboarding"]
-  },
-  {
-    id: 20,
-    title: "Namelaca Icons & Illustration",
-    category: "UI/UX design",
-    mediaUrl: NAMELACA_COVER,
-    mediaType: "image",
-    description: "Iconography and illustration set for Namelaca, covering UI states, empty screens, and branded visuals.",
-    link: "#namelaca",
-    technologies: ["Illustration", "Icon Design", "UI Assets"]
   },
   {
     id: 21,

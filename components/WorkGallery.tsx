@@ -131,12 +131,10 @@ const MediaImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(1);
   transform: scale(1.1);
-  transition: transform 0.7s ease, filter 0.7s ease;
+  transition: transform 0.7s ease;
 
   ${Card}:hover & {
-    filter: grayscale(0);
     transform: scale(1);
   }
 `;
@@ -145,12 +143,10 @@ const MediaVideo = styled.video`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(1);
   transform: scale(1.1);
-  transition: transform 0.7s ease, filter 0.7s ease;
+  transition: transform 0.7s ease;
 
   ${Card}:hover & {
-    filter: grayscale(0);
     transform: scale(1);
   }
 `;
@@ -163,12 +159,8 @@ const CardOverlay = styled.div`
   justify-content: flex-end;
   padding: ${({ theme }) => theme.spacing[10]};
   background: ${nonTokenValues.effects.cardOverlayGradient};
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.5s ease;
-
-  ${Card}:hover & {
-    opacity: 1;
-  }
 `;
 
 const CardCategory = styled.span`

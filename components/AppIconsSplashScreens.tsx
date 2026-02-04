@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 import Slider from 'react-slick';
 import styled from 'styled-components';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
@@ -252,17 +252,16 @@ const CarouselSlider = styled(Slider)`
   }
 
   .slick-slide .carousel-caption {
-    opacity: ${nonTokenValues.effects.carouselCaptionOpacity};
-    transform: scale(${nonTokenValues.motion.scaleCaptionDown});
-    margin-top: ${nonTokenValues.sizing.carouselCaptionOffsetSm};
-    transition: transform 0.4s ease, color 0.4s ease, opacity 0.4s ease, margin-top 0.4s ease;
+    opacity: 0.4;
+    transform: scale(0.9);
+    margin-top: ${({ theme }) => theme.spacing[4]};
+    transition: transform 0.4s ease, color 0.4s ease, opacity 0.4s ease;
   }
 
   .slick-center .carousel-caption {
-    margin-top: ${nonTokenValues.sizing.carouselCaptionOffsetLg};
     opacity: 1;
-    transform: scale(${nonTokenValues.motion.scaleActive});
-    color: ${nonTokenValues.effects.overlayWhite98};
+    transform: scale(1);
+    color: ${({ theme }) => theme.colors.white};
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
@@ -301,6 +300,7 @@ const CarouselCard = styled.div`
   overflow: hidden;
   background: ${({ theme }) => theme.colors.slate[900]};
   box-shadow: ${nonTokenValues.effects.carouselCardShadow};
+  cursor: pointer;
 `;
 
 const CarouselMedia = styled.img`
@@ -310,11 +310,12 @@ const CarouselMedia = styled.img`
 `;
 
 const CarouselCaption = styled.p`
-  margin-top: ${({ theme }) => theme.spacing[3]};
+  margin-top: ${({ theme }) => theme.spacing[4]};
   text-align: center;
-  font-size: ${({ theme }) => theme.typography.sizes.xs};
-  font-weight: ${({ theme }) => theme.typography.weights.medium};
+  font-size: ${({ theme }) => theme.typography.sizes.lg};
+  font-weight: ${({ theme }) => theme.typography.weights.semibold};
   color: ${nonTokenValues.effects.carouselCaptionMuted};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
 `;
 
 const ArrowButton = styled.button`
@@ -444,6 +445,7 @@ const splashSources = [
 
 const AppIconsSplashScreens: React.FC<AppIconsSplashScreensProps> = ({ onBack }) => {
   const { t } = useLanguage();
+  const sliderRef = useRef<Slider>(null);
 
   const handleBack = () => {
     if (onBack) {
@@ -451,6 +453,12 @@ const AppIconsSplashScreens: React.FC<AppIconsSplashScreensProps> = ({ onBack })
       return;
     }
     window.location.hash = '#work';
+  };
+
+  const handleSlideClick = (index: number) => {
+    if (sliderRef.current) {
+      sliderRef.current.slickGoTo(index);
+    }
   };
 
   const year = useMemo(() => new Date().getFullYear(), []);
@@ -555,9 +563,9 @@ const AppIconsSplashScreens: React.FC<AppIconsSplashScreensProps> = ({ onBack })
         </Container>
 
         <CarouselShell>
-          <CarouselSlider {...sliderSettings}>
+          <CarouselSlider ref={sliderRef} {...sliderSettings}>
             {splashSources.map((src, index) => (
-              <div key={src}>
+              <div key={src} onClick={() => handleSlideClick(index)}>
                 <CarouselCard className="carousel-card">
                   <CarouselMedia src={src} alt={t.appIcons.splashLabels[index]} loading="lazy" />
                 </CarouselCard>
@@ -567,21 +575,6 @@ const AppIconsSplashScreens: React.FC<AppIconsSplashScreensProps> = ({ onBack })
           </CarouselSlider>
         </CarouselShell>
       </CarouselSection>
-
-      <FullComposition>
-        <Container>
-          <SectionHeader>
-            <SectionLine />
-            <SectionTitle>{t.appIcons.fullCompositionTitle}</SectionTitle>
-          </SectionHeader>
-          <CompositionCard>
-            <CompositionImage
-              src={`${ASSET_BASE_URL}/images/brand/app-icons-splash-screens/full-composition.png`}
-              alt={t.appIcons.fullCompositionAlt}
-            />
-          </CompositionCard>
-        </Container>
-      </FullComposition>
 
       <Footer>
         <FooterInner>
