@@ -38,6 +38,7 @@ export interface Translations {
       marketing: string;
       illustration: string;
       gameDesign: string;
+      games: string;
     };
     emptyState: string;
     viewProject: string;
@@ -130,6 +131,33 @@ export interface Translations {
     featuredTitle: string;
     allVideosTitle: string;
   };
+  elementalQuest: {
+    backToPortfolio: string;
+    headerTag: string;
+    eyebrow: string;
+    title: string;
+    lead: string;
+    logoAlt: string;
+    mapAlt: string;
+  };
+  combatPlanes: {
+    backToPortfolio: string;
+    headerTag: string;
+    eyebrow: string;
+    title: string;
+    lead: string;
+    logoAlt: string;
+    galleryAlt: string;
+  };
+  fattyFish: {
+    backToPortfolio: string;
+    headerTag: string;
+    eyebrow: string;
+    title: string;
+    lead: string;
+    logoAlt: string;
+    galleryAlt: string;
+  };
   // Footer
   footer: {
     rights: string;
@@ -171,6 +199,7 @@ const translations: Record<Language, Translations> = {
         marketing: 'Marketing and advertising',
         illustration: 'Illustration',
         gameDesign: 'Game design',
+        games: 'Games',
       },
       emptyState: 'Quietly awaiting new masterpieces...',
       viewProject: 'View Project',
@@ -363,6 +392,33 @@ const translations: Record<Language, Translations> = {
       featuredTitle: 'Featured Videos',
       allVideosTitle: 'All Videos',
     },
+    elementalQuest: {
+      backToPortfolio: 'Back to Portfolio',
+      headerTag: 'Game Art',
+      eyebrow: 'Game Art & Design',
+      title: 'Elemental Quest',
+      lead: 'Game map design and visual assets for an adventure puzzle game.',
+      logoAlt: 'Elemental Quest Logo',
+      mapAlt: 'Elemental Quest Game Map',
+    },
+    combatPlanes: {
+      backToPortfolio: 'Back to Portfolio',
+      headerTag: 'Game Art',
+      eyebrow: 'Game Art & Design',
+      title: 'Combat Planes',
+      lead: 'Character design, plane skins, and game maps for an aerial combat mobile game.',
+      logoAlt: 'Combat Planes Logo',
+      galleryAlt: 'Combat Planes Game Art',
+    },
+    fattyFish: {
+      backToPortfolio: 'Back to Portfolio',
+      headerTag: 'Game Art',
+      eyebrow: 'Game Art & Design',
+      title: 'Fatty Fish',
+      lead: 'Character design, game objects, and visual assets for a fun aquatic mobile game.',
+      logoAlt: 'Fatty Fish Logo',
+      galleryAlt: 'Fatty Fish Game Art',
+    },
     footer: {
       rights: 'All rights reserved.',
       portfolio: 'Portfolio',
@@ -406,6 +462,7 @@ const translations: Record<Language, Translations> = {
         marketing: 'Маркетинг та реклама',
         illustration: 'Ілюстрація',
         gameDesign: 'Ігровий дизайн',
+        games: 'Ігри',
       },
       emptyState: 'Тихо очікуємо нових шедеврів...',
       viewProject: 'Переглянути проєкт',
@@ -583,6 +640,33 @@ const translations: Record<Language, Translations> = {
       featuredTitle: 'Вибрані відео',
       allVideosTitle: 'Усі відео',
     },
+    elementalQuest: {
+      backToPortfolio: 'Назад до портфоліо',
+      headerTag: 'Ігрове мистецтво',
+      eyebrow: 'Ігрове мистецтво та дизайн',
+      title: 'Elemental Quest',
+      lead: 'Дизайн ігрової карти та візуальні ресурси для пригодницької гри-головоломки.',
+      logoAlt: 'Логотип Elemental Quest',
+      mapAlt: 'Ігрова карта Elemental Quest',
+    },
+    combatPlanes: {
+      backToPortfolio: 'Назад до портфоліо',
+      headerTag: 'Ігрове мистецтво',
+      eyebrow: 'Ігрове мистецтво та дизайн',
+      title: 'Combat Planes',
+      lead: 'Дизайн персонажів, скіни літаків та ігрові карти для мобільної гри з повітряними боями.',
+      logoAlt: 'Логотип Combat Planes',
+      galleryAlt: 'Ігрове мистецтво Combat Planes',
+    },
+    fattyFish: {
+      backToPortfolio: 'Назад до портфоліо',
+      headerTag: 'Ігрове мистецтво',
+      eyebrow: 'Ігрове мистецтво та дизайн',
+      title: 'Fatty Fish',
+      lead: 'Дизайн персонажів, ігрові об\'єкти та візуальні ресурси для веселої водної мобільної гри.',
+      logoAlt: 'Логотип Fatty Fish',
+      galleryAlt: 'Ігрове мистецтво Fatty Fish',
+    },
     footer: {
       rights: 'Усі права захищено.',
       portfolio: 'Портфоліо',
@@ -631,6 +715,7 @@ export const getCategoryTranslation = (category: string, t: Translations): strin
     'Marketing and advertising': 'marketing',
     'Illustration': 'illustration',
     'Game design': 'gameDesign',
+    'Games': 'games',
   };
   const key = categoryMap[category];
   return key ? t.work.categories[key] : category;

@@ -6,6 +6,9 @@ const NAMELACA_COVER = `${ASSET_BASE_URL}/images/brand/Namelaca icons and illust
 const BEAUTY_SHOP_ONBOARDING_VIDEO = `${ASSET_BASE_URL}/video/uiux/Onboarding for Beauty shop.mp4`;
 const MINDZY_COVER = `${ASSET_BASE_URL}/images/brand/Mindzy – Brain Training/UI/Full_Composition_Mindzy – Brain Training.png`;
 const MARKETING_VIDEO_COVER = `${ASSET_BASE_URL}/images/brand/Full_Composition_Marketing_video.png`;
+const ELEMENTAL_QUEST_COVER = `${ASSET_BASE_URL}/images/brand/Elemental Quest game/Full_Composition_Elemental Quest game map.png`;
+const COMBAT_PLANES_COVER = `${ASSET_BASE_URL}/images/brand/Combat Planes/Full_Composition_logo_Combat Planes.png`;
+const FATTY_FISH_COVER = `${ASSET_BASE_URL}/images/brand/Fatty Fish/Character.png`;
 const APP_STORE_SCREENSHOTS = [
   `${ASSET_BASE_URL}/images/brand/App Store Screenshots/1 Cat Wars.jpg`,
   `${ASSET_BASE_URL}/images/brand/App Store Screenshots/2 Cat Wars.jpg`,
@@ -78,7 +81,8 @@ export const DESIGNER_BIO = "My name is Anna Serhiienko. I have been working as 
 export const WORK_CATEGORIES = [
   "Brand design",
   "UI/UX design",
-  "Marketing and advertising"
+  "Marketing and advertising",
+  "Games"
 ];
 
 export const SKILLS = [
@@ -177,6 +181,36 @@ export const PROJECTS: Project[] = [
     description: "A collection of promotional videos and motion graphics for mobile app marketing campaigns.",
     link: "#marketing-video",
     technologies: ["Motion Design", "After Effects", "Marketing"]
+  },
+  {
+    id: 23,
+    title: "Elemental Quest",
+    category: "Games",
+    mediaUrl: ELEMENTAL_QUEST_COVER,
+    mediaType: "image",
+    description: "Game map design and visual assets for an adventure puzzle game featuring magical elements.",
+    link: "#elemental-quest",
+    technologies: ["Game Art", "Illustration", "Visual Design"]
+  },
+  {
+    id: 24,
+    title: "Combat Planes",
+    category: "Games",
+    mediaUrl: COMBAT_PLANES_COVER,
+    mediaType: "image",
+    description: "Character design, plane skins, and game maps for an aerial combat mobile game.",
+    link: "#combat-planes",
+    technologies: ["Game Art", "Character Design", "Visual Design"]
+  },
+  {
+    id: 25,
+    title: "Fatty Fish",
+    category: "Games",
+    mediaUrl: FATTY_FISH_COVER,
+    mediaType: "image",
+    description: "Character design, game objects, and visual assets for a fun aquatic mobile game.",
+    link: "#fatty-fish",
+    technologies: ["Game Art", "Character Design", "Visual Design"]
   }
 ];
 

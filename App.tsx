@@ -14,6 +14,9 @@ import AppStoreScreenshots from './components/AppStoreScreenshots.tsx';
 import NamelacaIconsIllustration from './components/NamelacaIconsIllustration.tsx';
 import MindzyBrainTraining from './components/MindzyBrainTraining.tsx';
 import MarketingVideo from './components/MarketingVideo.tsx';
+import ElementalQuest from './components/ElementalQuest.tsx';
+import CombatPlanes from './components/CombatPlanes.tsx';
+import FattyFish from './components/FattyFish.tsx';
 import ScrollProgress from './components/ScrollProgress.tsx';
 import { nonTokenValues } from './design-system/nonTokenValues.ts';
 
@@ -142,6 +145,9 @@ function AppContent() {
   const namelacaHash = 'namelaca';
   const mindzyHash = 'mindzy';
   const marketingVideoHash = 'marketing-video';
+  const elementalQuestHash = 'elemental-quest';
+  const combatPlanesHash = 'combat-planes';
+  const fattyFishHash = 'fatty-fish';
 
   useEffect(() => {
     const scrollToHash = () => {
@@ -165,6 +171,18 @@ function AppContent() {
       }
       if (hash === marketingVideoHash) {
         setCurrentView(AppView.MARKETING_VIDEO);
+        return;
+      }
+      if (hash === elementalQuestHash) {
+        setCurrentView(AppView.ELEMENTAL_QUEST);
+        return;
+      }
+      if (hash === combatPlanesHash) {
+        setCurrentView(AppView.COMBAT_PLANES);
+        return;
+      }
+      if (hash === fattyFishHash) {
+        setCurrentView(AppView.FATTY_FISH);
         return;
       }
       const id = hash as SectionId;
@@ -193,7 +211,10 @@ function AppContent() {
       currentView === AppView.APP_STORE_SCREENSHOTS ||
       currentView === AppView.NAMELACA ||
       currentView === AppView.MINDZY ||
-      currentView === AppView.MARKETING_VIDEO
+      currentView === AppView.MARKETING_VIDEO ||
+      currentView === AppView.ELEMENTAL_QUEST ||
+      currentView === AppView.COMBAT_PLANES ||
+      currentView === AppView.FATTY_FISH
     ) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -250,6 +271,12 @@ function AppContent() {
           <MindzyBrainTraining onBack={handleBackToPortfolio} />
         ) : currentView === AppView.MARKETING_VIDEO ? (
           <MarketingVideo onBack={handleBackToPortfolio} />
+        ) : currentView === AppView.ELEMENTAL_QUEST ? (
+          <ElementalQuest onBack={handleBackToPortfolio} />
+        ) : currentView === AppView.COMBAT_PLANES ? (
+          <CombatPlanes onBack={handleBackToPortfolio} />
+        ) : currentView === AppView.FATTY_FISH ? (
+          <FattyFish onBack={handleBackToPortfolio} />
         ) : null}
       </Foreground>
     </AppShell>

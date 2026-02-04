@@ -5,4 +5,7 @@ export enum AppView {
   NAMELACA = 'namelaca',
   MINDZY = 'mindzy',
   MARKETING_VIDEO = 'marketing-video',
+  ELEMENTAL_QUEST = 'elemental-quest',
+  COMBAT_PLANES = 'combat-planes',
+  FATTY_FISH = 'fatty-fish',
 }
