@@ -576,26 +576,7 @@ const WorkGallery: React.FC = () => {
             </CloseButton>
 
             <ModalMedia>
-              {selectedProject.gallery?.length ? (
-                <ModalGalleryWrap>
-                  {getGalleryGroups(selectedProject.gallery).map((group) => (
-                    <ModalGalleryGroup key={group.name}>
-                      <ModalGalleryTitle>{group.name}</ModalGalleryTitle>
-                      <ModalGalleryRow>
-                        {group.items.map((image, idx) => (
-                          <ModalGalleryItem key={`${group.name}-${idx}`}>
-                            <ModalGalleryImage
-                              src={resolveMediaUrl(image)}
-                              alt={`${projectTitle} ${group.name} ${idx + 1}`}
-                              loading="lazy"
-                            />
-                          </ModalGalleryItem>
-                        ))}
-                      </ModalGalleryRow>
-                    </ModalGalleryGroup>
-                  ))}
-                </ModalGalleryWrap>
-              ) : selectedProject.mediaType === 'video' ? (
+              {selectedProject.mediaType === 'video' ? (
                 <ModalMediaVideo src={resolveMediaUrl(selectedProject.mediaUrl)} autoPlay muted loop controls />
               ) : (
                 <ModalMediaImage src={resolveMediaUrl(selectedProject.mediaUrl)} alt={projectTitle} />
