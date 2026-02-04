@@ -13,6 +13,7 @@ import AppIconsSplashScreens from './components/AppIconsSplashScreens.tsx';
 import AppStoreScreenshots from './components/AppStoreScreenshots.tsx';
 import NamelacaIconsIllustration from './components/NamelacaIconsIllustration.tsx';
 import MindzyBrainTraining from './components/MindzyBrainTraining.tsx';
+import MarketingVideo from './components/MarketingVideo.tsx';
 import ScrollProgress from './components/ScrollProgress.tsx';
 import { nonTokenValues } from './design-system/nonTokenValues.ts';
 
@@ -140,6 +141,7 @@ function AppContent() {
   const appStoreScreenshotsHash = 'app-store-screenshots';
   const namelacaHash = 'namelaca';
   const mindzyHash = 'mindzy';
+  const marketingVideoHash = 'marketing-video';
 
   useEffect(() => {
     const scrollToHash = () => {
@@ -159,6 +161,10 @@ function AppContent() {
       }
       if (hash === mindzyHash) {
         setCurrentView(AppView.MINDZY);
+        return;
+      }
+      if (hash === marketingVideoHash) {
+        setCurrentView(AppView.MARKETING_VIDEO);
         return;
       }
       const id = hash as SectionId;
@@ -186,7 +192,8 @@ function AppContent() {
       currentView === AppView.APP_ICONS ||
       currentView === AppView.APP_STORE_SCREENSHOTS ||
       currentView === AppView.NAMELACA ||
-      currentView === AppView.MINDZY
+      currentView === AppView.MINDZY ||
+      currentView === AppView.MARKETING_VIDEO
     ) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -239,9 +246,11 @@ function AppContent() {
           <AppStoreScreenshots onBack={handleBackToPortfolio} />
         ) : currentView === AppView.NAMELACA ? (
           <NamelacaIconsIllustration onBack={handleBackToPortfolio} />
-        ) : (
+        ) : currentView === AppView.MINDZY ? (
           <MindzyBrainTraining onBack={handleBackToPortfolio} />
-        )}
+        ) : currentView === AppView.MARKETING_VIDEO ? (
+          <MarketingVideo onBack={handleBackToPortfolio} />
+        ) : null}
       </Foreground>
     </AppShell>
   );

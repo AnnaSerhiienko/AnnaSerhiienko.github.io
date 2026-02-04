@@ -4,4 +4,5 @@ export enum AppView {
   APP_STORE_SCREENSHOTS = 'app-store-screenshots',
   NAMELACA = 'namelaca',
   MINDZY = 'mindzy',
+  MARKETING_VIDEO = 'marketing-video',
 }

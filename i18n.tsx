@@ -121,6 +121,15 @@ export interface Translations {
     interfaceTitle: string;
     videoTitle: string;
   };
+  marketingVideo: {
+    backToPortfolio: string;
+    headerTag: string;
+    eyebrow: string;
+    title: string;
+    lead: string;
+    featuredTitle: string;
+    allVideosTitle: string;
+  };
   // Footer
   footer: {
     rights: string;
@@ -345,6 +354,15 @@ const translations: Record<Language, Translations> = {
       interfaceTitle: 'Game Interfaces',
       videoTitle: 'Gameplay Videos',
     },
+    marketingVideo: {
+      backToPortfolio: 'Back to Portfolio',
+      headerTag: 'Motion Design',
+      eyebrow: 'Motion Design',
+      title: 'Marketing Videos',
+      lead: 'A collection of promotional videos and motion graphics for mobile app marketing campaigns.',
+      featuredTitle: 'Featured Videos',
+      allVideosTitle: 'All Videos',
+    },
     footer: {
       rights: 'All rights reserved.',
       portfolio: 'Portfolio',
@@ -555,6 +573,15 @@ const translations: Record<Language, Translations> = {
       lead: 'Добірка інтерфейсів Mindzy та відеопереглядів гри.',
       interfaceTitle: 'Інтерфейси ігор',
       videoTitle: 'Відео геймплею',
+    },
+    marketingVideo: {
+      backToPortfolio: 'Назад до портфоліо',
+      headerTag: 'Моушн-дизайн',
+      eyebrow: 'Моушн-дизайн',
+      title: 'Маркетингові відео',
+      lead: 'Колекція рекламних відео та моушн-графіки для маркетингових кампаній мобільних додатків.',
+      featuredTitle: 'Вибрані відео',
+      allVideosTitle: 'Усі відео',
     },
     footer: {
       rights: 'Усі права захищено.',
