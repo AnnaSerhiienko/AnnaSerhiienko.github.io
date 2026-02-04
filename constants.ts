@@ -5,7 +5,7 @@ const SMART_HOUSE_APP_VIDEO = `${ASSET_BASE_URL}/video/uiux/smart-house-app.mp4`
 const NAMELACA_COVER = `${ASSET_BASE_URL}/images/brand/Namelaca icons and illustration/Full_Composition_Namelaca.png`;
 const BEAUTY_SHOP_ONBOARDING_VIDEO = `${ASSET_BASE_URL}/video/uiux/Onboarding for Beauty shop.mp4`;
 const MINDZY_COVER = `${ASSET_BASE_URL}/images/brand/Mindzy – Brain Training/UI/Full_Composition_Mindzy – Brain Training.png`;
-const MARKETING_VIDEO_COVER = `${ASSET_BASE_URL}/video/Marketing video/App Store.mp4`;
+const MARKETING_VIDEO_COVER = `${ASSET_BASE_URL}/images/brand/Full_Composition_Marketing_video.png`;
 const APP_STORE_SCREENSHOTS = [
   `${ASSET_BASE_URL}/images/brand/App Store Screenshots/1 Cat Wars.jpg`,
   `${ASSET_BASE_URL}/images/brand/App Store Screenshots/2 Cat Wars.jpg`,
@@ -172,7 +172,7 @@ export const PROJECTS: Project[] = [
     title: "Marketing Videos",
     category: "Marketing and advertising",
     mediaUrl: MARKETING_VIDEO_COVER,
-    mediaType: "video",
+    mediaType: "image",
     description: "A collection of promotional videos and motion graphics for mobile app marketing campaigns.",
     link: "#marketing-video",
     technologies: ["Motion Design", "After Effects", "Marketing"]

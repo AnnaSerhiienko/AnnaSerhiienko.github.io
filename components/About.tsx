@@ -147,7 +147,7 @@ const Eyebrow = styled.span`
   font-size: ${({ theme }) => theme.typography.sizes.xs};
   font-weight: ${({ theme }) => theme.typography.weights.bold};
   text-transform: uppercase;
-  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wider};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
   color: ${({ theme }) => theme.colors.brand.purple};
   margin-bottom: ${({ theme }) => theme.spacing[6]};
 `;
@@ -288,7 +288,6 @@ const About: React.FC = () => {
           </ImageColumn>
 
           <Content>
-            <Eyebrow>{t.about.discovery}</Eyebrow>
             <Heading>
               {t.about.heading1} <Emphasis>{t.about.emphasis}</Emphasis> <br /> {t.about.heading2}
             </Heading>
