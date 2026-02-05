@@ -1,9 +1,7 @@
 import { Project, SocialLink } from './types';
 const ASSET_BASE_URL = '/assets';
 const APP_ICONS_FULL_COMPOSITION = `${ASSET_BASE_URL}/images/brand/app-icons-splash-screens/full-composition.png`;
-const SMART_HOUSE_APP_VIDEO = `${ASSET_BASE_URL}/video/uiux/smart-house-app.mp4`;
 const NAMELACA_COVER = `${ASSET_BASE_URL}/images/brand/Namelaca icons and illustration/Full_Composition_Namelaca.png`;
-const BEAUTY_SHOP_ONBOARDING_VIDEO = `${ASSET_BASE_URL}/video/uiux/Onboarding for Beauty shop.mp4`;
 const MINDZY_COVER = `${ASSET_BASE_URL}/images/brand/Mindzy – Brain Training/UI/Full_Composition_Mindzy – Brain Training.png`;
 const MARKETING_VIDEO_COVER = `${ASSET_BASE_URL}/images/brand/Full_Composition_Marketing_video.png`;
 const ELEMENTAL_QUEST_COVER = `${ASSET_BASE_URL}/images/brand/Elemental Quest game/Full_Composition_Elemental Quest game map.png`;
@@ -131,26 +129,6 @@ export const PROJECTS: Project[] = [
   },
 
   // UI/UX Design
-  {
-    id: 16,
-    title: "Smart House App",
-    category: "UI/UX design",
-    mediaUrl: SMART_HOUSE_APP_VIDEO,
-    mediaType: "video",
-    description: "An intuitive smart home control application featuring a sleek dark interface with smooth animations. Users can effortlessly manage lighting, temperature, and connected devices with elegant micro-interactions and real-time status updates.",
-    link: "https://dribbble.com/shots/11804880-Smart-house-App",
-    technologies: ["Figma", "UI Animation", "IoT Design"]
-  },
-  {
-    id: 18,
-    title: "Onboarding for Beauty Shop",
-    category: "UI/UX design",
-    mediaUrl: BEAUTY_SHOP_ONBOARDING_VIDEO,
-    mediaType: "video",
-    description: "A refined onboarding flow for a beauty shop app, focused on personalization and smooth first-time guidance.",
-    link: "https://dribbble.com/shots/11284581-Onboarding-for-Beauty-shop",
-    technologies: ["Figma", "UI/UX", "Onboarding"]
-  },
   {
     id: 21,
     title: "Mindzy – Brain Training",
