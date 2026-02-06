@@ -108,7 +108,7 @@ export interface Translations {
     title: string;
     lead: string;
   };
-  namelaca: {
+  namelaka: {
     backToPortfolio: string;
     headerTag: string;
     eyebrow: string;
@@ -228,8 +228,8 @@ const translations: Record<Language, Translations> = {
         technologies: ['Logo Design', 'Brand Identity', 'Illustrator'],
       },
       20: {
-        title: 'Namelaca Icons & Illustration',
-        description: 'Iconography and illustration set for Namelaca, covering UI states, empty screens, and branded visuals.',
+        title: 'Namelaka Icons & Illustration',
+        description: 'Iconography and illustration set for Namelaka, covering UI states, empty screens, and branded visuals.',
         technologies: ['Illustration', 'Icon Design', 'UI Assets'],
       },
       21: {
@@ -369,11 +369,11 @@ const translations: Record<Language, Translations> = {
       title: 'App Store Screenshots',
       lead: '',
     },
-    namelaca: {
+    namelaka: {
       backToPortfolio: 'Back to Portfolio',
-      headerTag: 'Namelaca',
+      headerTag: 'Namelaka',
       eyebrow: 'UI/UX Design',
-      title: 'Namelaca Icons & Illustration',
+      title: 'Namelaka Icons & Illustration',
     },
     mindzy: {
       backToPortfolio: 'Back to Portfolio',
@@ -491,8 +491,8 @@ const translations: Record<Language, Translations> = {
         technologies: ['Logo Design', 'Бренд-айдентика', 'Illustrator'],
       },
       20: {
-        title: 'Namelaca Icons & Illustration',
-        description: 'Набір іконок та ілюстрацій для Namelaca: UI-стани, порожні екрани та брендовані візуали.',
+        title: 'Namelaka Icons & Illustration',
+        description: 'Набір іконок та ілюстрацій для Namelaka: UI-стани, порожні екрани та брендовані візуали.',
         technologies: ['Ілюстрації', 'Дизайн іконок', 'UI-ресурси'],
       },
       21: {
@@ -617,11 +617,11 @@ const translations: Record<Language, Translations> = {
       title: 'Скріншоти App Store',
       lead: '',
     },
-    namelaca: {
+    namelaka: {
       backToPortfolio: 'Назад до портфоліо',
-      headerTag: 'Namelaca',
+      headerTag: 'Namelaka',
       eyebrow: 'UI/UX дизайн',
-      title: 'Namelaca Icons & Illustration',
+      title: 'Namelaka Icons & Illustration',
     },
     mindzy: {
       backToPortfolio: 'Назад до портфоліо',

@@ -11,7 +11,7 @@ import { AppView } from './views.ts';
 import { SectionId } from './types.ts';
 import AppIconsSplashScreens from './components/AppIconsSplashScreens.tsx';
 import AppStoreScreenshots from './components/AppStoreScreenshots.tsx';
-import NamelacaIconsIllustration from './components/NamelacaIconsIllustration.tsx';
+import NamelakaIconsIllustration from './components/NamelakaIconsIllustration.tsx';
 import MindzyBrainTraining from './components/MindzyBrainTraining.tsx';
 import MarketingVideo from './components/MarketingVideo.tsx';
 import ElementalQuest from './components/ElementalQuest.tsx';
@@ -142,7 +142,7 @@ function AppContent() {
   const [currentSection, setCurrentSection] = useState<SectionId>(SectionId.HERO);
   const appIconsHash = 'app-icons';
   const appStoreScreenshotsHash = 'app-store-screenshots';
-  const namelacaHash = 'namelaca';
+  const namelakaHash = 'namelaka';
   const mindzyHash = 'mindzy';
   const marketingVideoHash = 'marketing-video';
   const elementalQuestHash = 'elemental-quest';
@@ -161,8 +161,8 @@ function AppContent() {
         setCurrentView(AppView.APP_STORE_SCREENSHOTS);
         return;
       }
-      if (hash === namelacaHash) {
-        setCurrentView(AppView.NAMELACA);
+      if (hash === namelakaHash) {
+        setCurrentView(AppView.NAMELAKA);
         return;
       }
       if (hash === mindzyHash) {
@@ -209,7 +209,7 @@ function AppContent() {
     if (
       currentView === AppView.APP_ICONS ||
       currentView === AppView.APP_STORE_SCREENSHOTS ||
-      currentView === AppView.NAMELACA ||
+      currentView === AppView.NAMELAKA ||
       currentView === AppView.MINDZY ||
       currentView === AppView.MARKETING_VIDEO ||
       currentView === AppView.ELEMENTAL_QUEST ||
@@ -265,8 +265,8 @@ function AppContent() {
           <AppIconsSplashScreens onBack={handleBackToPortfolio} />
         ) : currentView === AppView.APP_STORE_SCREENSHOTS ? (
           <AppStoreScreenshots onBack={handleBackToPortfolio} />
-        ) : currentView === AppView.NAMELACA ? (
-          <NamelacaIconsIllustration onBack={handleBackToPortfolio} />
+        ) : currentView === AppView.NAMELAKA ? (
+          <NamelakaIconsIllustration onBack={handleBackToPortfolio} />
         ) : currentView === AppView.MINDZY ? (
           <MindzyBrainTraining onBack={handleBackToPortfolio} />
         ) : currentView === AppView.MARKETING_VIDEO ? (

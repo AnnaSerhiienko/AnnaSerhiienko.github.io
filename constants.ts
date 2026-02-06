@@ -1,7 +1,7 @@
 import { Project, SocialLink } from './types';
 const ASSET_BASE_URL = '/assets';
 const APP_ICONS_FULL_COMPOSITION = `${ASSET_BASE_URL}/images/brand/app-icons-splash-screens/full-composition.png`;
-const NAMELACA_COVER = `${ASSET_BASE_URL}/images/brand/Namelaca icons and illustration/Full_Composition_Namelaca.png`;
+const NAMELAKA_COVER = `${ASSET_BASE_URL}/images/brand/Namelaka icons and illustration/Full_Composition_Namelaka.png`;
 const MINDZY_COVER = `${ASSET_BASE_URL}/images/brand/Mindzy – Brain Training/UI/Full_Composition_Mindzy – Brain Training.png`;
 const MARKETING_VIDEO_COVER = `${ASSET_BASE_URL}/images/brand/Full_Composition_Marketing_video.png`;
 const ELEMENTAL_QUEST_COVER = `${ASSET_BASE_URL}/images/brand/Elemental Quest game/Full_Composition_Elemental Quest game map.png`;
@@ -98,12 +98,12 @@ export const PROJECTS: Project[] = [
   // UI/UX Design
   {
     id: 20,
-    title: "Namelaca Icons & Illustration",
+    title: "Namelaka Icons & Illustration",
     category: "UI/UX design",
-    mediaUrl: NAMELACA_COVER,
+    mediaUrl: NAMELAKA_COVER,
     mediaType: "image",
-    description: "Iconography and illustration set for Namelaca, covering UI states, empty screens, and branded visuals.",
-    link: "#namelaca",
+    description: "Iconography and illustration set for Namelaka, covering UI states, empty screens, and branded visuals.",
+    link: "#namelaka",
     technologies: ["Illustration", "Icon Design", "UI Assets"]
   },
   // Brand Design

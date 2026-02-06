@@ -109,13 +109,13 @@ const PreviewImage = styled.img`
 
 const resolveMediaUrl = (url: string) => (url.includes(' ') ? encodeURI(url) : url);
 
-type NamelacaIconsIllustrationProps = {
+type NamelakaIconsIllustrationProps = {
   onBack: () => void;
 };
 
-const NamelacaIconsIllustration: React.FC<NamelacaIconsIllustrationProps> = ({ onBack }) => {
+const NamelakaIconsIllustration: React.FC<NamelakaIconsIllustrationProps> = ({ onBack }) => {
   const { t } = useLanguage();
-  const previewUrl = '/assets/images/brand/Namelaca icons and illustration/Namelaca.png';
+  const previewUrl = '/assets/images/brand/Namelaka icons and illustration/Namelaka.png';
 
   return (
     <Wrapper>
@@ -123,21 +123,21 @@ const NamelacaIconsIllustration: React.FC<NamelacaIconsIllustrationProps> = ({ o
         <HeaderInner>
           <BackButton onClick={onBack}>
             <ArrowLeft size={18} />
-            {t.namelaca.backToPortfolio}
+            {t.namelaka.backToPortfolio}
           </BackButton>
-          <HeaderTag>{t.namelaca.headerTag}</HeaderTag>
+          <HeaderTag>{t.namelaka.headerTag}</HeaderTag>
         </HeaderInner>
       </Header>
 
       <Hero>
-        <Eyebrow>{t.namelaca.eyebrow}</Eyebrow>
-        <Title>{t.namelaca.title}</Title>
+        <Eyebrow>{t.namelaka.eyebrow}</Eyebrow>
+        <Title>{t.namelaka.title}</Title>
       </Hero>
 
       <Section>
         <Container>
           <PreviewFrame>
-            <PreviewImage src={resolveMediaUrl(previewUrl)} alt={t.namelaca.title} />
+            <PreviewImage src={resolveMediaUrl(previewUrl)} alt={t.namelaka.title} />
           </PreviewFrame>
         </Container>
       </Section>
@@ -145,4 +145,4 @@ const NamelacaIconsIllustration: React.FC<NamelacaIconsIllustrationProps> = ({ o
   );
 };
 
-export default NamelacaIconsIllustration;
+export default NamelakaIconsIllustration;
