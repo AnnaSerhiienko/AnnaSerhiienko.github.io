@@ -91,10 +91,15 @@ const NavLink = styled.span<{ $active?: boolean }>`
   font-family: 'Gideon Roman', serif;
   font-size: 16px; cursor: pointer;
   color: ${p => p.$active ? '#fff' : 'rgba(255,255,255,.6)'};
-  text-decoration: ${p => p.$active ? 'underline' : 'none'};
-  text-underline-offset: 4px;
-  transition: color .2s;
-  &:hover { color: #fff }
+  text-decoration: none;
+  position: relative;
+  border-radius: 8px;
+  transition: color .2s, box-shadow .2s;
+  outline: none;
+  &:hover, &:focus {
+    color: #ff2222;
+    outline: none;
+  }
 `;
 const NavPlayBtn = styled.button`
   padding: 12px 28px; border: none; border-radius: 999px;
@@ -521,7 +526,7 @@ const LandingHPvsVader: React.FC<Props> = ({ onBack }) => {
           <div
             onMouseEnter={() => setSaberHovered(true)}
             onMouseLeave={() => setSaberHovered(false)}
-            style={{ position: 'relative', display: 'block', margin: '0 0 12px auto', width: 260, transform: 'translateX(-320px)', cursor: 'pointer' }}
+            style={{ position: 'relative', display: 'block', margin: '0 0 12px auto', width: 260, transform: 'translateX(-320px) translateY(-50%)', cursor: 'pointer' }}
           >
             <img
               src="/assets/images/brand/Lending Harry Potter vs Darth_Vader/Darth_Vader's_lightsaber.png"
@@ -534,7 +539,7 @@ const LandingHPvsVader: React.FC<Props> = ({ onBack }) => {
               style={{ position: 'absolute', top: 0, left: 0, width: '100%', transition: 'opacity .35s ease', opacity: saberHovered ? 1 : 0 }}
             />
           </div>
-          <CharTitle style={{ marginLeft: 32 }}>{lt.vaderTitle}</CharTitle>
+          <CharTitle style={{ marginLeft: 32, marginBottom: 20, display: 'block' }}>{lt.vaderTitle}</CharTitle>
           <CharDesc style={{ marginLeft: 32 }}>{lt.vaderDesc} {lt.vaderWeapon ?? ''}</CharDesc>
         </CharText>
         <CharImg $visible={vader.visible} $highlight="#ff2020">
