@@ -7,6 +7,7 @@ const MARKETING_VIDEO_COVER = `${ASSET_BASE_URL}/images/brand/Full_Composition_M
 const ELEMENTAL_QUEST_COVER = `${ASSET_BASE_URL}/images/brand/Elemental Quest game/Full_Composition_Elemental Quest game map.png`;
 const COMBAT_PLANES_COVER = `${ASSET_BASE_URL}/images/brand/Combat Planes/Full_Composition_logo_Combat Planes.png`;
 const FATTY_FISH_COVER = `${ASSET_BASE_URL}/images/brand/Fatty Fish/Character.png`;
+const LANDING_HP_VS_VADER_COVER = `${ASSET_BASE_URL}/images/brand/Lending Harry Potter vs Darth_Vader/Harry_Potter_part_1.png`;
 const APP_STORE_SCREENSHOTS = [
   `${ASSET_BASE_URL}/images/brand/App Store Screenshots/1 Cat Wars.jpg`,
   `${ASSET_BASE_URL}/images/brand/App Store Screenshots/2 Cat Wars.jpg`,
@@ -80,7 +81,8 @@ export const WORK_CATEGORIES = [
   "Brand design",
   "UI/UX design",
   "Marketing and advertising",
-  "Games"
+  "Games",
+  "Landing"
 ];
 
 export const SKILLS = [
@@ -189,6 +191,16 @@ export const PROJECTS: Project[] = [
     description: "Character design, game objects, and visual assets for a fun aquatic mobile game.",
     link: "#fatty-fish",
     technologies: ["Game Art", "Character Design", "Visual Design"]
+  },
+  {
+    id: 26,
+    title: "Harry Potter vs Darth Vader",
+    category: "Landing",
+    mediaUrl: LANDING_HP_VS_VADER_COVER,
+    mediaType: "image",
+    description: "A cinematic landing page for a fantasy crossover game pitting Harry Potter against Darth Vader.",
+    link: "#landing-hp-vs-vader",
+    technologies: ["Web Design", "Landing Page", "Visual Design"]
   }
 ];
 

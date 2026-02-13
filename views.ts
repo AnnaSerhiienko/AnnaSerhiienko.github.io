@@ -8,4 +8,5 @@ export enum AppView {
   ELEMENTAL_QUEST = 'elemental-quest',
   COMBAT_PLANES = 'combat-planes',
   FATTY_FISH = 'fatty-fish',
+  LANDING_HP_VS_VADER = 'landing-hp-vs-vader',
 }

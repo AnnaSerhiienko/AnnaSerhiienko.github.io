@@ -1,3 +1,4 @@
+// ...existing code...
 import React, { useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import Navigation from './components/Navigation.tsx';
@@ -17,6 +18,7 @@ import MarketingVideo from './components/MarketingVideo.tsx';
 import ElementalQuest from './components/ElementalQuest.tsx';
 import CombatPlanes from './components/CombatPlanes.tsx';
 import FattyFish from './components/FattyFish.tsx';
+import LandingHPvsVader from './components/LandingHPvsVader';
 import ScrollProgress from './components/ScrollProgress.tsx';
 import { nonTokenValues } from './design-system/nonTokenValues.ts';
 
@@ -148,6 +150,7 @@ function AppContent() {
   const elementalQuestHash = 'elemental-quest';
   const combatPlanesHash = 'combat-planes';
   const fattyFishHash = 'fatty-fish';
+  const landingHpVsVaderHash = 'landing-hp-vs-vader';
 
   useEffect(() => {
     const scrollToHash = () => {
@@ -185,6 +188,10 @@ function AppContent() {
         setCurrentView(AppView.FATTY_FISH);
         return;
       }
+      if (hash === landingHpVsVaderHash) {
+        setCurrentView(AppView.LANDING_HP_VS_VADER);
+        return;
+      }
       const id = hash as SectionId;
       const target = document.getElementById(id);
       if (target) {
@@ -214,7 +221,8 @@ function AppContent() {
       currentView === AppView.MARKETING_VIDEO ||
       currentView === AppView.ELEMENTAL_QUEST ||
       currentView === AppView.COMBAT_PLANES ||
-      currentView === AppView.FATTY_FISH
+      currentView === AppView.FATTY_FISH ||
+      currentView === AppView.LANDING_HP_VS_VADER
     ) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -277,6 +285,8 @@ function AppContent() {
           <CombatPlanes onBack={handleBackToPortfolio} />
         ) : currentView === AppView.FATTY_FISH ? (
           <FattyFish onBack={handleBackToPortfolio} />
+        ) : currentView === AppView.LANDING_HP_VS_VADER ? (
+          <LandingHPvsVader onBack={handleBackToPortfolio} />
         ) : null}
       </Foreground>
     </AppShell>

@@ -39,6 +39,7 @@ export interface Translations {
       illustration: string;
       gameDesign: string;
       games: string;
+      landing: string;
     };
     emptyState: string;
     viewProject: string;
@@ -158,6 +159,35 @@ export interface Translations {
     logoAlt: string;
     galleryAlt: string;
   };
+  landingHpVsVader: {
+    backToPortfolio: string;
+    navHome: string;
+    navGame: string;
+    navContact: string;
+    playNow: string;
+    enterThe: string;
+    gameWorld: string;
+    characters: string;
+    harryTitle: string;
+    harryDesc: string;
+    vaderTitle: string;
+    vaderDesc: string;
+    footerTitle: string;
+    footerSubtitle: string;
+    features: string;
+    coreFeatures: string;
+    proExperience: string;
+    integrations: string;
+    learnMore: string;
+    blog: string;
+    caseStudies: string;
+    customerStories: string;
+    bestPractices: string;
+    support: string;
+    contact: string;
+    supportLink: string;
+    legal: string;
+  };
   // Footer
   footer: {
     rights: string;
@@ -200,6 +230,7 @@ const translations: Record<Language, Translations> = {
         illustration: 'Illustration',
         gameDesign: 'Game design',
         games: 'Games',
+        landing: 'Landing',
       },
       emptyState: 'Quietly awaiting new masterpieces...',
       viewProject: 'View Project',
@@ -262,11 +293,6 @@ const translations: Record<Language, Translations> = {
         description: 'Dark-mode analytics dashboard for a cloud infrastructure provider, visualizing complex data streams in real-time.',
         technologies: ['Figma', 'React', 'Motion Design'],
       },
-      17: {
-        title: 'App Store Screenshots',
-        description: '',
-        technologies: ['App Store', 'Маркетинг', 'Візуальний дизайн'],
-      },
       4: {
         title: 'Summer Campaign 2024',
         description: "A series of high-conversion social media ads and web banners for a fashion retailer's seasonal launch.",
@@ -296,6 +322,11 @@ const translations: Record<Language, Translations> = {
         title: 'Pixel Quest UI',
         description: 'User interface elements and HUD design for a retro-style adventure game.',
         technologies: ['Pixel Art', 'Game UI', 'Sprite Design'],
+      },
+      26: {
+        title: 'Harry Potter vs Darth Vader',
+        description: 'A cinematic landing page for a fantasy crossover game pitting Harry Potter against Darth Vader.',
+        technologies: ['Web Design', 'Landing Page', 'Visual Design'],
       },
     },
     about: {
@@ -419,6 +450,37 @@ const translations: Record<Language, Translations> = {
       logoAlt: 'Fatty Fish Logo',
       galleryAlt: 'Fatty Fish Game Art',
     },
+    landingHpVsVader: {
+      backToPortfolio: 'Back to Portfolio',
+      navHome: 'Home',
+      navGame: 'Character',
+      navContact: 'Contact Us',
+      playNow: 'Play now!',
+      enterThe: 'ENTER THE',
+      gameWorld: 'GAME',
+      characters: 'Characters',
+      harryTitle: 'Harry Potter',
+      harryDesc: 'The Boy Who Lived, master of the Elder Wand, and the only wizard to defeat Voldemort. Courageous, loyal, and always ready to stand up for his friends.',
+      harryWeapon: 'His main weapon is the legendary Elder Wand.',
+      vaderTitle: 'Darth Vader',
+      vaderDesc: 'Once a Jedi Knight, now the Dark Lord of the Sith. Wields the power of the Force and a red lightsaber. Feared across the galaxy.',
+      vaderWeapon: 'His weapon is the iconic red lightsaber.',
+      footerTitle: 'GAME',
+      footerSubtitle: 'Enter the game world',
+      features: 'Features',
+      coreFeatures: 'Core features',
+      proExperience: 'Pro experience',
+      integrations: 'Integrations',
+      learnMore: 'Learn more',
+      blog: 'Blog',
+      caseStudies: 'Case studies',
+      customerStories: 'Customer stories',
+      bestPractices: 'Best practices',
+      support: 'Support',
+      contact: 'Contact',
+      supportLink: 'Support',
+      legal: 'Legal',
+    },
     footer: {
       rights: 'All rights reserved.',
       portfolio: 'Portfolio',
@@ -431,11 +493,6 @@ const translations: Record<Language, Translations> = {
       about: 'Про мене',
       cv: 'Резюме',
       hireMe: 'Найняти',
-      18: {
-        title: 'Onboarding for Beauty Shop',
-        description: 'Вишуканий онбординг для застосунку б’юті-магазину з фокусом на персоналізації та плавному першому досвіді.',
-        technologies: ['Figma', 'UI/UX', 'Онбординг'],
-      },
       brandText: 'Сергієнко',
       cvAlert: 'Завантаження резюме відбулося б тут (anna_serhiienko_resume.pdf).',
     },
@@ -463,6 +520,7 @@ const translations: Record<Language, Translations> = {
         illustration: 'Ілюстрація',
         gameDesign: 'Ігровий дизайн',
         games: 'Ігри',
+        landing: 'Лендінг',
       },
       emptyState: 'Тихо очікуємо нових шедеврів...',
       viewProject: 'Переглянути проєкт',
@@ -544,6 +602,11 @@ const translations: Record<Language, Translations> = {
         title: 'Pixel Quest UI',
         description: 'Елементи інтерфейсу та HUD для ретро-пригодницької гри.',
         technologies: ['Pixel Art', 'Game UI', 'Sprite Design'],
+      },
+      26: {
+        title: 'Harry Potter vs Darth Vader',
+        description: 'Кінематографічний лендінг для фентезійної кросовер-гри: Гаррі Поттер проти Дарта Вейдера.',
+        technologies: ['Веб-дизайн', 'Лендінг', 'Візуальний дизайн'],
       },
     },
     about: {
@@ -667,6 +730,37 @@ const translations: Record<Language, Translations> = {
       logoAlt: 'Логотип Fatty Fish',
       galleryAlt: 'Ігрове мистецтво Fatty Fish',
     },
+    landingHpVsVader: {
+      backToPortfolio: 'Назад до портфоліо',
+      navHome: 'Головна',
+      navGame: 'Гра',
+      navContact: 'Контакти',
+      playNow: 'Грати зараз!',
+      enterThe: 'УВІЙДИ У',
+      gameWorld: 'ІГРОВИЙ',
+      characters: 'Персонажі',
+      harryTitle: 'Гаррі Поттер',
+      harryDesc: 'Хлопчик, що вижив, володар Бузинової палички, єдиний, хто переміг Волдеморта. Відважний, вірний, завжди готовий захистити друзів.',
+      harryWeapon: 'Його головна зброя — легендарна Бузинова паличка.',
+      vaderTitle: 'Дарт Вейдер',
+      vaderDesc: 'Колись лицар-джедай, тепер Лорд ситхів. Володіє силою та червоним світловим мечем. Його боять у всій галактиці.',
+      vaderWeapon: 'Його зброя — культовий червоний світловий меч.',
+      footerTitle: 'ГРА',
+      footerSubtitle: 'Увійди у ігровий світ',
+      features: 'Можливості',
+      coreFeatures: 'Основні функції',
+      proExperience: 'Про досвід',
+      integrations: 'Інтеграції',
+      learnMore: 'Дізнатися більше',
+      blog: 'Блог',
+      caseStudies: 'Кейси',
+      customerStories: 'Історії клієнтів',
+      bestPractices: 'Найкращі практики',
+      support: 'Підтримка',
+      contact: 'Контакти',
+      supportLink: 'Підтримка',
+      legal: 'Правова інформація',
+    },
     footer: {
       rights: 'Усі права захищено.',
       portfolio: 'Портфоліо',
@@ -716,6 +810,7 @@ export const getCategoryTranslation = (category: string, t: Translations): strin
     'Illustration': 'illustration',
     'Game design': 'gameDesign',
     'Games': 'games',
+    'Landing': 'landing',
   };
   const key = categoryMap[category];
   return key ? t.work.categories[key] : category;
