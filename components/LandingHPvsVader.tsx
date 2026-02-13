@@ -5,7 +5,8 @@ import { useLanguage } from '../i18n.tsx';
 import { nonTokenValues } from '../design-system/nonTokenValues.ts';
 
 const A = '/assets/images/brand/Lending Harry Potter vs Darth_Vader';
-const BACK_HOGWARTS  = `${A}/Back_Hogwarts.png`;
+// Cache-bust so updated image is fetched by browsers after you replace the file
+const BACK_HOGWARTS  = `${A}/Back_Hogwarts.png?v=${new Date().getTime()}`;
 const BACK_PLANE     = `${A}/Back_plane.png`;
 const VADER_FULL     = `${A}/Darth_Vader_full height.png`;
 const VADER_PART2    = `${A}/Darth_Vader_part_2.png`;
@@ -17,6 +18,7 @@ const LOGO           = `${A}/Property 1=Default.svg`;
 const HERO_VIDEO     = `${A}/Video Hero.mp4`;
 const WAND           = `${A}/Harry Potter's wand.png`;
 const WAND_LIGHT     = `${A}/Harry Potter's wand_light.png`;
+const LIGHTSABER_LIGHT = `${A}/Darth_Vader's_lightsaber_light.png`;
 
 const fadeInUp = keyframes`
   from { opacity: 0; transform: translateY(50px) }
@@ -151,7 +153,11 @@ const HeroWorld = styled.span`
   @media(max-width:768px){ font-size: 40px }
 `;
 const HeroBtns = styled.div`
-  display: flex; gap: 16px; margin-top: 30px;
+  display: flex; gap: 16px;
+  /* lift buttons up toward the heading without moving the heading itself */
+  margin-top: -40px;
+  @media(max-width:768px){ margin-top: -20px }
+  @media(max-width:480px){ margin-top: -12px }
 `;
 const BtnRed = styled.button`
   padding: 14px 38px; border: none; border-radius: 999px;
@@ -215,7 +221,7 @@ const CharBgImage = styled.div<{ $src: string; $side: 'left' | 'right' }>`
 const CharImg = styled.div<{ $visible: boolean; $highlight?: string }>`
   flex: 0 0 45%; display: flex;
   justify-content: center; align-items: flex-end;
-  z-index: 1;
+  z-index: 2;
   opacity: ${p => p.$visible ? 1 : 0};
   transform: translateY(${p => p.$visible ? 0 : '50px'});
   transition: opacity .8s ease-out, transform .8s ease-out;
@@ -404,6 +410,7 @@ const useInView = (threshold = 0.2) => {
 const LandingHPvsVader: React.FC<Props> = ({ onBack }) => {
     const [selected, setSelected] = useState<'harry' | 'vader' | null>(null);
     const [wandHovered, setWandHovered] = useState(false);
+    const [saberHovered, setSaberHovered] = useState(false);
     const { t } = useLanguage();
     const lt: any = t.landingHpVsVader; // Use any to allow harryWeapon/vaderWeapon
 
@@ -454,11 +461,12 @@ const LandingHPvsVader: React.FC<Props> = ({ onBack }) => {
           style={{
             position: 'absolute',
             right: 0,
-            top: 0,
-            width: '65%',
+            bottom: 0,
+            width: '100%',
             height: '100%',
-            objectFit: 'cover',
-            zIndex: 0,
+            objectFit: 'contain',
+            objectPosition: 'right bottom',
+            zIndex: 1,
             opacity: 0.48,
             pointerEvents: 'none',
           }}
@@ -490,7 +498,7 @@ const LandingHPvsVader: React.FC<Props> = ({ onBack }) => {
           )}
         </CharImg>
       </CharSection>
-      <CharSection $reverse ref={vader.ref} style={{position:'relative', overflow:'visible'}}>
+      <CharSection $reverse ref={vader.ref} style={{position:'relative', overflow:'visible', marginTop: '-100px'}}>
         <img
           src={BACK_PLANE}
           alt="Plane Background"
@@ -510,9 +518,25 @@ const LandingHPvsVader: React.FC<Props> = ({ onBack }) => {
           <Particle key={`v${p.key}`} $x={p.x} $delay={p.delay} $size={p.size} />
         ))}
         <CharText $visible={vader.visible}>
-           <CharTitle style={{ marginLeft: 32 }}>{lt.vaderTitle}</CharTitle>
-            <CharDesc style={{ marginLeft: 32 }}>{lt.vaderDesc} {lt.vaderWeapon ?? ''}</CharDesc>
-          </CharText>
+          <div
+            onMouseEnter={() => setSaberHovered(true)}
+            onMouseLeave={() => setSaberHovered(false)}
+            style={{ position: 'relative', display: 'block', margin: '0 0 12px auto', width: 260, transform: 'translateX(-320px)', cursor: 'pointer' }}
+          >
+            <img
+              src="/assets/images/brand/Lending Harry Potter vs Darth_Vader/Darth_Vader's_lightsaber.png"
+              alt="Darth Vader lightsaber"
+              style={{ width: '100%', display: 'block', transition: 'opacity .35s ease', opacity: saberHovered ? 0 : 1 }}
+            />
+            <img
+              src="/assets/images/brand/Lending Harry Potter vs Darth_Vader/Darth_Vader's_lightsaber_light.png"
+              alt="Darth Vader lightsaber (light)"
+              style={{ position: 'absolute', top: 0, left: 0, width: '100%', transition: 'opacity .35s ease', opacity: saberHovered ? 1 : 0 }}
+            />
+          </div>
+          <CharTitle style={{ marginLeft: 32 }}>{lt.vaderTitle}</CharTitle>
+          <CharDesc style={{ marginLeft: 32 }}>{lt.vaderDesc} {lt.vaderWeapon ?? ''}</CharDesc>
+        </CharText>
         <CharImg $visible={vader.visible} $highlight="#ff2020">
           <img src={VADER_FULL} alt="Darth Vader" />
           {selected === 'vader' && (
