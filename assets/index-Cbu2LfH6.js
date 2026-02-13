@@ -2398,8 +2398,6 @@ I work with Figma, Adobe Illustrator, Photoshop, and After Effects. I design bra
   width: 100%;
   max-width: 480px;
   height: auto;
-  border-radius: 12px;
-  box-shadow: 0 20px 60px rgba(2,6,23,0.6);
 `,t5=m.div`
   max-width: 480px;
   width: 100%;
