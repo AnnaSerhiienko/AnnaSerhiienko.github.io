@@ -73,7 +73,7 @@ const DesktopNav = styled.div`
   }
 `;
 
-const NavLink = styled.button`
+const NavLink = styled.button<{ $active?: boolean }>`
   border: none;
   background: transparent;
   font-size: ${({ theme }) => theme.typography.sizes.xs};
@@ -82,10 +82,17 @@ const NavLink = styled.button`
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
   color: ${({ theme }) => theme.colors.slate[500]};
   cursor: pointer;
-  transition: color 0.2s ease;
+  transition: color 0.2s, box-shadow 0.2s;
+  outline: none;
+  box-shadow: none;
+  text-decoration: none;
 
-  &:hover {
-    color: ${({ theme }) => theme.colors.brand.purple};
+  &:hover, &:focus {
+    color: #ff2222;
+    box-shadow: 0 0 8px 2px #ff2222cc, 0 0 0 4px #ff222288;
+    filter: blur(0.5px);
+    border-radius: 8px;
+    outline: none;
   }
 `;
 

@@ -526,7 +526,7 @@ const LandingHPvsVader: React.FC<Props> = ({ onBack }) => {
           <div
             onMouseEnter={() => setSaberHovered(true)}
             onMouseLeave={() => setSaberHovered(false)}
-            style={{ position: 'relative', display: 'block', margin: '0 0 12px auto', width: 260, transform: 'translateX(-320px) translateY(-50%)', cursor: 'pointer' }}
+            style={{ position: 'relative', display: 'block', margin: '0 0 12px auto', width: 260, transform: 'translateX(-35%) translateY(-5%)', cursor: 'pointer' }}
           >
             <img
               src="/assets/images/brand/Lending Harry Potter vs Darth_Vader/Darth_Vader's_lightsaber.png"
