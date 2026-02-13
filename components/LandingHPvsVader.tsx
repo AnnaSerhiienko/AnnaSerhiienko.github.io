@@ -348,6 +348,7 @@ const WandImage = styled.img`
   transition: filter 0.4s, box-shadow 0.4s;
   cursor: pointer;
   @media(max-width:900px){ width: 180px; margin-bottom: 24px; }
+  @media(max-width:768px){ display: none !important; }
 `;
 const WandImageWrap = styled.div`
   display: block;
@@ -607,6 +608,7 @@ const LandingHPvsVader: React.FC<Props> = ({ onBack }) => {
         ))}
         <CharText $visible={vader.visible}>
           <div
+            className="vader-lightsaber"
             onMouseEnter={() => setSaberHovered(true)}
             onMouseLeave={() => setSaberHovered(false)}
             style={{ position: 'relative', display: 'block', margin: '0 0 12px auto', width: 260, transform: 'translateX(-35%) translateY(-5%)', cursor: 'pointer' }}
@@ -615,11 +617,13 @@ const LandingHPvsVader: React.FC<Props> = ({ onBack }) => {
               src="/assets/images/brand/Lending Harry Potter vs Darth_Vader/Darth_Vader's_lightsaber.png"
               alt="Darth Vader lightsaber"
               style={{ width: '100%', display: 'block', transition: 'opacity .35s ease', opacity: saberHovered ? 0 : 1 }}
+              className="vader-lightsaber-img"
             />
             <img
               src="/assets/images/brand/Lending Harry Potter vs Darth_Vader/Darth_Vader's_lightsaber_light.png"
               alt="Darth Vader lightsaber (light)"
               style={{ position: 'absolute', top: 0, left: 0, width: '100%', transition: 'opacity .35s ease', opacity: saberHovered ? 1 : 0 }}
+              className="vader-lightsaber-img"
             />
           </div>
           <CharTitle style={{ marginLeft: 32, marginBottom: 20, display: 'block' }}>{lt.vaderTitle}</CharTitle>
@@ -636,6 +640,11 @@ const LandingHPvsVader: React.FC<Props> = ({ onBack }) => {
           )}
         </CharImg>
       </CharSection>
+      <style>{`
+        @media (max-width: 768px) {
+          .vader-lightsaber, .vader-lightsaber-img { display: none !important; }
+        }
+      `}</style>
       <HPVaderCarousel />
       <FooterWrap>
         <FooterLine />
