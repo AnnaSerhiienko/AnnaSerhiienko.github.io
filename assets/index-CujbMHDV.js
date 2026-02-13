@@ -2470,7 +2470,7 @@ I work with Figma, Adobe Illustrator, Photoshop, and After Effects. I design bra
   border-bottom: 1px solid rgba(255,255,255,.08);
   @media(max-width:768px){ padding: 0 20px; height: 60px }
 `,y5=y.img`
-  height: 28px; width: auto; opacity: .9;
+  height: 28px; width: auto; opacity: .0;
 `,v5=y.div`
   display: flex; gap: 36px;
   @media(max-width:640px){ gap: 18px }
