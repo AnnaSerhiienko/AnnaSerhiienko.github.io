@@ -82,7 +82,7 @@ const Nav = styled.nav`
   @media(max-width:768px){ padding: 0 20px; height: 60px }
 `;
 const NavLogo = styled.img`
-  height: 28px; width: auto; opacity: .9;
+  height: 28px; width: auto; opacity: .0;
 `;
 const NavLinks = styled.div`
   display: flex; gap: 36px;
