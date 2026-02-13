@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Menu as MenuIcon, X as CloseIcon } from 'lucide-react';
 import { useLanguage } from '../i18n.tsx';
 import { nonTokenValues } from '../design-system/nonTokenValues.ts';
 import HPVaderCarousel from './HPVaderCarousel.tsx';
@@ -62,7 +62,6 @@ const Page = styled.div`
   font-family: 'Inter', sans-serif;
 `;
 const BackBtn = styled.button`
-  position: fixed; top: 20px; left: 20px; z-index: 300;
   display: inline-flex; align-items: center; gap: 8px;
   border: 1px solid rgba(255,255,255,.12);
   background: rgba(0,0,0,.35); backdrop-filter: blur(14px);
@@ -79,14 +78,28 @@ const Nav = styled.nav`
   background: rgba(26,34,56,.55);
   backdrop-filter: blur(18px);
   border-bottom: 1px solid rgba(255,255,255,.08);
-  @media(max-width:768px){ padding: 0 20px; height: 60px }
+  @media(max-width: 900px) {
+    padding: 0 16px;
+  }
+  @media(max-width: 768px) {
+    padding: 0 8px;
+  }
 `;
 const NavLogo = styled.img`
-  height: 28px; width: auto; opacity: .0;
+  height: 28px; width: auto; opacity: 1;
+  @media(max-width: 768px) {
+    margin: 12px 0 12px 0;
+    display: block;
+  }
 `;
 const NavLinks = styled.div`
   display: flex; gap: 36px;
-  @media(max-width:640px){ gap: 18px }
+  @media(max-width: 900px) {
+    gap: 18px;
+  }
+  @media(max-width: 768px) {
+    display: none;
+  }
 `;
 const NavLink = styled.span<{ $active?: boolean }>`
   font-family: 'Gideon Roman', serif;
@@ -108,6 +121,60 @@ const NavPlayBtn = styled.button`
   font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600;
   cursor: pointer; transition: all .3s;
   &:hover { background: #9a2222; box-shadow: 0 4px 28px rgba(120,20,20,.5) }
+  @media(max-width: 768px) {
+    display: none;
+  }
+`;
+
+const DrawerButton = styled.button`
+  display: none;
+  background: none;
+  border: none;
+  color: #fff;
+  padding: 8px;
+  cursor: pointer;
+  z-index: 300;
+  @media(max-width: 768px) {
+    display: block;
+  }
+`;
+
+const DrawerOverlay = styled.div`
+  display: none;
+  @media(max-width: 768px) {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 299;
+    animation: ${fadeIn} 0.2s;
+  }
+`;
+
+const Drawer = styled.div`
+  display: none;
+  @media(max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0; right: 0;
+    width: 80vw; max-width: 320px; height: 100vh;
+    background: rgba(26,34,56,0.98);
+    box-shadow: -2px 0 24px 0 rgba(0,0,0,0.18);
+    z-index: 300;
+    padding: 32px 24px 24px 24px;
+    animation: ${fadeIn} 0.2s;
+  }
+`;
+
+const DrawerClose = styled.button`
+  background: none;
+  border: none;
+  color: #fff;
+  position: absolute;
+  top: 18px; right: 18px;
+  font-size: 28px;
+  cursor: pointer;
 `;
 const HeroWrap = styled.section`
   position: relative; width: 100%; height: 100vh;
@@ -414,11 +481,12 @@ const useInView = (threshold = 0.2) => {
 };
 
 const LandingHPvsVader: React.FC<Props> = ({ onBack }) => {
-    const [selected, setSelected] = useState<'harry' | 'vader' | null>(null);
-    const [wandHovered, setWandHovered] = useState(false);
-    const [saberHovered, setSaberHovered] = useState(false);
-    const { t } = useLanguage();
-    const lt: any = t.landingHpVsVader; // Use any to allow harryWeapon/vaderWeapon
+  const [selected, setSelected] = useState<'harry' | 'vader' | null>(null);
+  const [wandHovered, setWandHovered] = useState(false);
+  const [saberHovered, setSaberHovered] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const { t } = useLanguage();
+  const lt: any = t.landingHpVsVader; // Use any to allow harryWeapon/vaderWeapon
 
   const harry = useInView(0.15);
   const vader = useInView(0.15);
@@ -432,18 +500,32 @@ const LandingHPvsVader: React.FC<Props> = ({ onBack }) => {
 
   return (
     <Page>
+      <Nav>
       <BackBtn onClick={onBack}>
         <ArrowLeft size={16} />
         {lt.backToPortfolio}
       </BackBtn>
-      <Nav>
-        <NavLogo src={LOGO} alt="Logo" />
         <NavLinks>
           <NavLink $active>{lt.navHome}</NavLink>
           <NavLink>{lt.navGame}</NavLink>
           <NavLink>{lt.navContact}</NavLink>
         </NavLinks>
         <NavPlayBtn>{lt.playNow}</NavPlayBtn>
+        <DrawerButton aria-label="Open menu" onClick={() => setDrawerOpen(true)}>
+          <MenuIcon size={28} />
+        </DrawerButton>
+        {drawerOpen && <>
+          <DrawerOverlay onClick={() => setDrawerOpen(false)} />
+          <Drawer>
+            <DrawerClose aria-label="Close menu" onClick={() => setDrawerOpen(false)}>
+              <CloseIcon size={28} />
+            </DrawerClose>
+            <NavLink style={{margin: '32px 0 0 0', fontSize: 20}} $active>{lt.navHome}</NavLink>
+            <NavLink style={{margin: '18px 0 0 0', fontSize: 20}}>{lt.navGame}</NavLink>
+            <NavLink style={{margin: '18px 0 0 0', fontSize: 20}}>{lt.navContact}</NavLink>
+            <NavPlayBtn style={{display: 'block', margin: '32px 0 0 0', width: '100%'}}>{lt.playNow}</NavPlayBtn>
+          </Drawer>
+        </>}
       </Nav>
       <HeroWrap>
         <HeroVideo src={HERO_VIDEO} autoPlay loop muted playsInline />
