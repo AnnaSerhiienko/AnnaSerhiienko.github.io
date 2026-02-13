@@ -15,8 +15,6 @@ const SlideImg = styled.img`
   width: 100%;
   max-width: 480px;
   height: auto;
-  border-radius: 12px;
-  box-shadow: 0 20px 60px rgba(2,6,23,0.6);
 `;
 
 const SlideCard = styled.div`
