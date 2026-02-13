@@ -578,13 +578,6 @@ const LandingHPvsVader: React.FC<Props> = ({ onBack }) => {
         </CharText>
         <CharImg $visible={harry.visible} $highlight="#f5c542">
           <img src={POTTER_FULL} alt="Harry Potter" />
-          {selected === 'harry' && (
-            <div className="candles">
-              <img src={CANDLE} alt="Candle" />
-              <img src={CANDLE} alt="Candle" />
-              <img src={CANDLE} alt="Candle" />
-            </div>
-          )}
         </CharImg>
       </CharSection>
       <CharSection $reverse ref={vader.ref} style={{position:'relative', overflow:'visible', marginTop: '-100px'}}>
@@ -631,13 +624,6 @@ const LandingHPvsVader: React.FC<Props> = ({ onBack }) => {
         </CharText>
         <CharImg $visible={vader.visible} $highlight="#ff2020">
           <img src={VADER_FULL} alt="Darth Vader" />
-          {selected === 'vader' && (
-            <div className="candles">
-              <img src={CANDLE} alt="Candle" />
-              <img src={CANDLE} alt="Candle" />
-              <img src={CANDLE} alt="Candle" />
-            </div>
-          )}
         </CharImg>
       </CharSection>
       <style>{`
