@@ -2469,9 +2469,9 @@ I work with Figma, Adobe Illustrator, Photoshop, and After Effects. I design bra
     display: none;
 `;const v5=y.div`
   position: absolute; bottom: 0; left: 0; z-index: 3;
-  padding: 0 48px 64px;
+  padding: 0 48px 88px;
   animation: ${l5} 1s ease-out .6s both;
-  @media(max-width:768px){ padding: 0 24px 40px }
+  @media(max-width:768px){ padding: 0 24px 56px }
 `,b5=y.div`
   font-family: 'Katibeh', cursive; font-size: 64px;
   line-height: 1; color: rgba(255,255,255,.9); margin-bottom: -10px;
