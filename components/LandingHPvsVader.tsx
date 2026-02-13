@@ -126,9 +126,9 @@ const HeroChar = styled.div`
 `;
 const HeroContent = styled.div`
   position: absolute; bottom: 0; left: 0; z-index: 3;
-  padding: 0 48px 64px;
+  padding: 0 48px 88px;
   animation: ${fadeInUp} 1s ease-out .6s both;
-  @media(max-width:768px){ padding: 0 24px 40px }
+  @media(max-width:768px){ padding: 0 24px 56px }
 `;
 const HeroEnter = styled.div`
   font-family: 'Katibeh', cursive; font-size: 64px;
