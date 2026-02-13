@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import { ArrowLeft } from 'lucide-react';
 import { useLanguage } from '../i18n.tsx';
 import { nonTokenValues } from '../design-system/nonTokenValues.ts';
+import HPVaderCarousel from './HPVaderCarousel.tsx';
 
 const A = '/assets/images/brand/Lending Harry Potter vs Darth_Vader';
 // Cache-bust so updated image is fetched by browsers after you replace the file
@@ -553,6 +554,7 @@ const LandingHPvsVader: React.FC<Props> = ({ onBack }) => {
           )}
         </CharImg>
       </CharSection>
+      <HPVaderCarousel />
       <FooterWrap>
         <FooterLine />
         <FooterCharLeft><img src={POTTER_PART2} alt="" /></FooterCharLeft>
