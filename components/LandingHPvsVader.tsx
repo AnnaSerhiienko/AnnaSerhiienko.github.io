@@ -1,25 +1,80 @@
-import React, { useEffect, useRef, useState } from 'react';
-import styled, { keyframes } from 'styled-components';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import styled, { keyframes, css } from 'styled-components';
 import { ArrowLeft, Menu as MenuIcon, X as CloseIcon } from 'lucide-react';
 import { useLanguage } from '../i18n.tsx';
 import { nonTokenValues } from '../design-system/nonTokenValues.ts';
 import HPVaderCarousel from './HPVaderCarousel.tsx';
 
-const A = '/assets/images/brand/Lending Harry Potter vs Darth_Vader';
-// Cache-bust so updated image is fetched by browsers after you replace the file
-const BACK_HOGWARTS  = `${A}/Back_Hogwarts.png?v=${new Date().getTime()}`;
-const BACK_PLANE     = `${A}/Back_plane.png`;
-const VADER_FULL     = `${A}/Darth_Vader_full height.png`;
-const VADER_PART2    = `${A}/Darth_Vader_part_2.png`;
-const POTTER_FULL    = `${A}/Harry_Potter_full_height.png`;
-const POTTER_PART1   = `${A}/Harry_Potter_part_1.png`;
-const CANDLE           = `${A}/Candle.png`;
-const POTTER_PART2   = `${A}/Harry_Potter_part_2.png`;
-const LOGO           = `${A}/Property 1=Default.svg`;
-const HERO_VIDEO     = `${A}/Video Hero.mp4`;
-const WAND           = `${A}/Harry Potter's wand.png`;
-const WAND_LIGHT     = `${A}/Harry Potter's wand_light.png`;
-const LIGHTSABER_LIGHT = `${A}/Darth_Vader's_lightsaber_light.png`;
+/* ----------------------------- constants (no magic numbers) ----------------------------- */
+
+const COLORS = {
+  bg: '#1a2238',
+  red: '#7a1a1a',
+  redHover: '#9a2222',
+  white: '#fff',
+};
+
+const BREAKPOINTS = {
+  sm: 480,
+  md: 768,
+  lg: 900,
+  xl: 1024,
+};
+
+const LAYOUT = {
+  navHeight: 72,
+  navHeightMobile: 60,
+  navPaddingX: 48,
+  navPaddingXTablet: 16,
+  navPaddingXMobile: 8,
+  heroMinHeight: 640,
+  sectionPaddingY: 80,
+  sectionPaddingYMobile: 60,
+  sectionPaddingX: 48,
+  sectionPaddingXMobile: 24,
+  footerPaddingX: 48,
+  footerPaddingXMobile: 20,
+  footerCharHeight: 320,
+  footerCharHeightMobile: 200,
+  drawerMaxWidth: 320,
+  drawerWidthVw: 80,
+};
+
+const HERO = {
+  contentBottomPadding: 88,
+  contentBottomPaddingMobile: 56,
+};
+
+const PARTICLES = {
+  count: 12,
+  minSize: 2,
+  maxSize: 5,
+  minDuration: 8,
+  maxDuration: 14,
+  bottomOffset: -10,
+};
+
+const ASSETS_BASE = '/assets/images/brand/Lending Harry Potter vs Darth_Vader';
+const ASSET_VERSION = '1'; // bump when you replace files (stable, browser-cache friendly)
+
+const ASSETS = {
+  backHogwarts: `${ASSETS_BASE}/Back_Hogwarts.png?v=${ASSET_VERSION}`,
+  backPlane: `${ASSETS_BASE}/Back_plane.png`,
+  vaderFull: `${ASSETS_BASE}/Darth_Vader_full height.png`,
+  vaderPart2: `${ASSETS_BASE}/Darth_Vader_part_2.png`,
+  potterFull: `${ASSETS_BASE}/Harry_Potter_full_height.png`,
+  potterPart2: `${ASSETS_BASE}/Harry_Potter_part_2.png`,
+  logo: `${ASSETS_BASE}/Property 1=Default.svg`,
+  heroVideo: `${ASSETS_BASE}/Video Hero.mp4`,
+  wand: `${ASSETS_BASE}/Harry Potter's wand.png`,
+  wandLight: `${ASSETS_BASE}/Harry Potter's wand_light.png`,
+  saber: `${ASSETS_BASE}/Darth_Vader's_lightsaber.png`,
+  saberLight: `${ASSETS_BASE}/Darth_Vader's_lightsaber_light.png`,
+} as const;
+
+const mediaDown = (px: number) => `@media (max-width: ${px}px)`;
+
+/* ----------------------------------- animations ----------------------------------- */
 
 const fadeInUp = keyframes`
   from { opacity: 0; transform: translateY(50px) }
@@ -29,21 +84,9 @@ const fadeIn = keyframes`
   from { opacity: 0 }
   to   { opacity: 1 }
 `;
-const slideFromLeft = keyframes`
-  from { opacity: 0; transform: translateX(-80px) }
-  to   { opacity: 1; transform: translateX(0) }
-`;
-const slideFromRight = keyframes`
-  from { opacity: 0; transform: translateX(80px) }
-  to   { opacity: 1; transform: translateX(0) }
-`;
 const float = keyframes`
   0%, 100% { transform: translateY(0) }
   50%      { transform: translateY(-12px) }
-`;
-const saberGlow = keyframes`
-  0%, 100% { opacity: 0.5; filter: blur(4px) }
-  50%      { opacity: 1;   filter: blur(8px) }
 `;
 const particleDrift = keyframes`
   0%   { transform: translateY(0) rotate(0deg); opacity: 0 }
@@ -52,76 +95,161 @@ const particleDrift = keyframes`
   100% { transform: translateY(-100vh) rotate(720deg); opacity: 0 }
 `;
 
-const BG = '#1a2238';
+/* ----------------------------------- helpers ----------------------------------- */
+
+interface InViewOptions {
+  threshold?: number;
+  rootMargin?: string;
+  once?: boolean;
+}
+
+const useInView = ({ threshold = 0.2, rootMargin = '0px', once = true }: InViewOptions = {}) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          if (once) obs.disconnect();
+        }
+      },
+      { threshold, rootMargin }
+    );
+
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [threshold, rootMargin, once]);
+
+  return { ref, visible };
+};
+
+type SectionId = 'home' | 'harry' | 'vader' | 'contact';
+
+const scrollToId = (id: string, offsetPx: number) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const top = el.getBoundingClientRect().top + window.scrollY - offsetPx;
+  window.scrollTo({ top, behavior: 'smooth' });
+};
+
+/* ----------------------------------- styles ----------------------------------- */
 
 const Page = styled.div`
   min-height: ${nonTokenValues.layout.fullViewportHeight};
-  background: ${BG};
-  color: #fff;
+  background: ${COLORS.bg};
+  color: ${COLORS.white};
   overflow-x: hidden;
   font-family: 'Inter', sans-serif;
 `;
+
 const BackBtn = styled.button`
-  display: inline-flex; align-items: center; gap: 8px;
-  border: 1px solid rgba(255,255,255,.12);
-  background: rgba(0,0,0,.35); backdrop-filter: blur(14px);
-  padding: 10px 22px; border-radius: 999px;
-  font-size: 14px; font-weight: 500;
-  color: rgba(255,255,255,.7); cursor: pointer;
-  transition: all .3s;
-  &:hover { background: rgba(0,0,0,.55); color: #fff }
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(14px);
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: all 0.3s;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.55);
+    color: ${COLORS.white};
+  }
 `;
+
 const Nav = styled.nav`
-  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 48px; height: 72px;
-  background: rgba(26,34,56,.55);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: ${LAYOUT.navHeight}px;
+  padding: 0 ${LAYOUT.navPaddingX}px;
+  background: rgba(26, 34, 56, 0.55);
   backdrop-filter: blur(18px);
-  border-bottom: 1px solid rgba(255,255,255,.08);
-  @media(max-width: 900px) {
-    padding: 0 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+  ${mediaDown(BREAKPOINTS.lg)} {
+    padding: 0 ${LAYOUT.navPaddingXTablet}px;
   }
-  @media(max-width: 768px) {
-    padding: 0 8px;
+  ${mediaDown(BREAKPOINTS.md)} {
+    height: ${LAYOUT.navHeightMobile}px;
+    padding: 0 ${LAYOUT.navPaddingXMobile}px;
   }
 `;
+
 const NavLogo = styled.img`
-  height: 28px; width: auto; opacity: 1;
-  @media(max-width: 768px) {
-    margin: 12px 0 12px 0;
+  height: 28px;
+  width: auto;
+  opacity: 1;
+  ${mediaDown(BREAKPOINTS.md)} {
+    margin: 12px 0;
     display: block;
   }
 `;
+
 const NavLinks = styled.div`
-  display: flex; gap: 36px;
-  @media(max-width: 900px) {
+  display: flex;
+  gap: 36px;
+
+  ${mediaDown(BREAKPOINTS.lg)} {
     gap: 18px;
   }
-  @media(max-width: 768px) {
+  ${mediaDown(BREAKPOINTS.md)} {
     display: none;
   }
 `;
-const NavLink = styled.span<{ $active?: boolean }>`
+
+const NavLinkBtn = styled.button<{ $active?: boolean }>`
   font-family: 'Gideon Roman', serif;
-  font-size: 16px; cursor: pointer;
-  color: ${p => p.$active ? '#fff' : 'rgba(255,255,255,.6)'};
-  text-decoration: none;
-  position: relative;
+  font-size: 16px;
+  cursor: pointer;
+  color: ${(p) => (p.$active ? COLORS.white : 'rgba(255,255,255,.6)')};
+  background: none;
+  border: none;
+  padding: 8px 10px;
   border-radius: 8px;
-  transition: color .2s, box-shadow .2s;
-  outline: none;
-  &:hover, &:focus {
+  transition: color 0.2s, box-shadow 0.2s;
+
+  &:hover,
+  &:focus-visible {
     color: #ff2222;
     outline: none;
   }
 `;
+
 const NavPlayBtn = styled.button`
-  padding: 12px 28px; border: none; border-radius: 999px;
-  background: #7a1a1a; color: #fff;
-  font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600;
-  cursor: pointer; transition: all .3s;
-  &:hover { background: #9a2222; box-shadow: 0 4px 28px rgba(120,20,20,.5) }
-  @media(max-width: 768px) {
+  padding: 12px 28px;
+  border: none;
+  border-radius: 999px;
+  background: ${COLORS.red};
+  color: ${COLORS.white};
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+
+  &:hover {
+    background: ${COLORS.redHover};
+    box-shadow: 0 4px 28px rgba(120, 20, 20, 0.5);
+  }
+
+  ${mediaDown(BREAKPOINTS.md)} {
     display: none;
   }
 `;
@@ -130,39 +258,45 @@ const DrawerButton = styled.button`
   display: none;
   background: none;
   border: none;
-  color: #fff;
+  color: ${COLORS.white};
   padding: 8px;
   cursor: pointer;
   z-index: 300;
-  @media(max-width: 768px) {
+
+  ${mediaDown(BREAKPOINTS.md)} {
     display: block;
   }
 `;
 
-const DrawerOverlay = styled.div`
+const DrawerOverlay = styled.div<{ $open: boolean }>`
   display: none;
-  @media(max-width: 768px) {
-    display: block;
+
+  ${mediaDown(BREAKPOINTS.md)} {
+    display: ${(p) => (p.$open ? 'block' : 'none')};
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.45);
+    background: rgba(0, 0, 0, 0.45);
     z-index: 299;
     animation: ${fadeIn} 0.2s;
   }
 `;
 
-const Drawer = styled.div`
+const Drawer = styled.aside<{ $open: boolean }>`
   display: none;
-  @media(max-width: 768px) {
-    display: flex;
+
+  ${mediaDown(BREAKPOINTS.md)} {
+    display: ${(p) => (p.$open ? 'flex' : 'none')};
     flex-direction: column;
     position: fixed;
-    top: 0; right: 0;
-    width: 80vw; max-width: 320px; height: 100vh;
-    background: rgba(26,34,56,0.98);
-    box-shadow: -2px 0 24px 0 rgba(0,0,0,0.18);
+    top: 0;
+    right: 0;
+    width: ${LAYOUT.drawerWidthVw}vw;
+    max-width: ${LAYOUT.drawerMaxWidth}px;
+    height: 100vh;
+    background: rgba(26, 34, 56, 0.98);
+    box-shadow: -2px 0 24px 0 rgba(0, 0, 0, 0.18);
     z-index: 300;
-    padding: 32px 24px 24px 24px;
+    padding: 32px 24px 24px;
     animation: ${fadeIn} 0.2s;
   }
 `;
@@ -170,494 +304,725 @@ const Drawer = styled.div`
 const DrawerClose = styled.button`
   background: none;
   border: none;
-  color: #fff;
+  color: ${COLORS.white};
   position: absolute;
-  top: 18px; right: 18px;
-  font-size: 28px;
+  top: 18px;
+  right: 18px;
   cursor: pointer;
 `;
+
 const HeroWrap = styled.section`
-  position: relative; width: 100%; height: 100vh;
-  min-height: 640px; overflow: hidden;
-  margin-top: 72px;
-  @media(max-width:768px){ margin-top: 60px }
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: ${LAYOUT.heroMinHeight}px;
+  overflow: hidden;
+  margin-top: ${LAYOUT.navHeight}px;
+
+  ${mediaDown(BREAKPOINTS.md)} {
+    margin-top: ${LAYOUT.navHeightMobile}px;
+  }
 `;
+
 const HeroVideo = styled.video`
-  position: absolute; inset: 0;
-  width: 100%; height: 100%; object-fit: cover; z-index: 0;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
 `;
+
 const HeroOverlay = styled.div`
-  position: absolute; inset: 0; z-index: 1;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
   background: linear-gradient(
     to top,
-    ${BG} 0%,
-    rgba(26,34,56,.6) 30%,
-    rgba(26,34,56,.15) 60%,
-    rgba(26,34,56,.05) 100%
+    ${COLORS.bg} 0%,
+    rgba(26, 34, 56, 0.6) 30%,
+    rgba(26, 34, 56, 0.15) 60%,
+    rgba(26, 34, 56, 0.05) 100%
   );
 `;
-const HeroChar = styled.div`
-    display: none;
-`;
+
 const HeroContent = styled.div`
-  position: absolute; bottom: 0; left: 0; z-index: 3;
-  padding: 0 48px 88px;
-  animation: ${fadeInUp} 1s ease-out .6s both;
-  @media(max-width:768px){ padding: 0 24px 56px }
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 3;
+  padding: 0 ${LAYOUT.navPaddingX}px ${HERO.contentBottomPadding}px;
+  animation: ${fadeInUp} 1s ease-out 0.6s both;
+
+  ${mediaDown(BREAKPOINTS.md)} {
+    padding: 0 24px ${HERO.contentBottomPaddingMobile}px;
+  }
 `;
+
 const HeroEnter = styled.div`
-  font-family: 'Katibeh', cursive; font-size: 64px;
-  line-height: 1; color: rgba(255,255,255,.9); margin-bottom: -10px;
-  @media(max-width:768px){ font-size: 40px; margin-bottom: -6px }
+  font-family: 'Katibeh', cursive;
+  font-size: 64px;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: -10px;
+
+  ${mediaDown(BREAKPOINTS.md)} {
+    font-size: 40px;
+    margin-bottom: -6px;
+  }
 `;
+
 const HeroGameRow = styled.div`
-  display: flex; align-items: baseline; gap: 14px;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
 `;
+
 const HeroGame = styled.h1`
-  font-family: 'Katibeh', cursive; font-size: 164px;
-  font-weight: 400; line-height: .9; color: #fff; margin: 0;
-  @media(max-width:1024px){ font-size: 120px }
-  @media(max-width:768px) { font-size: 80px  }
-  @media(max-width:480px) { font-size: 56px  }
+  font-family: 'Katibeh', cursive;
+  font-size: 164px;
+  font-weight: 400;
+  line-height: 0.9;
+  color: ${COLORS.white};
+  margin: 0;
+
+  ${mediaDown(BREAKPOINTS.xl)} {
+    font-size: 120px;
+  }
+  ${mediaDown(BREAKPOINTS.md)} {
+    font-size: 80px;
+  }
+  ${mediaDown(BREAKPOINTS.sm)} {
+    font-size: 56px;
+  }
 `;
+
 const HeroWorld = styled.span`
-  font-family: 'Katibeh', cursive; font-size: 64px;
-  color: rgba(255,255,255,.8);
-  @media(max-width:768px){ font-size: 40px }
+  font-family: 'Katibeh', cursive;
+  font-size: 64px;
+  color: rgba(255, 255, 255, 0.8);
+
+  ${mediaDown(BREAKPOINTS.md)} {
+    font-size: 40px;
+  }
 `;
+
 const HeroBtns = styled.div`
-  display: flex; gap: 16px;
-  /* lift buttons up toward the heading without moving the heading itself */
+  display: flex;
+  gap: 16px;
   margin-top: -40px;
-  @media(max-width:768px){ margin-top: -20px }
-  @media(max-width:480px){ margin-top: -12px }
+
+  ${mediaDown(BREAKPOINTS.md)} {
+    margin-top: -20px;
+  }
+  ${mediaDown(BREAKPOINTS.sm)} {
+    margin-top: -12px;
+  }
 `;
-const BtnRed = styled.button`
-  padding: 14px 38px; border: none; border-radius: 999px;
-  background: #7a1a1a; color: #fff;
-  font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 600;
-  cursor: pointer; transition: all .3s;
-  &:hover { background: #9a2222; transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(120,20,20,.5) }
-  @media(max-width:480px){ padding: 12px 28px; font-size: 14px }
-`;
-const BtnGhost = styled.button`
+
+const baseBtn = css`
   padding: 14px 38px;
-  border: 1px solid rgba(255,255,255,.22); border-radius: 999px;
-  background: rgba(255,255,255,.04); color: #fff;
-  font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 500;
-  cursor: pointer; transition: all .3s;
-  &:hover { background: rgba(255,255,255,.1);
-    border-color: rgba(255,255,255,.4) }
-  @media(max-width:480px){ padding: 12px 28px; font-size: 14px }
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+
+  ${mediaDown(BREAKPOINTS.sm)} {
+    padding: 12px 28px;
+    font-size: 14px;
+  }
 `;
-const CharSection = styled.section<{ $reverse?: boolean }>`
+
+const BtnRed = styled.button`
+  ${baseBtn};
+  border: none;
+  background: ${COLORS.red};
+  color: ${COLORS.white};
+  font-weight: 600;
+
+  &:hover {
+    background: ${COLORS.redHover};
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(120, 20, 20, 0.5);
+  }
+`;
+
+const BtnGhost = styled.button`
+  ${baseBtn};
+  background: rgba(255, 255, 255, 0.04);
+  color: ${COLORS.white};
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+`;
+
+const CharSection = styled.section<{ $reverse?: boolean; $pullUp?: boolean }>`
   position: relative;
   display: flex;
   align-items: center;
   min-height: 100vh;
-  padding: 80px 48px;
+  padding: ${LAYOUT.sectionPaddingY}px ${LAYOUT.sectionPaddingX}px;
   overflow: hidden;
-  flex-direction: ${p => p.$reverse ? 'row-reverse' : 'row'};
-  background: ${BG};
-  @media(max-width:900px){
-    flex-direction: column; padding: 60px 24px; min-height: auto;
+  flex-direction: ${(p) => (p.$reverse ? 'row-reverse' : 'row')};
+  background: ${COLORS.bg};
+  ${(p) => (p.$pullUp ? 'margin-top: -100px;' : '')}
+
+  ${mediaDown(BREAKPOINTS.lg)} {
+    flex-direction: column;
+    padding: ${LAYOUT.sectionPaddingYMobile}px ${LAYOUT.sectionPaddingXMobile}px;
+    min-height: auto;
+    margin-top: 0;
   }
-  &.harry-bg::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    z-index: 0;
-    background: url(${BACK_HOGWARTS}) left center / contain no-repeat;
-    opacity: 0.32;
-    pointer-events: none;
-  }
-  &.vader-bg::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    z-index: 0;
-    background: url(${BACK_PLANE}) right center / contain no-repeat;
-    opacity: 0.18;
-    pointer-events: none;
-  }
-`;
-const CharBgImage = styled.div<{ $src: string; $side: 'left' | 'right' }>`
-  position: absolute;
-  ${p => p.$side}: 0; top: 0;
-  width: 55%; height: 100%;
-  opacity: .12; pointer-events: none;
-  background: url(${p => p.$src}) center / cover no-repeat;
-  mask-image: linear-gradient(to ${p => p.$side === 'left' ? 'right' : 'left'}, black 30%, transparent);
-  -webkit-mask-image: linear-gradient(to ${p => p.$side === 'left' ? 'right' : 'left'}, black 30%, transparent);
-`;
-const CharImg = styled.div<{ $visible: boolean; $highlight?: string }>`
-  flex: 0 0 45%; display: flex;
-  justify-content: center; align-items: flex-end;
-  z-index: 2;
-  opacity: ${p => p.$visible ? 1 : 0};
-  transform: translateY(${p => p.$visible ? 0 : '50px'});
-  transition: opacity .8s ease-out, transform .8s ease-out;
-  position: relative;
-  img {
-    max-height: 85vh; width: auto; max-width: 100%;
-    object-fit: contain;
-    filter: drop-shadow(0 20px 60px rgba(0,0,0,.4));
-    animation: ${float} 5s ease-in-out infinite;
-    transition: filter .3s, transform .3s;
-  }
-  &:hover img {
-    transform: scale(1.05);
-    filter:
-      drop-shadow(0 0 0 ${p => p.$highlight || '#fff'})
-      drop-shadow(0 0 12px ${p => p.$highlight || '#fff'})
-      drop-shadow(0 0 24px ${p => p.$highlight || '#fff'});
-  }
-  .candles {
-    position: absolute;
-    left: 10%; bottom: 12%;
-    display: flex; gap: 12px;
-    z-index: 2;
-  }
-  @media(max-width:900px){
-    flex: none; margin-bottom: 32px;
-    img { max-height: 50vh }
-  }
-`;
-const CharText = styled.div<{ $visible: boolean }>`
-  flex: 1; z-index: 1;
-  padding: 0 48px;
-  opacity: ${p => p.$visible ? 1 : 0};
-  transform: translateX(${p => p.$visible ? 0 : '40px'});
-  transition: opacity .8s ease-out .2s, transform .8s ease-out .2s;
-  @media(max-width:900px){ padding: 0; text-align: center;
-    transform: translateX(0) translateY(${p => p.$visible ? 0 : '30px'}) }
-`;
-const CharTitle = styled.h2`
-  font-family: 'Gideon Roman', serif;
-  font-size: 36px; font-weight: 400; margin: 0 0 20px;
-  color: #fff;
 `;
 
-const WandImage = styled.img`
-  display: block;
-  margin: 0 0 40px 0; /* move left by removing auto left margin */
-  width: 320px;
-  max-width: 100%;
-  height: auto;
-  transition: filter 0.4s, box-shadow 0.4s;
-  cursor: pointer;
-  @media(max-width:900px){ width: 180px; margin-bottom: 24px; }
-  @media(max-width:768px){ display: none !important; }
+const BgImage = styled.img<{ $side: 'left' | 'right'; $fit?: 'contain' | 'cover'; $w?: string }>`
+  position: absolute;
+  ${(p) => (p.$side === 'left' ? 'left: 0;' : 'right: 0;')}
+  ${(p) => (p.$side === 'left' ? 'top: 0;' : 'bottom: 0;')}
+  width: ${(p) => p.$w ?? '100%'};
+  height: 100%;
+  object-fit: ${(p) => p.$fit ?? 'contain'};
+  object-position: ${(p) => (p.$side === 'left' ? 'left top' : 'right bottom')};
+  z-index: 0;
+  opacity: 0.48;
+  pointer-events: none;
 `;
-const WandImageWrap = styled.div`
-  display: block;
-  text-align: center;
-  margin: 0 auto 32px auto;
+
+const CharImg = styled.div<{ $visible: boolean; $highlight?: string }>`
+  flex: 0 0 45%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 2;
+
+  opacity: ${(p) => (p.$visible ? 1 : 0)};
+  transform: translateY(${(p) => (p.$visible ? '0' : '50px')});
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
   position: relative;
-  width: 100%;
+
+  img {
+    max-height: 85vh;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 20px 60px rgba(0, 0, 0, 0.4));
+    animation: ${float} 5s ease-in-out infinite;
+    transition: filter 0.3s, transform 0.3s;
+  }
+
+  &:hover img {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 12px ${(p) => p.$highlight ?? '#fff'})
+      drop-shadow(0 0 24px ${(p) => p.$highlight ?? '#fff'});
+  }
+
+  ${mediaDown(BREAKPOINTS.lg)} {
+    flex: none;
+    margin-bottom: 32px;
+    img {
+      max-height: 50vh;
+    }
+  }
+`;
+
+const CharText = styled.div<{ $visible: boolean }>`
+  flex: 1;
+  z-index: 1;
+  padding: 0 48px;
+
+  opacity: ${(p) => (p.$visible ? 1 : 0)};
+  transform: translateX(${(p) => (p.$visible ? '0' : '40px')});
+  transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s;
+
+  ${mediaDown(BREAKPOINTS.lg)} {
+    padding: 0;
+    text-align: center;
+    transform: translateY(${(p) => (p.$visible ? '0' : '30px')});
+  }
+`;
+
+const CharTitle = styled.h2`
+  font-family: 'Gideon Roman', serif;
+  font-size: 36px;
+  font-weight: 400;
+  margin: 0 0 20px;
+  color: ${COLORS.white};
 `;
 
 const CharDesc = styled.p`
   font-family: 'Inter', sans-serif;
-  font-size: 16px; line-height: 1.8;
-  color: rgba(255,255,255,.6); max-width: 480px;
-  @media(max-width:900px){ margin: 0 auto }
+  font-size: 16px;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.6);
+  max-width: 480px;
+
+  ${mediaDown(BREAKPOINTS.lg)} {
+    margin: 0 auto;
+  }
 `;
-const SaberAccent = styled.div<{ $color: string }>`
-  width: 60px; height: 3px; border-radius: 2px;
-  margin-bottom: 24px;
-  background: ${p => p.$color};
-  box-shadow: 0 0 12px ${p => p.$color}, 0 0 24px ${p => p.$color}44;
-  animation: ${saberGlow} 3s ease-in-out infinite;
-  @media(max-width:900px){ margin: 0 auto 24px }
+
+const WandImageWrap = styled.div`
+  display: block;
+  text-align: center;
+  margin: 0 auto 32px;
+  position: relative;
+  width: 100%;
 `;
-const Particle = styled.div<{ $x: number; $delay: number; $size: number }>`
+
+const WandImage = styled.img`
+  display: block;
+  margin: 0 0 40px 0;
+  width: 320px;
+  max-width: 100%;
+  height: auto;
+  cursor: pointer;
+  transition: filter 0.4s, box-shadow 0.4s;
+
+  ${mediaDown(BREAKPOINTS.lg)} {
+    width: 180px;
+    margin-bottom: 24px;
+  }
+  ${mediaDown(BREAKPOINTS.md)} {
+    display: none !important;
+  }
+`;
+
+const SaberWrap = styled.div`
+  position: relative;
+  display: block;
+  width: 260px;
+  margin: 0 0 12px auto;
+  transform: translateX(-35%) translateY(-5%);
+  cursor: pointer;
+
+  ${mediaDown(BREAKPOINTS.md)} {
+    display: none !important;
+  }
+`;
+
+const SaberImg = styled.img<{ $visible: boolean }>`
+  width: 100%;
+  display: block;
+  transition: opacity 0.35s ease;
+  opacity: ${(p) => (p.$visible ? 1 : 0)};
+  ${(p) =>
+    p.$visible
+      ? css`
+          position: relative;
+        `
+      : css`
+          position: absolute;
+          inset: 0;
+        `}
+`;
+
+type ParticleModel = {
+  key: string;
+  xPct: number;
+  delay: number;
+  size: number;
+  duration: number;
+};
+
+const Particle = styled.div<{ $xPct: number; $delay: number; $size: number; $duration: number }>`
   position: absolute;
-  left: ${p => p.$x}%;
-  bottom: -10px;
-  width: ${p => p.$size}px; height: ${p => p.$size}px;
+  left: ${(p) => p.$xPct}%;
+  bottom: ${PARTICLES.bottomOffset}px;
+  width: ${(p) => p.$size}px;
+  height: ${(p) => p.$size}px;
   border-radius: 50%;
-  background: rgba(255,255,255,.15);
-  animation: ${particleDrift} ${() => 8 + Math.random() * 6}s linear infinite;
-  animation-delay: ${p => p.$delay}s;
+  background: rgba(255, 255, 255, 0.15);
+  animation: ${particleDrift} ${(p) => p.$duration}s linear infinite;
+  animation-delay: ${(p) => p.$delay}s;
 `;
+
 const FooterWrap = styled.footer`
-  position: relative; background: ${BG};
-  padding: 0 48px 36px; overflow: hidden;
-  @media(max-width:768px){ padding: 0 20px 28px }
+  position: relative;
+  background: ${COLORS.bg};
+  padding: 0 ${LAYOUT.footerPaddingX}px 36px;
+  overflow: hidden;
+
+  ${mediaDown(BREAKPOINTS.md)} {
+    padding: 0 ${LAYOUT.footerPaddingXMobile}px 28px;
+  }
 `;
+
 const FooterLine = styled.div`
-  width: 100%; height: 1px;
-  background: rgba(255,255,255,.12);
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
   margin-bottom: 48px;
 `;
+
 const FooterGrid = styled.div`
-  position: relative; z-index: 1;
-  display: flex; justify-content: space-between;
-  flex-wrap: wrap; gap: 40px;
-  max-width: 1100px; margin: 0 auto;
-  @media(max-width:640px){ gap: 28px }
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+
+  ${mediaDown(640)} {
+    gap: 28px;
+  }
 `;
+
 const FooterBrand = styled.div`
-  max-width: 200px; flex-shrink: 0;
+  max-width: 200px;
+  flex-shrink: 0;
 `;
+
 const FooterBrandTitle = styled.h3`
   font-family: 'Gideon Roman', serif;
-  font-size: 36px; font-weight: 400;
-  color: #fff; margin: 0 0 4px;
+  font-size: 36px;
+  font-weight: 400;
+  color: ${COLORS.white};
+  margin: 0 0 4px;
   letter-spacing: 3px;
 `;
+
 const FooterBrandSub = styled.p`
-  font-size: 14px; color: rgba(255,255,255,.35);
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.35);
   margin: 0 0 20px;
 `;
+
 const SocialRow = styled.div`
-  display: flex; gap: 12px;
+  display: flex;
+  gap: 12px;
 `;
+
 const SocialCircle = styled.a`
-  width: 34px; height: 34px; border-radius: 50%;
-  border: 1px solid rgba(255,255,255,.18);
-  display: flex; align-items: center; justify-content: center;
-  color: rgba(255,255,255,.5); transition: all .2s;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.5);
+  transition: all 0.2s;
   text-decoration: none;
-  &:hover { border-color: rgba(255,255,255,.4); color: #fff }
-  svg { width: 15px; height: 15px }
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    color: ${COLORS.white};
+  }
+
+  svg {
+    width: 15px;
+    height: 15px;
+  }
 `;
+
 const FooterCol = styled.div`
   min-width: 120px;
 `;
+
 const FooterColTitle = styled.h4`
   font-family: 'Inter', sans-serif;
-  font-size: 16px; font-weight: 600;
-  color: #fff; margin: 0 0 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: ${COLORS.white};
+  margin: 0 0 16px;
 `;
+
 const FooterLink = styled.a`
-  display: block; font-size: 14px;
-  color: rgba(255,255,255,.4); text-decoration: none;
-  margin-bottom: 12px; cursor: pointer;
-  transition: color .2s;
-  &:hover { color: rgba(255,255,255,.8) }
+  display: block;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: color 0.2s;
+
+  &:hover {
+    color: rgba(255, 255, 255, 0.8);
+  }
 `;
+
 const FooterCharLeft = styled.div`
-  position: absolute; left: 0; bottom: 0;
-  height: 320px; z-index: 0; pointer-events: none;
-  opacity: .7;
-  img { height: 100%; width: auto; object-fit: contain;
-        object-position: bottom left }
-  @media(max-width:768px){ height: 200px }
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: ${LAYOUT.footerCharHeight}px;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.7;
+
+  img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+    object-position: bottom left;
+  }
+
+  ${mediaDown(BREAKPOINTS.md)} {
+    height: ${LAYOUT.footerCharHeightMobile}px;
+  }
 `;
+
 const FooterCharRight = styled.div`
-  position: absolute; right: 0; bottom: 0;
-  height: 320px; z-index: 0; pointer-events: none;
-  opacity: .7;
-  img { height: 100%; width: auto; object-fit: contain;
-        object-position: bottom right }
-  @media(max-width:768px){ height: 200px }
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: ${LAYOUT.footerCharHeight}px;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.7;
+
+  img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+    object-position: bottom right;
+  }
+
+  ${mediaDown(BREAKPOINTS.md)} {
+    height: ${LAYOUT.footerCharHeightMobile}px;
+  }
 `;
+
 const FooterBottom = styled.div`
-  position: relative; z-index: 1;
-  display: flex; justify-content: space-between;
-  max-width: 1100px; margin: 40px auto 0;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  max-width: 1100px;
+  margin: 40px auto 0;
   padding-top: 20px;
-  border-top: 1px solid rgba(255,255,255,.06);
-  font-size: 12px; color: rgba(255,255,255,.2);
-  @media(max-width:640px){ flex-direction: column; gap: 6px; text-align: center }
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.2);
+
+  ${mediaDown(640)} {
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+  }
 `;
 
-interface Props { onBack: () => void }
+/* ----------------------------------- component ----------------------------------- */
 
-const useInView = (threshold = 0.2) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) setVisible(true) },
-      { threshold }
-    );
-    if (ref.current) obs.observe(ref.current);
-    return () => obs.disconnect();
-  }, [threshold]);
-  return { ref, visible };
-};
+interface Props {
+  onBack: () => void;
+}
 
 const LandingHPvsVader: React.FC<Props> = ({ onBack }) => {
-  const [selected, setSelected] = useState<'harry' | 'vader' | null>(null);
+  const { t } = useLanguage();
+  const lt: any = t.landingHpVsVader;
+
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [wandHovered, setWandHovered] = useState(false);
   const [saberHovered, setSaberHovered] = useState(false);
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const { t } = useLanguage();
-  const lt: any = t.landingHpVsVader; // Use any to allow harryWeapon/vaderWeapon
 
-  const harry = useInView(0.15);
-  const vader = useInView(0.15);
+  const harry = useInView({ threshold: 0.15, once: true });
+  const vader = useInView({ threshold: 0.15, once: true });
 
-  const particles = Array.from({ length: 12 }, (_, i) => ({
-    x: Math.random() * 100,
-    delay: Math.random() * 8,
-    size: 2 + Math.random() * 3,
-    key: i,
-  }));
+  const navOffset = useMemo(() => (window.innerWidth <= BREAKPOINTS.md ? LAYOUT.navHeightMobile : LAYOUT.navHeight), []);
+
+  const particles = useMemo<ParticleModel[]>(() => {
+    const rand = (min: number, max: number) => min + Math.random() * (max - min);
+    return Array.from({ length: PARTICLES.count }, (_, i) => ({
+      key: `p-${i}`,
+      xPct: rand(0, 100),
+      delay: rand(0, 8),
+      size: rand(PARTICLES.minSize, PARTICLES.maxSize),
+      duration: rand(PARTICLES.minDuration, PARTICLES.maxDuration),
+    }));
+  }, []);
+
+  // close drawer on ESC
+  useEffect(() => {
+    if (!drawerOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setDrawerOpen(false);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [drawerOpen]);
+
+  const go = (id: SectionId) => {
+    setDrawerOpen(false);
+    scrollToId(id, navOffset);
+  };
 
   return (
     <Page>
       <Nav>
-      <BackBtn onClick={onBack}>
-        <ArrowLeft size={16} />
-        {lt.backToPortfolio}
-      </BackBtn>
+        <BackBtn onClick={onBack}>
+          <ArrowLeft size={16} />
+          {lt.backToPortfolio}
+        </BackBtn>
+
+        {/* Optional logo (kept, previously unused). Remove if you don't want it. */}
+        {/* <NavLogo src={ASSETS.logo} alt="Logo" /> */}
+
         <NavLinks>
-          <NavLink $active>{lt.navHome}</NavLink>
-          <NavLink>{lt.navGame}</NavLink>
-          <NavLink>{lt.navContact}</NavLink>
+          <NavLinkBtn $active onClick={() => go('home')}>
+            {lt.navHome}
+          </NavLinkBtn>
+          <NavLinkBtn onClick={() => go('harry')}>{lt.navGame}</NavLinkBtn>
+          <NavLinkBtn onClick={() => go('contact')}>{lt.navContact}</NavLinkBtn>
         </NavLinks>
-        <NavPlayBtn>{lt.playNow}</NavPlayBtn>
+
+        <NavPlayBtn onClick={() => go('harry')}>{lt.playNow}</NavPlayBtn>
+
         <DrawerButton aria-label="Open menu" onClick={() => setDrawerOpen(true)}>
           <MenuIcon size={28} />
         </DrawerButton>
-        {drawerOpen && <>
-          <DrawerOverlay onClick={() => setDrawerOpen(false)} />
-          <Drawer>
-            <DrawerClose aria-label="Close menu" onClick={() => setDrawerOpen(false)}>
-              <CloseIcon size={28} />
-            </DrawerClose>
-            <NavLink style={{margin: '32px 0 0 0', fontSize: 20}} $active>{lt.navHome}</NavLink>
-            <NavLink style={{margin: '18px 0 0 0', fontSize: 20}}>{lt.navGame}</NavLink>
-            <NavLink style={{margin: '18px 0 0 0', fontSize: 20}}>{lt.navContact}</NavLink>
-            <NavPlayBtn style={{display: 'block', margin: '32px 0 0 0', width: '100%'}}>{lt.playNow}</NavPlayBtn>
-          </Drawer>
-        </>}
+
+        <DrawerOverlay $open={drawerOpen} onClick={() => setDrawerOpen(false)} />
+
+        <Drawer $open={drawerOpen} aria-label="Mobile menu">
+          <DrawerClose aria-label="Close menu" onClick={() => setDrawerOpen(false)}>
+            <CloseIcon size={28} />
+          </DrawerClose>
+
+          <NavLinkBtn style={{ margin: '32px 0 0', fontSize: 20 }} $active onClick={() => go('home')}>
+            {lt.navHome}
+          </NavLinkBtn>
+          <NavLinkBtn style={{ margin: '18px 0 0', fontSize: 20 }} onClick={() => go('harry')}>
+            {lt.navGame}
+          </NavLinkBtn>
+          <NavLinkBtn style={{ margin: '18px 0 0', fontSize: 20 }} onClick={() => go('contact')}>
+            {lt.navContact}
+          </NavLinkBtn>
+
+          <NavPlayBtn style={{ display: 'block', margin: '32px 0 0', width: '100%' }} onClick={() => go('harry')}>
+            {lt.playNow}
+          </NavPlayBtn>
+        </Drawer>
       </Nav>
-      <HeroWrap>
-        <HeroVideo src={HERO_VIDEO} autoPlay loop muted playsInline />
+
+      <HeroWrap id="home">
+        <HeroVideo src={ASSETS.heroVideo} autoPlay loop muted playsInline />
         <HeroOverlay />
+
         <HeroContent>
           <HeroEnter>{lt.enterThe}</HeroEnter>
           <HeroGameRow>
             <HeroGame>{lt.gameWorld}</HeroGame>
             <HeroWorld>WORLD</HeroWorld>
           </HeroGameRow>
+
           <HeroBtns>
-            <BtnRed onClick={() => setSelected('harry')}>{lt.playNow}</BtnRed>
-            <BtnGhost onClick={() => setSelected('vader')}>{lt.characters}</BtnGhost>
+            <BtnRed onClick={() => go('harry')}>{lt.playNow}</BtnRed>
+            <BtnGhost onClick={() => go('vader')}>{lt.characters}</BtnGhost>
           </HeroBtns>
         </HeroContent>
       </HeroWrap>
-      <CharSection ref={harry.ref} style={{position:'relative', overflow:'visible'}}>
-        <img
-          src={BACK_HOGWARTS}
-          alt="Hogwarts Castle"
-          style={{
-            position: 'absolute',
-            right: 0,
-            bottom: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'contain',
-            objectPosition: 'right bottom',
-            zIndex: 1,
-            opacity: 0.48,
-            pointerEvents: 'none',
-          }}
-        />
-        {particles.map(p => (
-          <Particle key={p.key} $x={p.x} $delay={p.delay} $size={p.size} />
+
+      {/* Harry */}
+      <CharSection id="harry" ref={harry.ref}>
+        <BgImage src={ASSETS.backHogwarts} alt="Hogwarts Castle" $side="right" $fit="contain" />
+
+        {particles.map((p) => (
+          <Particle key={`harry-${p.key}`} $xPct={p.xPct} $delay={p.delay} $size={p.size} $duration={p.duration} />
         ))}
+
         <CharText $visible={harry.visible}>
           <WandImageWrap>
             <WandImage
-              src={wandHovered ? WAND_LIGHT : WAND}
+              src={wandHovered ? ASSETS.wandLight : ASSETS.wand}
               alt="Harry Potter's wand"
               onMouseEnter={() => setWandHovered(true)}
               onMouseLeave={() => setWandHovered(false)}
-              style={{ transition: 'filter 0.4s, box-shadow 0.4s' }}
             />
           </WandImageWrap>
+
           <CharTitle>{lt.harryTitle}</CharTitle>
-           <CharDesc>{lt.harryDesc} {lt.harryWeapon ?? ''}</CharDesc>
+          <CharDesc>
+            {lt.harryDesc} {lt.harryWeapon ?? ''}
+          </CharDesc>
         </CharText>
+
         <CharImg $visible={harry.visible} $highlight="#f5c542">
-          <img src={POTTER_FULL} alt="Harry Potter" />
+          <img src={ASSETS.potterFull} alt="Harry Potter" />
         </CharImg>
       </CharSection>
-      <CharSection $reverse ref={vader.ref} style={{position:'relative', overflow:'visible', marginTop: '-100px'}}>
-        <img
-          src={BACK_PLANE}
-          alt="Plane Background"
-          style={{
-            position: 'absolute',
-            left: 0,
-            top: 0,
-            width: '65%',
-            height: '100%',
-            objectFit: 'cover',
-            zIndex: 0,
-            opacity: 0.48,
-            pointerEvents: 'none',
-          }}
-        />
-        {particles.map(p => (
-          <Particle key={`v${p.key}`} $x={p.x} $delay={p.delay} $size={p.size} />
+
+      {/* Vader */}
+      <CharSection id="vader" $reverse $pullUp ref={vader.ref}>
+        <BgImage src={ASSETS.backPlane} alt="Plane Background" $side="left" $fit="cover" $w="65%" />
+
+        {particles.map((p) => (
+          <Particle key={`vader-${p.key}`} $xPct={p.xPct} $delay={p.delay} $size={p.size} $duration={p.duration} />
         ))}
+
         <CharText $visible={vader.visible}>
-          <div
-            className="vader-lightsaber"
-            onMouseEnter={() => setSaberHovered(true)}
-            onMouseLeave={() => setSaberHovered(false)}
-            style={{ position: 'relative', display: 'block', margin: '0 0 12px auto', width: 260, transform: 'translateX(-35%) translateY(-5%)', cursor: 'pointer' }}
-          >
-            <img
-              src="/assets/images/brand/Lending Harry Potter vs Darth_Vader/Darth_Vader's_lightsaber.png"
-              alt="Darth Vader lightsaber"
-              style={{ width: '100%', display: 'block', transition: 'opacity .35s ease', opacity: saberHovered ? 0 : 1 }}
-              className="vader-lightsaber-img"
-            />
-            <img
-              src="/assets/images/brand/Lending Harry Potter vs Darth_Vader/Darth_Vader's_lightsaber_light.png"
-              alt="Darth Vader lightsaber (light)"
-              style={{ position: 'absolute', top: 0, left: 0, width: '100%', transition: 'opacity .35s ease', opacity: saberHovered ? 1 : 0 }}
-              className="vader-lightsaber-img"
-            />
-          </div>
-          <CharTitle style={{ marginLeft: 32, marginBottom: 20, display: 'block' }}>{lt.vaderTitle}</CharTitle>
-          <CharDesc style={{ marginLeft: 32 }}>{lt.vaderDesc} {lt.vaderWeapon ?? ''}</CharDesc>
+          <SaberWrap onMouseEnter={() => setSaberHovered(true)} onMouseLeave={() => setSaberHovered(false)}>
+            <SaberImg src={ASSETS.saber} alt="Darth Vader lightsaber" $visible={!saberHovered} />
+            <SaberImg src={ASSETS.saberLight} alt="Darth Vader lightsaber (light)" $visible={saberHovered} />
+          </SaberWrap>
+
+          <CharTitle style={{ marginLeft: 32 }}>{lt.vaderTitle}</CharTitle>
+          <CharDesc style={{ marginLeft: 32 }}>
+            {lt.vaderDesc} {lt.vaderWeapon ?? ''}
+          </CharDesc>
         </CharText>
+
         <CharImg $visible={vader.visible} $highlight="#ff2020">
-          <img src={VADER_FULL} alt="Darth Vader" />
+          <img src={ASSETS.vaderFull} alt="Darth Vader" />
         </CharImg>
       </CharSection>
-      <style>{`
-        @media (max-width: 768px) {
-          .vader-lightsaber, .vader-lightsaber-img { display: none !important; }
-        }
-      `}</style>
+
       <HPVaderCarousel />
-      <FooterWrap>
+
+      <FooterWrap id="contact">
         <FooterLine />
-        <FooterCharLeft><img src={POTTER_PART2} alt="" /></FooterCharLeft>
-        <FooterCharRight><img src={VADER_PART2} alt="" /></FooterCharRight>
+
+        <FooterCharLeft>
+          <img src={ASSETS.potterPart2} alt="" />
+        </FooterCharLeft>
+        <FooterCharRight>
+          <img src={ASSETS.vaderPart2} alt="" />
+        </FooterCharRight>
+
         <FooterGrid>
           <FooterBrand>
             <FooterBrandTitle>{lt.footerTitle}</FooterBrandTitle>
             <FooterBrandSub>{lt.footerSubtitle}</FooterBrandSub>
+
             <SocialRow>
               <SocialCircle href="#" aria-label="Instagram">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="5" />
+                  <circle cx="12" cy="12" r="5" />
+                  <circle cx="17.5" cy="6.5" r="1.5" />
+                </svg>
               </SocialCircle>
+
               <SocialCircle href="#" aria-label="LinkedIn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" />
+                  <rect x="2" y="9" width="4" height="12" />
+                  <circle cx="4" cy="4" r="2" />
+                </svg>
               </SocialCircle>
+
               <SocialCircle href="#" aria-label="X">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
               </SocialCircle>
             </SocialRow>
           </FooterBrand>
+
           <FooterCol>
             <FooterColTitle>{lt.features}</FooterColTitle>
             <FooterLink href="#">{lt.coreFeatures}</FooterLink>
             <FooterLink href="#">{lt.proExperience}</FooterLink>
             <FooterLink href="#">{lt.integrations}</FooterLink>
           </FooterCol>
+
           <FooterCol>
             <FooterColTitle>{lt.learnMore}</FooterColTitle>
             <FooterLink href="#">{lt.blog}</FooterLink>
@@ -665,6 +1030,7 @@ const LandingHPvsVader: React.FC<Props> = ({ onBack }) => {
             <FooterLink href="#">{lt.customerStories}</FooterLink>
             <FooterLink href="#">{lt.bestPractices}</FooterLink>
           </FooterCol>
+
           <FooterCol>
             <FooterColTitle>{lt.support}</FooterColTitle>
             <FooterLink href="#">{lt.contact}</FooterLink>
@@ -672,13 +1038,14 @@ const LandingHPvsVader: React.FC<Props> = ({ onBack }) => {
             <FooterLink href="#">{lt.legal}</FooterLink>
           </FooterCol>
         </FooterGrid>
+
         <FooterBottom>
           <span>© 2026 Game World. All rights reserved.</span>
           <span>Privacy Policy · Terms of Service</span>
         </FooterBottom>
       </FooterWrap>
     </Page>
-  )
-}
+  );
+};
 
 export default LandingHPvsVader;
