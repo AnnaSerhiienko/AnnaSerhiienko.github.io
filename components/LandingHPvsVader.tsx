@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import { ArrowLeft, Menu as MenuIcon, X as CloseIcon } from 'lucide-react';
 import { useLanguage } from '../i18n.tsx';
@@ -12,6 +12,7 @@ const COLORS = {
   red: '#7a1a1a',
   redHover: '#9a2222',
   white: '#fff',
+  focus: 'rgba(255,255,255,.55)',
 };
 
 const BREAKPOINTS = {
@@ -27,35 +28,36 @@ const LAYOUT = {
   navPaddingX: 48,
   navPaddingXTablet: 16,
   navPaddingXMobile: 8,
+
   heroMinHeight: 640,
-  sectionPaddingY: 80,
-  sectionPaddingYMobile: 60,
-  sectionPaddingX: 48,
-  sectionPaddingXMobile: 24,
+
+  compositionMaxWidth: 1100,
+  compositionHeroOffset: 0,
+  compositionGap: 60,
+  compositionWeaponsGap: 120,
+  compositionImgMaxH: 340,
+
   footerPaddingX: 48,
   footerPaddingXMobile: 20,
   footerCharHeight: 320,
   footerCharHeightMobile: 200,
+
   drawerMaxWidth: 320,
   drawerWidthVw: 80,
+
+  sectionSpacer: 48,
 };
 
 const HERO = {
   contentBottomPadding: 88,
   contentBottomPaddingMobile: 56,
-};
-
-const PARTICLES = {
-  count: 12,
-  minSize: 2,
-  maxSize: 5,
-  minDuration: 8,
-  maxDuration: 14,
-  bottomOffset: -10,
+  btnLiftDesktop: -40,
+  btnLiftMobile: -20,
+  btnLiftSmall: -12,
 };
 
 const ASSETS_BASE = '/assets/images/brand/Lending Harry Potter vs Darth_Vader';
-const ASSET_VERSION = '1'; // bump when you replace files (stable, browser-cache friendly)
+const ASSET_VERSION = '1'; // bump on asset replacement
 
 const ASSETS = {
   backHogwarts: `${ASSETS_BASE}/Back_Hogwarts.png?v=${ASSET_VERSION}`,
@@ -64,7 +66,6 @@ const ASSETS = {
   vaderPart2: `${ASSETS_BASE}/Darth_Vader_part_2.png`,
   potterFull: `${ASSETS_BASE}/Harry_Potter_full_height.png`,
   potterPart2: `${ASSETS_BASE}/Harry_Potter_part_2.png`,
-  logo: `${ASSETS_BASE}/Property 1=Default.svg`,
   heroVideo: `${ASSETS_BASE}/Video Hero.mp4`,
   wand: `${ASSETS_BASE}/Harry Potter's wand.png`,
   wandLight: `${ASSETS_BASE}/Harry Potter's wand_light.png`,
@@ -80,55 +81,49 @@ const fadeInUp = keyframes`
   from { opacity: 0; transform: translateY(50px) }
   to   { opacity: 1; transform: translateY(0) }
 `;
+
 const fadeIn = keyframes`
   from { opacity: 0 }
   to   { opacity: 1 }
 `;
+
 const float = keyframes`
   0%, 100% { transform: translateY(0) }
   50%      { transform: translateY(-12px) }
 `;
-const particleDrift = keyframes`
-  0%   { transform: translateY(0) rotate(0deg); opacity: 0 }
-  10%  { opacity: 1 }
-  90%  { opacity: 1 }
-  100% { transform: translateY(-100vh) rotate(720deg); opacity: 0 }
+
+const focusRing = css`
+  &:focus-visible {
+    outline: 2px solid ${COLORS.focus};
+    outline-offset: 2px;
+  }
+`;
+
+const reducedMotion = css`
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 1ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 1ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 `;
 
 /* ----------------------------------- helpers ----------------------------------- */
 
-interface InViewOptions {
-  threshold?: number;
-  rootMargin?: string;
-  once?: boolean;
-}
-
-const useInView = ({ threshold = 0.2, rootMargin = '0px', once = true }: InViewOptions = {}) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-
+const useLockBodyScroll = (locked: boolean) => {
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          if (once) obs.disconnect();
-        }
-      },
-      { threshold, rootMargin }
-    );
-
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [threshold, rootMargin, once]);
-
-  return { ref, visible };
+    if (!locked) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [locked]);
 };
 
-type SectionId = 'home' | 'harry' | 'vader' | 'contact';
+type SectionId = 'home' | 'characters' | 'contact';
 
 const scrollToId = (id: string, offsetPx: number) => {
   const el = document.getElementById(id);
@@ -144,7 +139,8 @@ const Page = styled.div`
   background: ${COLORS.bg};
   color: ${COLORS.white};
   overflow-x: hidden;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  ${reducedMotion}
 `;
 
 const BackBtn = styled.button`
@@ -160,7 +156,8 @@ const BackBtn = styled.button`
   font-weight: 500;
   color: rgba(255, 255, 255, 0.7);
   cursor: pointer;
-  transition: all 0.3s;
+  transition: background 0.2s, color 0.2s;
+  ${focusRing}
 
   &:hover {
     background: rgba(0, 0, 0, 0.55);
@@ -168,7 +165,7 @@ const BackBtn = styled.button`
   }
 `;
 
-const Nav = styled.nav`
+const Nav = styled.header`
   position: fixed;
   top: 0;
   left: 0;
@@ -192,17 +189,7 @@ const Nav = styled.nav`
   }
 `;
 
-const NavLogo = styled.img`
-  height: 28px;
-  width: auto;
-  opacity: 1;
-  ${mediaDown(BREAKPOINTS.md)} {
-    margin: 12px 0;
-    display: block;
-  }
-`;
-
-const NavLinks = styled.div`
+const NavLinks = styled.nav`
   display: flex;
   gap: 36px;
 
@@ -223,12 +210,11 @@ const NavLinkBtn = styled.button<{ $active?: boolean }>`
   border: none;
   padding: 8px 10px;
   border-radius: 8px;
-  transition: color 0.2s, box-shadow 0.2s;
+  transition: color 0.2s;
+  ${focusRing}
 
-  &:hover,
-  &:focus-visible {
+  &:hover {
     color: #ff2222;
-    outline: none;
   }
 `;
 
@@ -238,15 +224,16 @@ const NavPlayBtn = styled.button`
   border-radius: 999px;
   background: ${COLORS.red};
   color: ${COLORS.white};
-  font-family: 'Inter', sans-serif;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+  ${focusRing}
 
   &:hover {
     background: ${COLORS.redHover};
     box-shadow: 0 4px 28px rgba(120, 20, 20, 0.5);
+    transform: translateY(-1px);
   }
 
   ${mediaDown(BREAKPOINTS.md)} {
@@ -262,6 +249,7 @@ const DrawerButton = styled.button`
   padding: 8px;
   cursor: pointer;
   z-index: 300;
+  ${focusRing}
 
   ${mediaDown(BREAKPOINTS.md)} {
     display: block;
@@ -309,6 +297,7 @@ const DrawerClose = styled.button`
   top: 18px;
   right: 18px;
   cursor: pointer;
+  ${focusRing}
 `;
 
 const HeroWrap = styled.section`
@@ -410,23 +399,23 @@ const HeroWorld = styled.span`
 const HeroBtns = styled.div`
   display: flex;
   gap: 16px;
-  margin-top: -40px;
+  margin-top: ${HERO.btnLiftDesktop}px;
 
   ${mediaDown(BREAKPOINTS.md)} {
-    margin-top: -20px;
+    margin-top: ${HERO.btnLiftMobile}px;
   }
   ${mediaDown(BREAKPOINTS.sm)} {
-    margin-top: -12px;
+    margin-top: ${HERO.btnLiftSmall}px;
   }
 `;
 
 const baseBtn = css`
   padding: 14px 38px;
   border-radius: 999px;
-  font-family: 'Inter', sans-serif;
   font-size: 16px;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.25s;
+  ${focusRing}
 
   ${mediaDown(BREAKPOINTS.sm)} {
     padding: 12px 28px;
@@ -439,7 +428,7 @@ const BtnRed = styled.button`
   border: none;
   background: ${COLORS.red};
   color: ${COLORS.white};
-  font-weight: 600;
+  font-weight: 700;
 
   &:hover {
     background: ${COLORS.redHover};
@@ -452,7 +441,7 @@ const BtnGhost = styled.button`
   ${baseBtn};
   background: rgba(255, 255, 255, 0.04);
   color: ${COLORS.white};
-  font-weight: 500;
+  font-weight: 600;
   border: 1px solid rgba(255, 255, 255, 0.22);
 
   &:hover {
@@ -461,185 +450,278 @@ const BtnGhost = styled.button`
   }
 `;
 
-const CharSection = styled.section<{ $reverse?: boolean; $pullUp?: boolean }>`
-  position: relative;
-  display: flex;
-  align-items: center;
-  min-height: 100vh;
-  padding: ${LAYOUT.sectionPaddingY}px ${LAYOUT.sectionPaddingX}px;
-  overflow: hidden;
-  flex-direction: ${(p) => (p.$reverse ? 'row-reverse' : 'row')};
-  background: ${COLORS.bg};
-  ${(p) => (p.$pullUp ? 'margin-top: -100px;' : '')}
+/* ----------------------------- composition section (like screenshot) ----------------------------- */
 
-  ${mediaDown(BREAKPOINTS.lg)} {
-    flex-direction: column;
-    padding: ${LAYOUT.sectionPaddingYMobile}px ${LAYOUT.sectionPaddingXMobile}px;
-    min-height: auto;
-    margin-top: 0;
+const CompositionZone = styled.section`
+  position: relative;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+
+  /* screenshot-like depth */
+  background:
+    radial-gradient(900px 520px at 50% 35%, rgba(255,255,255,0.06) 0%, rgba(26,34,56,0) 60%),
+    linear-gradient(to bottom, #0f1423 0%, ${COLORS.bg} 22%, ${COLORS.bg} 100%);
+`;
+
+const CompositionTopFade = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 240px;
+  z-index: 4;
+  pointer-events: none;
+  background: linear-gradient(to bottom, ${COLORS.bg} 0%, rgba(26,34,56,0) 100%);
+`;
+
+const CompositionInner = styled.div`
+  max-width: ${LAYOUT.compositionMaxWidth}px;
+  margin: 0 auto;
+  padding: 96px ${LAYOUT.navPaddingX}px 72px;
+
+  ${mediaDown(BREAKPOINTS.md)} {
+    padding: 64px 20px 56px;
   }
 `;
 
-const BgImage = styled.img<{ $side: 'left' | 'right'; $fit?: 'contain' | 'cover'; $w?: string }>`
-  position: absolute;
-  ${(p) => (p.$side === 'left' ? 'left: 0;' : 'right: 0;')}
-  ${(p) => (p.$side === 'left' ? 'top: 0;' : 'bottom: 0;')}
-  width: ${(p) => p.$w ?? '100%'};
-  height: 100%;
-  object-fit: ${(p) => p.$fit ?? 'contain'};
-  object-position: ${(p) => (p.$side === 'left' ? 'left top' : 'right bottom')};
-  z-index: 0;
-  opacity: 0.48;
-  pointer-events: none;
+const CompositionRow = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 120px;
+  min-height: 420px;
+  position: relative;
+
+  ${mediaDown(BREAKPOINTS.md)} {
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    min-height: 0;
+  }
 `;
 
-const CharImg = styled.div<{ $visible: boolean; $highlight?: string }>`
-  flex: 0 0 45%;
+const CompositionChar = styled.article`
+  flex: 0 0 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 420px;
+  position: relative;
+  padding-top: 40px;
+  isolation: isolate;
+
+  ${mediaDown(BREAKPOINTS.md)} {
+    flex: none;
+    min-height: 0;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    padding-top: 24px;
+  }
+`;
+
+const hoverGlow = (color: string) => css`
+  &:hover {
+    transform: scale(1.04);
+    filter: drop-shadow(0 20px 60px rgba(0, 0, 0, 0.45)) drop-shadow(0 0 14px ${color})
+      drop-shadow(0 0 30px ${color});
+  }
+`;
+
+const CompositionImg = styled.img<{ $glow: string }>`
+  max-height: 340px;
+  width: auto;
+  max-width: 100%;
+  margin-bottom: 18px;
+  filter: drop-shadow(0 20px 60px rgba(0, 0, 0, 0.4));
+  transition: filter 0.25s, transform 0.25s;
+  animation: ${float} 5s ease-in-out infinite;
+  ${hoverGlow((p) => p.$glow as any)}
+  position: static;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 2;
+
+  ${mediaDown(BREAKPOINTS.md)} {
+    margin-bottom: 12px;
+    max-height: 280px;
+  }
+`;
+
+const CompositionTitle = styled.h2`
+  font-family: 'Gideon Roman', serif;
+  font-size: 28px;
+  color: ${COLORS.white};
+  margin: 0 0 12px;
+  text-align: center;
+  position: relative;
+  z-index: 3;
+`;
+
+const CompositionDesc = styled.p`
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.65);
+  text-align: center;
+  max-width: 360px;
+  margin: 0;
+  line-height: 1.7;
+  position: relative;
+  z-index: 3;
+`;
+
+const CompositionWeapons = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  z-index: 2;
+  gap: ${LAYOUT.compositionWeaponsGap}px;
+  margin: 52px 0 0;
 
-  opacity: ${(p) => (p.$visible ? 1 : 0)};
-  transform: translateY(${(p) => (p.$visible ? '0' : '50px')});
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-  position: relative;
-
-  img {
-    max-height: 85vh;
-    width: auto;
-    max-width: 100%;
-    object-fit: contain;
-    filter: drop-shadow(0 20px 60px rgba(0, 0, 0, 0.4));
-    animation: ${float} 5s ease-in-out infinite;
-    transition: filter 0.3s, transform 0.3s;
+  ${mediaDown(BREAKPOINTS.md)} {
+    gap: 22px;
   }
 
-  &:hover img {
-    transform: scale(1.05);
-    filter: drop-shadow(0 0 12px ${(p) => p.$highlight ?? '#fff'})
-      drop-shadow(0 0 24px ${(p) => p.$highlight ?? '#fff'});
-  }
-
-  ${mediaDown(BREAKPOINTS.lg)} {
-    flex: none;
-    margin-bottom: 32px;
-    img {
-      max-height: 50vh;
-    }
+  ${mediaDown(BREAKPOINTS.sm)} {
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
   }
 `;
 
-const CharText = styled.div<{ $visible: boolean }>`
-  flex: 1;
-  z-index: 1;
-  padding: 0 48px;
-
-  opacity: ${(p) => (p.$visible ? 1 : 0)};
-  transform: translateX(${(p) => (p.$visible ? '0' : '40px')});
-  transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s;
-
-  ${mediaDown(BREAKPOINTS.lg)} {
-    padding: 0;
-    text-align: center;
-    transform: translateY(${(p) => (p.$visible ? '0' : '30px')});
-  }
-`;
-
-const CharTitle = styled.h2`
-  font-family: 'Gideon Roman', serif;
-  font-size: 36px;
-  font-weight: 400;
-  margin: 0 0 20px;
-  color: ${COLORS.white};
-`;
-
-const CharDesc = styled.p`
-  font-family: 'Inter', sans-serif;
-  font-size: 16px;
-  line-height: 1.8;
-  color: rgba(255, 255, 255, 0.6);
-  max-width: 480px;
-
-  ${mediaDown(BREAKPOINTS.lg)} {
-    margin: 0 auto;
-  }
-`;
-
-const WandImageWrap = styled.div`
-  display: block;
-  text-align: center;
-  margin: 0 auto 32px;
-  position: relative;
-  width: 100%;
-`;
-
-const WandImage = styled.img`
-  display: block;
-  margin: 0 0 40px 0;
-  width: 320px;
+const CompositionWeapon = styled.img<{ $glow: string; $h: number }>`
+  height: ${(p) => p.$h}px;
+  width: auto;
   max-width: 100%;
-  height: auto;
-  cursor: pointer;
-  transition: filter 0.4s, box-shadow 0.4s;
+  transition: filter 0.25s, transform 0.25s;
+  filter: drop-shadow(0 10px 28px rgba(0, 0, 0, 0.35));
 
-  ${mediaDown(BREAKPOINTS.lg)} {
-    width: 180px;
-    margin-bottom: 24px;
+  &:hover {
+    transform: scale(1.08);
+    filter: drop-shadow(0 10px 28px rgba(0, 0, 0, 0.35)) drop-shadow(0 0 14px ${(p) => p.$glow})
+      drop-shadow(0 0 30px ${(p) => p.$glow});
   }
-  ${mediaDown(BREAKPOINTS.md)} {
-    display: none !important;
-  }
-`;
-
-const SaberWrap = styled.div`
-  position: relative;
-  display: block;
-  width: 260px;
-  margin: 0 0 12px auto;
-  transform: translateX(-35%) translateY(-5%);
-  cursor: pointer;
 
   ${mediaDown(BREAKPOINTS.md)} {
-    display: none !important;
+    height: ${(p) => Math.max(70, Math.round(p.$h * 0.75))}px;
   }
 `;
 
-const SaberImg = styled.img<{ $visible: boolean }>`
-  width: 100%;
-  display: block;
-  transition: opacity 0.35s ease;
-  opacity: ${(p) => (p.$visible ? 1 : 0)};
-  ${(p) =>
-    p.$visible
-      ? css`
-          position: relative;
-        `
-      : css`
-          position: absolute;
-          inset: 0;
-        `}
+const CompositionChoose = styled.div`
+  margin-top: 32px;
+  font-family: 'Gideon Roman', serif;
+  font-size: 28px;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 2px;
+  text-align: center;
+
+  ${mediaDown(BREAKPOINTS.md)} {
+    font-size: 22px;
+  }
 `;
 
-type ParticleModel = {
-  key: string;
-  xPct: number;
-  delay: number;
-  size: number;
-  duration: number;
-};
+/* particle drift animation for background dots */
+const particleDrift = keyframes`
+  0% { transform: translateY(0) scale(1); opacity: 0 }
+  10% { opacity: 1 }
+  90% { opacity: 1 }
+  100% { transform: translateY(-60vh) scale(0.6); opacity: 0 }
+`;
 
-const Particle = styled.div<{ $xPct: number; $delay: number; $size: number; $duration: number }>`
+/* particles layer inside each character */
+const CharParticleLayer = styled.div`
   position: absolute;
-  left: ${(p) => p.$xPct}%;
-  bottom: ${PARTICLES.bottomOffset}px;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+
+  /* show more layer (less aggressive fade) */
+  mask-image: linear-gradient(
+    to top,
+    rgba(0,0,0,1) 0%,
+    rgba(0,0,0,1) 70%,
+    rgba(0,0,0,0) 100%
+  );
+`;
+
+/* soft fog/glow behind characters like screenshot */
+const CharFog = styled.div`
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 120%;
+  height: 55%;
+  transform: translateX(-50%);
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(closest-side at 50% 85%, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0) 70%),
+    radial-gradient(closest-side at 50% 100%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 75%);
+  filter: blur(2px);
+  opacity: 0.9;
+`;
+
+const Particle = styled.div<{ $x: number; $size: number; $delay: number; $duration: number }>`
+  position: absolute;
+  left: ${(p) => p.$x}%;
+  bottom: 60px; /* move into “under character” area */
   width: ${(p) => p.$size}px;
   height: ${(p) => p.$size}px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,1), rgba(255,255,255,0.22));
+
+  box-shadow:
+    0 0 ${(p) => Math.max(10, p.$size * 2)}px rgba(255,255,255,0.22),
+    0 0 ${(p) => Math.max(18, p.$size * 3)}px rgba(255,255,255,0.10);
+
+  filter: blur(0.6px) saturate(1.15);
+  opacity: 0.95;
   animation: ${particleDrift} ${(p) => p.$duration}s linear infinite;
   animation-delay: ${(p) => p.$delay}s;
 `;
+
+// Magical background styled-component
+const MagicBg = styled.img<{ $side: 'left' | 'right' }>`
+  position: absolute;
+  ${(p) => (p.$side === 'left' ? 'left: 0;' : 'right: 0;')}
+  top: 0;
+  width: 36vw;
+  max-width: 520px;
+  height: 95%;
+  object-fit: contain;
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: screen;
+  transform: translateY(-6%);
+  filter: blur(0.6px) saturate(0.95) contrast(0.98);
+
+  ${mediaDown(BREAKPOINTS.md)} {
+    display: none;
+  }
+`;
+
+const CompositionFade = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 260px;
+  z-index: 4;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(26,34,56,0) 0%,
+    rgba(26,34,56,0.25) 35%,
+    rgba(26,34,56,0.98) 100%
+  );
+`;
+
+/* ----------------------------- footer ----------------------------- */
 
 const FooterWrap = styled.footer`
   position: relative;
@@ -710,6 +792,7 @@ const SocialCircle = styled.a`
   color: rgba(255, 255, 255, 0.5);
   transition: all 0.2s;
   text-decoration: none;
+  ${focusRing}
 
   &:hover {
     border-color: rgba(255, 255, 255, 0.4);
@@ -727,9 +810,8 @@ const FooterCol = styled.div`
 `;
 
 const FooterColTitle = styled.h4`
-  font-family: 'Inter', sans-serif;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   color: ${COLORS.white};
   margin: 0 0 16px;
 `;
@@ -740,8 +822,8 @@ const FooterLink = styled.a`
   color: rgba(255, 255, 255, 0.4);
   text-decoration: none;
   margin-bottom: 12px;
-  cursor: pointer;
   transition: color 0.2s;
+  ${focusRing}
 
   &:hover {
     color: rgba(255, 255, 255, 0.8);
@@ -823,21 +905,12 @@ const LandingHPvsVader: React.FC<Props> = ({ onBack }) => {
   const [wandHovered, setWandHovered] = useState(false);
   const [saberHovered, setSaberHovered] = useState(false);
 
-  const harry = useInView({ threshold: 0.15, once: true });
-  const vader = useInView({ threshold: 0.15, once: true });
+  useLockBodyScroll(drawerOpen);
 
-  const navOffset = useMemo(() => (window.innerWidth <= BREAKPOINTS.md ? LAYOUT.navHeightMobile : LAYOUT.navHeight), []);
-
-  const particles = useMemo<ParticleModel[]>(() => {
-    const rand = (min: number, max: number) => min + Math.random() * (max - min);
-    return Array.from({ length: PARTICLES.count }, (_, i) => ({
-      key: `p-${i}`,
-      xPct: rand(0, 100),
-      delay: rand(0, 8),
-      size: rand(PARTICLES.minSize, PARTICLES.maxSize),
-      duration: rand(PARTICLES.minDuration, PARTICLES.maxDuration),
-    }));
-  }, []);
+  const navOffset = useMemo(
+    () => (window.innerWidth <= BREAKPOINTS.md ? LAYOUT.navHeightMobile : LAYOUT.navHeight),
+    []
+  );
 
   // close drawer on ESC
   useEffect(() => {
@@ -854,56 +927,77 @@ const LandingHPvsVader: React.FC<Props> = ({ onBack }) => {
     scrollToId(id, navOffset);
   };
 
+  const makeParticles = (count: number) => {
+    const rand = (min: number, max: number) => Math.random() * (max - min) + min;
+    return Array.from({ length: count }).map((_, i) => ({
+      key: `p-${i}-${Math.random().toString(16).slice(2)}`,
+      x: rand(8, 92),
+      size: Math.round(rand(3, 12)), // bigger
+      delay: rand(0, 5),
+      duration: Math.round(rand(9, 18)), // a bit faster
+    }));
+  };
+
+  const vaderParticles = useMemo(() => makeParticles(24), []);
+  const harryParticles = useMemo(() => makeParticles(24), []);
+
   return (
     <Page>
       <Nav>
-        <BackBtn onClick={onBack}>
+        <BackBtn type="button" onClick={onBack}>
           <ArrowLeft size={16} />
           {lt.backToPortfolio}
         </BackBtn>
 
-        {/* Optional logo (kept, previously unused). Remove if you don't want it. */}
-        {/* <NavLogo src={ASSETS.logo} alt="Logo" /> */}
-
-        <NavLinks>
-          <NavLinkBtn $active onClick={() => go('home')}>
+        <NavLinks aria-label="Primary">
+          <NavLinkBtn type="button" $active onClick={() => go('home')}>
             {lt.navHome}
           </NavLinkBtn>
-          <NavLinkBtn onClick={() => go('harry')}>{lt.navGame}</NavLinkBtn>
-          <NavLinkBtn onClick={() => go('contact')}>{lt.navContact}</NavLinkBtn>
+          <NavLinkBtn type="button" onClick={() => go('characters')}>
+            {lt.navGame}
+          </NavLinkBtn>
+          <NavLinkBtn type="button" onClick={() => go('contact')}>
+            {lt.navContact}
+          </NavLinkBtn>
         </NavLinks>
 
-        <NavPlayBtn onClick={() => go('harry')}>{lt.playNow}</NavPlayBtn>
+        <NavPlayBtn type="button" onClick={() => go('characters')}>
+          {lt.playNow}
+        </NavPlayBtn>
 
-        <DrawerButton aria-label="Open menu" onClick={() => setDrawerOpen(true)}>
+        <DrawerButton type="button" aria-label="Open menu" onClick={() => setDrawerOpen(true)}>
           <MenuIcon size={28} />
         </DrawerButton>
 
         <DrawerOverlay $open={drawerOpen} onClick={() => setDrawerOpen(false)} />
 
         <Drawer $open={drawerOpen} aria-label="Mobile menu">
-          <DrawerClose aria-label="Close menu" onClick={() => setDrawerOpen(false)}>
+          <DrawerClose type="button" aria-label="Close menu" onClick={() => setDrawerOpen(false)}>
             <CloseIcon size={28} />
           </DrawerClose>
 
-          <NavLinkBtn style={{ margin: '32px 0 0', fontSize: 20 }} $active onClick={() => go('home')}>
+          <NavLinkBtn type="button" style={{ margin: '32px 0 0', fontSize: 20 }} $active onClick={() => go('home')}>
             {lt.navHome}
           </NavLinkBtn>
-          <NavLinkBtn style={{ margin: '18px 0 0', fontSize: 20 }} onClick={() => go('harry')}>
+          <NavLinkBtn type="button" style={{ margin: '18px 0 0', fontSize: 20 }} onClick={() => go('characters')}>
             {lt.navGame}
           </NavLinkBtn>
-          <NavLinkBtn style={{ margin: '18px 0 0', fontSize: 20 }} onClick={() => go('contact')}>
+          <NavLinkBtn type="button" style={{ margin: '18px 0 0', fontSize: 20 }} onClick={() => go('contact')}>
             {lt.navContact}
           </NavLinkBtn>
 
-          <NavPlayBtn style={{ display: 'block', margin: '32px 0 0', width: '100%' }} onClick={() => go('harry')}>
+          <NavPlayBtn
+            type="button"
+            style={{ display: 'block', margin: '32px 0 0', width: '100%' }}
+            onClick={() => go('characters')}
+          >
             {lt.playNow}
           </NavPlayBtn>
         </Drawer>
       </Nav>
 
       <HeroWrap id="home">
-        <HeroVideo src={ASSETS.heroVideo} autoPlay loop muted playsInline />
+        <HeroVideo src={ASSETS.heroVideo} autoPlay loop muted playsInline preload="metadata" />
         <HeroOverlay />
 
         <HeroContent>
@@ -914,65 +1008,120 @@ const LandingHPvsVader: React.FC<Props> = ({ onBack }) => {
           </HeroGameRow>
 
           <HeroBtns>
-            <BtnRed onClick={() => go('harry')}>{lt.playNow}</BtnRed>
-            <BtnGhost onClick={() => go('vader')}>{lt.characters}</BtnGhost>
+            <BtnRed type="button" onClick={() => go('characters')}>
+              {lt.playNow}
+            </BtnRed>
+            <BtnGhost type="button" onClick={() => go('characters')}>
+              {lt.characters}
+            </BtnGhost>
           </HeroBtns>
         </HeroContent>
       </HeroWrap>
 
-      {/* Harry */}
-      <CharSection id="harry" ref={harry.ref}>
-        <BgImage src={ASSETS.backHogwarts} alt="Hogwarts Castle" $side="right" $fit="contain" />
+      {/* ✅ composition section like screenshot */}
+      <CompositionZone id="characters">
+        {/* layered magical backgrounds */}
+        <MagicBg src={ASSETS.backHogwarts} alt="Hogwarts Castle" $side="right" />
+        <MagicBg src={ASSETS.backPlane} alt="Star Wars Plane" $side="left" />
 
-        {particles.map((p) => (
-          <Particle key={`harry-${p.key}`} $xPct={p.xPct} $delay={p.delay} $size={p.size} $duration={p.duration} />
-        ))}
+        <CompositionTopFade aria-hidden="true" />
 
-        <CharText $visible={harry.visible}>
-          <WandImageWrap>
-            <WandImage
-              src={wandHovered ? ASSETS.wandLight : ASSETS.wand}
-              alt="Harry Potter's wand"
+        <CompositionInner>
+          <CompositionRow>
+            <CompositionChar>
+              <CharFog />
+              <CharParticleLayer>
+                {vaderParticles.map((p) => (
+                  <Particle key={p.key} $x={p.x} $size={p.size} $delay={p.delay} $duration={p.duration} />
+                ))}
+              </CharParticleLayer>
+
+              <CompositionImg
+                src={ASSETS.vaderFull}
+                alt="Darth Vader"
+                $glow="#ff2020"
+                loading="lazy"
+                decoding="async"
+              />
+              <CompositionTitle>{lt.vaderTitle ?? 'Darth Vader'}</CompositionTitle>
+              <CompositionDesc>
+                {(lt.vaderDesc ?? '')} {lt.vaderWeapon ?? ''}
+              </CompositionDesc>
+            </CompositionChar>
+
+            <CompositionChar>
+              <CharFog />
+              <CharParticleLayer>
+                {harryParticles.map((p) => (
+                  <Particle key={p.key} $x={p.x} $size={p.size} $delay={p.delay} $duration={p.duration} />
+                ))}
+              </CharParticleLayer>
+
+              <CompositionImg
+                src={ASSETS.potterFull}
+                alt="Harry Potter"
+                $glow="#f5c542"
+                loading="lazy"
+                decoding="async"
+              />
+              <CompositionTitle>{lt.harryTitle ?? 'Harry Potter'}</CompositionTitle>
+              <CompositionDesc>
+                {(lt.harryDesc ?? '')} {lt.harryWeapon ?? ''}
+              </CompositionDesc>
+            </CompositionChar>
+          </CompositionRow>
+
+          <CompositionWeapons>
+            {/* saber hover swap (optional) */}
+            <div
+              onMouseEnter={() => setSaberHovered(true)}
+              onMouseLeave={() => setSaberHovered(false)}
+              style={{ position: 'relative' }}
+            >
+              <CompositionWeapon
+                src={ASSETS.saber}
+                alt="Darth Vader lightsaber"
+                $glow="#ff2020"
+                $h={120}
+                style={{ opacity: saberHovered ? 0 : 1 }}
+              />
+              <CompositionWeapon
+                src={ASSETS.saberLight}
+                alt="Darth Vader lightsaber (lit)"
+                $glow="#ff2020"
+                $h={120}
+                style={{ position: 'absolute', inset: 0, opacity: saberHovered ? 1 : 0 }}
+              />
+            </div>
+
+            {/* wand hover swap (optional) */}
+            <div
               onMouseEnter={() => setWandHovered(true)}
               onMouseLeave={() => setWandHovered(false)}
-            />
-          </WandImageWrap>
+              style={{ position: 'relative' }}
+            >
+              <CompositionWeapon
+                src={ASSETS.wand}
+                alt="Harry Potter wand"
+                $glow="#f5c542"
+                $h={90}
+                style={{ opacity: wandHovered ? 0 : 1 }}
+              />
+              <CompositionWeapon
+                src={ASSETS.wandLight}
+                alt="Harry Potter wand (lit)"
+                $glow="#f5c542"
+                $h={90}
+                style={{ position: 'absolute', inset: 0, opacity: wandHovered ? 1 : 0 }}
+              />
+            </div>
+          </CompositionWeapons>
 
-          <CharTitle>{lt.harryTitle}</CharTitle>
-          <CharDesc>
-            {lt.harryDesc} {lt.harryWeapon ?? ''}
-          </CharDesc>
-        </CharText>
+          <CompositionChoose>CHOOSE ONE</CompositionChoose>
+        </CompositionInner>
 
-        <CharImg $visible={harry.visible} $highlight="#f5c542">
-          <img src={ASSETS.potterFull} alt="Harry Potter" />
-        </CharImg>
-      </CharSection>
-
-      {/* Vader */}
-      <CharSection id="vader" $reverse $pullUp ref={vader.ref}>
-        <BgImage src={ASSETS.backPlane} alt="Plane Background" $side="left" $fit="cover" $w="65%" />
-
-        {particles.map((p) => (
-          <Particle key={`vader-${p.key}`} $xPct={p.xPct} $delay={p.delay} $size={p.size} $duration={p.duration} />
-        ))}
-
-        <CharText $visible={vader.visible}>
-          <SaberWrap onMouseEnter={() => setSaberHovered(true)} onMouseLeave={() => setSaberHovered(false)}>
-            <SaberImg src={ASSETS.saber} alt="Darth Vader lightsaber" $visible={!saberHovered} />
-            <SaberImg src={ASSETS.saberLight} alt="Darth Vader lightsaber (light)" $visible={saberHovered} />
-          </SaberWrap>
-
-          <CharTitle style={{ marginLeft: 32 }}>{lt.vaderTitle}</CharTitle>
-          <CharDesc style={{ marginLeft: 32 }}>
-            {lt.vaderDesc} {lt.vaderWeapon ?? ''}
-          </CharDesc>
-        </CharText>
-
-        <CharImg $visible={vader.visible} $highlight="#ff2020">
-          <img src={ASSETS.vaderFull} alt="Darth Vader" />
-        </CharImg>
-      </CharSection>
+        <CompositionFade aria-hidden="true" />
+      </CompositionZone>
 
       <HPVaderCarousel />
 
@@ -980,10 +1129,10 @@ const LandingHPvsVader: React.FC<Props> = ({ onBack }) => {
         <FooterLine />
 
         <FooterCharLeft>
-          <img src={ASSETS.potterPart2} alt="" />
+          <img src={ASSETS.potterPart2} alt="" aria-hidden="true" />
         </FooterCharLeft>
         <FooterCharRight>
-          <img src={ASSETS.vaderPart2} alt="" />
+          <img src={ASSETS.vaderPart2} alt="" aria-hidden="true" />
         </FooterCharRight>
 
         <FooterGrid>
