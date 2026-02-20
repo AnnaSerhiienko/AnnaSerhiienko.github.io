@@ -147,20 +147,16 @@ const SectionTitle = styled.h2`
 
 const VideoGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: ${({ theme }) => theme.spacing[6]};
   margin-bottom: ${({ theme }) => theme.spacing[12]};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
   }
 `;
 
@@ -261,6 +257,8 @@ const portraitVideos = [
   'video5_1080x1920.mp4',
   'Video_1080x1920_android.mp4',
   'valentine_stickers.mp4',
+  '1_Video.mp4',
+  '2_Video.mp4',
 ];
 
 // Landscape videos (1920x1080)
