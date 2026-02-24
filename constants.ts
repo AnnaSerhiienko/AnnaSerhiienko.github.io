@@ -1,3 +1,4 @@
+// ...existing code...
 import { Project, SocialLink } from './types';
 const ASSET_BASE_URL = '/assets';
 const APP_ICONS_FULL_COMPOSITION = `${ASSET_BASE_URL}/images/brand/app-icons-splash-screens/full-composition.png`;
@@ -201,7 +202,28 @@ export const PROJECTS: Project[] = [
     description: "A cinematic landing page for a fantasy crossover game pitting Harry Potter against Darth Vader.",
     link: "#landing-hp-vs-vader",
     technologies: ["Web Design", "Landing Page", "Visual Design"]
+  },
+  {
+    id: 28,
+    title: "Character Animation Loading",
+    category: "Games",
+    mediaUrl: `${ASSET_BASE_URL}/video/Character animation loading.mp4`,
+    mediaType: "video",
+    description: "Short animation for character loading screen, optimized for real-time use in games.",
+    link: "#character-animation-loading",
+    technologies: ["Unity", "Animation", "Game Art"]
   }
+    ,
+    {
+      id: 27,
+      title: "Animation Character Unity",
+      category: "Games",
+      mediaUrl: `${ASSET_BASE_URL}/video/Animation Character Unity.mp4`,
+      mediaType: "video",
+      description: "Animated character created for Unity game engine. Includes rigging, animation cycles, and export for real-time use.",
+      link: "#animation-character-unity",
+      technologies: ["Unity", "Animation", "Character Design"]
+    }
 ];
 
 export const SOCIALS: SocialLink[] = [

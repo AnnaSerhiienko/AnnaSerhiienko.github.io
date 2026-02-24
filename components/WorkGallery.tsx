@@ -293,7 +293,9 @@ const ModalMediaImage = styled.img`
 const ModalMediaVideo = styled.video`
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  display: block;
+  background: ${({ theme }) => theme.colors.slate[100]};
 `;
 
 const ModalGalleryWrap = styled.div`
